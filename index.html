@@ -2,320 +2,109 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Juegos por Rendimiento</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Descarga de Juegos</title>
+  <script src="https://cdn.tailwindcss.com"></script>
   <style>
-    body {
-      background-color: #2c3e50;
-      color: #ffffff;
-      font-family: Arial, sans-serif;
-      padding: 20px;
-    }
-
-    h1 {
-      color: #ff6347;
-      text-align: center;
-      font-size: 40px;
-      animation: colorChange 3s infinite alternate;
-    }
-
-    h2 {
-      color: #00cc99;
-      text-align: center;
-    }
-
-    @keyframes colorChange {
-      0% {
-        color: #ff6347;
-      }
-      50% {
-        color: #00ffff;
-      }
-      100% {
-        color: #00ffcc;
-      }
-    }
-
-    a {
-      color: #00ffff;
-      text-decoration: none;
-    }
-
-    a:hover {
-      text-decoration: underline;
-    }
-
-    ul {
-      list-style: none;
-      padding: 0;
-    }
-
-    li {
-      background-color: #333333;
-      margin: 10px 0;
-      padding: 10px;
-      border-radius: 8px;
-    }
-
     .boton-descarga {
-      display: inline-block;
-      background-color: #00cc99;
-      color: #000;
-      padding: 10px 20px;
-      border-radius: 6px;
-      font-weight: bold;
-      text-decoration: none;
-      margin-top: 10px;
+      @apply bg-blue-600 text-white font-bold py-2 px-4 rounded transition duration-300 ease-in-out hover:bg-blue-800 hover:scale-105;
     }
-
-    .boton-descarga:hover {
-      background-color: #00ffaa;
+    .card {
+      @apply bg-white rounded-2xl shadow-lg p-4 transition-transform duration-300 hover:scale-105 hover:shadow-2xl text-black;
     }
-
-    .game {
-      background: #fff;
-      margin: 10px 0;
-      padding: 15px;
-      border-radius: 8px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-      transition: transform 0.3s ease;
-      cursor: pointer;
+    .tab {
+      @apply text-white text-lg font-semibold px-4 py-2 rounded transition duration-300 ease-in-out hover:bg-blue-600 hover:scale-105;
     }
-
-    .game:hover {
-      transform: scale(1.02);
-    }
-
-    .requisitos {
-      display: none;
-      margin-top: 10px;
-      padding: 10px;
-      background: #f9f9f9;
-      border-left: 4px solid #333;
-      border-radius: 5px;
-    }
-
-    .back-btn {
-      margin-top: 20px;
-      padding: 10px 15px;
-      background-color: #333;
-      color: white;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-      transition: background-color 0.3s;
-    }
-
-    .back-btn:hover {
-      background-color: #555;
-    }
-
-    .sidebar {
-      width: 250px;
-      background-color: #333;
-      color: #fff;
-      height: 100vh;
-      padding-top: 20px;
-      position: fixed;
-      transition: transform 0.3s ease;
-    }
-
-    .sidebar h2 {
-      text-align: center;
-      margin-bottom: 20px;
-    }
-
-    .sidebar ul {
-      list-style: none;
-      padding: 0;
-    }
-
-    .sidebar ul li {
-      padding: 15px 20px;
-      cursor: pointer;
-      transition: background-color 0.3s;
-    }
-
-    .sidebar ul li:hover {
-      background-color: #444;
-    }
-
-    .main {
-      margin-left: 250px;
-      padding: 30px;
+    .game-image {
       width: 100%;
-      transition: all 0.3s ease;
-    }
-
-    .section {
-      display: none;
-      animation: fadeIn 0.5s ease-in-out;
-    }
-
-    .active {
-      display: block;
-    }
-
-    @keyframes fadeIn {
-      from {opacity: 0; transform: translateY(10px);}
-      to {opacity: 1; transform: translateY(0);}
-    }
-
-    .search-bar {
-      width: 100%;
-      padding: 10px;
-      margin: 20px 0;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-      font-size: 16px;
-    }
-
-    .inicio {
-      text-align: center;
-      color: #ffffff;
-      padding: 50px 0;
-    }
-
-    .inicio h1 {
-      font-size: 60px;
-      font-weight: bold;
-      color: #ff6347;
-    }
-
-    .inicio h2 {
-      font-size: 30px;
-      color: #00cc99;
-    }
-
-    .inicio p {
-      font-size: 18px;
-      margin: 20px 0;
-    }
-
-    .inicio a {
-      color: #00cc99;
-      text-decoration: none;
-    }
-
-    .inicio a:hover {
-      text-decoration: underline;
+      height: 220px;
+      object-fit: cover;
+      border-radius: 10px;
+      margin-top: 10px;
     }
   </style>
 </head>
-<body>
-  <div class="sidebar">
-    <h2>Categorías</h2>
-    <ul>
-      <li onclick="showSection('alto')">Juegos de Alto Rendimiento</li>
-      <li onclick="showSection('medio')">Juegos de Medio Rendimiento</li>
-      <li onclick="showSection('bajo')">Juegos de Bajo Rendimiento</li>
-    </ul>
-  </div>
+<body class="bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 min-h-screen text-white font-sans">
 
-  <div class="main">
-    <!-- Sección Inicio -->
-    <div id="inicio" class="inicio active">
-      <h1>AviJetZ_Zone</h1>
-      <h2>AviJetZ_Play Games</h2>
-      <p>Para instalar los juegos, necesitas dos aplicaciones esenciales:</p>
-      <ul>
-        <li><strong>WinRAR:</strong> Necesario para descomprimir los archivos .rar. Puedes descargarlo aquí: 
-          <a href="https://www.winrar.es/descargas" target="_blank">Descargar WinRAR</a>.
-          <p>Ojo algunos juegos vienen en formato .RAR, otros son portables y otros son ISO</p>
-        </li>
-        <li><strong>Daemon Tools:</strong> Necesario para montar los archivos ISO y poder instalarlos. Descárgalo desde: 
-          <a href="https://www.daemon-tools.cc/spa/downloads" target="_blank">Descargar Daemon Tools</a>.
-          <p>Una vez que tengas Daemon Tools instalado, simplemente haz doble clic en el archivo ISO del juego que descargaste.
-          Debería aparecer un mensaje como <em>"Se ha insertado un disco"</em>. Después, ve al explorador de archivos y abre el disco montado.
-          Allí encontrarás los archivos del juego, y podrás iniciar la instalación haciendo doble clic en <strong>setup.exe</strong>.</p>
-        </li>
-      </ul>
+  <!-- Encabezado -->
+  <header class="text-center py-8">
+    <h1 class="text-4xl font-bold text-blue-400">🎮 Juegos para Descargar</h1>
+    <p class="mt-2 text-gray-300">Disfruta de estos títulos increíbles, ¡listos para jugar!</p>
+  </header>
+
+  <!-- Navegación -->
+  <nav class="flex justify-center space-x-4 mb-10">
+    <a href="#" class="tab bg-gray-700">Inicio</a>
+    <a href="#" class="tab bg-gray-700">Alto Rendimiento</a>
+    <a href="#" class="tab bg-gray-700">Medio Rendimiento</a>
+    <a href="#" class="tab bg-gray-700">Bajo Rendimiento</a>
+  </nav>
+
+  <!-- Juegos -->
+  <main class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 px-6 pb-10">
+
+    <!-- Hollow Knight -->
+    <div class="card">
+      <strong>Nombre del juego:</strong> <em>Hollow Knight</em><br>
+      <img src="https://i.pinimg.com/736x/be/38/41/be38411efe0fee49c149ecf5dfd2e7f0.jpg" alt="Hollow Knight" class="game-image">
+      <div class="text-center mt-4">
+        <a class="boton-descarga" href="https://www.mediafire.com/file/vziz8uc9kprb8d9/HollNgtwww.randrogames.com.rar/file" target="_blank">
+          Descargar juego
+        </a>
+      </div>
     </div>
 
-    <!-- Sección Alto Rendimiento -->
-    <div id="alto" class="section">
-      <h2>Juegos de Alto Rendimiento</h2>
-      <input type="text" class="search-bar" id="searchAlto" placeholder="Buscar juegos..." onkeyup="searchGames('alto')">
-      <ul id="alto-list">
-        <li>
-          <strong>Nombre del juego:</strong> <em>The Elder Scrolls V: SKYRIM</em><br>
-          <img src="https://blog.unipin.com/wp-content/uploads/2021/06/skyrim-legendary-edition-steam.jpg" alt="Skyrim" style="width: 200px; height: auto; border-radius: 8px; margin-top: 10px;">
-          <br>
-          <a class="boton-descarga" href="https://drive.usercontent.google.com/download?id=19sHFNntGs6PnuJuccvKsHZjZZFrb_e4D&export=download&authuser=0" target="_blank">
-            Descargar juego
-          </a>
-        </li>
-        <!-- Agrega más juegos aquí -->
-      </ul>
-      <button class="back-btn" onclick="goHome()">Volver al inicio</button>
+    <!-- Dark Souls II -->
+    <div class="card">
+      <strong>Nombre del juego:</strong> <em>Dark Souls II</em><br>
+      <img src="https://static0.gamerantimages.com/wordpress/wp-content/uploads/Dark-Souls-2-Review.jpg" alt="Dark Souls II" class="game-image">
+      <div class="text-center mt-4">
+        <a class="boton-descarga" href="https://www.mediafire.com/file/tu03gv8ypwslnfz/Dark+Souls+II.rar/file" target="_blank">
+          Descargar juego
+        </a>
+      </div>
     </div>
 
-    <!-- Sección Medio Rendimiento -->
-    <div id="medio" class="section">
-      <h2>Juegos de Medio Rendimiento</h2>
-      <input type="text" class="search-bar" id="searchMedio" placeholder="Buscar juegos..." onkeyup="searchGames('medio')">
-      <ul id="medio-list">
-        <li>
-          <strong>Nombre del juego:</strong> <em>Outlast</em><br>
-          <img src="https://www.somagnews.com/wp-content/uploads/2020/05/Outlast-1200x675.jpg" alt="Outlast" style="width: 200px; height: auto; border-radius: 8px; margin-top: 10px;">
-          <br>
-          <a class="boton-descarga" href="https://drive.usercontent.google.com/download?id=XXXXXX" target="_blank">
-            Descargar juego
-          </a>
-        </li>
-        <!-- Agrega más juegos aquí -->
-      </ul>
-      <button class="back-btn" onclick="goHome()">Volver al inicio</button>
+    <!-- Assassins Creed Brotherhood -->
+    <div class="card">
+      <strong>Nombre del juego:</strong> <em>Assassins Creed Brotherhood</em><br>
+      <img src="https://gepig.com/game_cover_460w/1224.jpg" alt="Assassins Creed Brotherhood" class="game-image">
+      <div class="text-center mt-4">
+        <a class="boton-descarga" href="https://www.mediafire.com/file/0rp6vh3vyeeablw/ASCBrotherhwww.randrogames.com.rar/file" target="_blank">
+          Descargar juego
+        </a>
+      </div>
     </div>
 
-    <!-- Sección Bajo Rendimiento -->
-    <div id="bajo" class="section">
-      <h2>Juegos de Bajo Rendimiento</h2>
-      <input type="text" class="search-bar" id="searchBajo" placeholder="Buscar juegos..." onkeyup="searchGames('bajo')">
-      <ul id="bajo-list">
-        <li>
-          <strong>Nombre del juego:</strong> <em>Plants vs Zombies</em><br>
-          <img src="https://i.pinimg.com/originals/6b/8e/68/6b8e68a3fa56b0d433a7d5a77f9be2bb.jpg" alt="Plants vs Zombies" style="width: 200px; height: auto; border-radius: 8px; margin-top: 10px;">
-          <br>
-          <a class="boton-descarga" href="https://drive.usercontent.google.com/download?id=XXXXXX" target="_blank">
-            Descargar juego
-          </a>
-        </li>
-        <!-- Agrega más juegos aquí -->
-      </ul>
-      <button class="back-btn" onclick="goHome()">Volver al inicio</button>
+    <!-- Dead Island -->
+    <div class="card">
+      <strong>Nombre del juego:</strong> <em>Dead Island: Definitive Collection</em><br>
+      <img src="https://cdns.kinguin.net/media/catalog/category/cache/1/image/759x286/17f82f742ffe127f42dca9de82fb58b1/maxresdefault_212.jpg" alt="Dead Island" class="game-image">
+      <div class="text-center mt-4">
+        <a class="boton-descarga" href="https://www.mediafire.com/file/wfwfzsl9dtj8glf/Dead_Island_Definitive_Collection.rar/file" target="_blank">
+          Descargar juego
+        </a>
+      </div>
     </div>
-  </div>
 
-  <script>
-    function showSection(id) {
-      const sections = document.querySelectorAll('.section');
-      sections.forEach(s => s.classList.remove('active'));
-      document.getElementById(id).classList.add('active');
-    }
+    <!-- Limbo -->
+    <div class="card">
+      <strong>Nombre del juego:</strong> <em>Limbo</em><br>
+      <img src="https://bosgame.ir/wp-content/uploads/2023/03/LIMBO.jpg" alt="Limbo" class="game-image">
+      <div class="text-center mt-4">
+        <a class="boton-descarga" href="https://www.mediafire.com/file/4gwgd5b8oelsiz1/Limbo-www.randrogames.com.rar/file" target="_blank">
+          Descargar juego
+        </a>
+      </div>
+    </div>
 
-    function goHome() {
-      showSection('inicio');
-    }
+  </main>
 
-    function searchGames(section) {
-      const input = document.getElementById(`search${capitalize(section)}`).value.toLowerCase();
-      const ul = document.getElementById(`${section}-list`);
-      const li = ul.getElementsByTagName('li');
+  <!-- Pie de página -->
+  <footer class="text-center text-sm text-gray-400 pb-6">
+    © 2025 RandroGames - Todos los derechos reservados
+  </footer>
 
-      for (let i = 0; i < li.length; i++) {
-        const game = li[i].textContent.toLowerCase();
-        if (game.includes(input)) {
-          li[i].style.display = '';
-        } else {
-          li[i].style.display = 'none';
-        }
-      }
-    }
-
-    function capitalize(str) {
-      return str.charAt(0).toUpperCase() + str.slice(1);
-    }
-  </script>
 </body>
 </html>
+
