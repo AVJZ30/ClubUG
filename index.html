@@ -1,148 +1,199 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Juegos por Rendimiento</title>
   <style>
+    * {
+      box-sizing: border-box;
+    }
     body {
-      display: flex;
-      margin: 0;
       font-family: Arial, sans-serif;
+      margin: 0;
+      display: flex;
+      background-color: #eaeaea;
     }
     .sidebar {
       width: 250px;
-      background-color: #111;
-      color: white;
+      background-color: #333;
+      color: #fff;
       height: 100vh;
-      padding: 20px;
+      padding-top: 20px;
+      position: fixed;
+      transition: transform 0.3s ease;
     }
     .sidebar h2 {
-      font-size: 18px;
-      margin-bottom: 10px;
+      text-align: center;
+      margin-bottom: 20px;
     }
-    .sidebar button {
-      display: block;
-      background: none;
-      color: white;
-      border: none;
-      text-align: left;
-      margin: 10px 0;
+    .sidebar ul {
+      list-style: none;
+      padding: 0;
+    }
+    .sidebar ul li {
+      padding: 15px 20px;
       cursor: pointer;
-      font-size: 16px;
+      transition: background-color 0.3s;
     }
-    .content {
-      flex-grow: 1;
-      padding: 20px;
+    .sidebar ul li:hover {
+      background-color: #444;
+    }
+    .main {
+      margin-left: 250px;
+      padding: 30px;
+      width: 100%;
+      transition: all 0.3s ease;
     }
     .section {
       display: none;
+      animation: fadeIn 0.5s ease-in-out;
     }
-    .modal {
+    .active {
+      display: block;
+    }
+    .game {
+      background: #fff;
+      margin: 10px 0;
+      padding: 15px;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+      transition: transform 0.3s ease;
+      cursor: pointer;
+    }
+    .game:hover {
+      transform: scale(1.02);
+    }
+    .requisitos {
       display: none;
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      background: white;
-      padding: 20px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.5);
-      z-index: 1000;
-    }
-    .modal h3 {
-      margin-top: 0;
-    }
-    .overlay {
-      display: none;
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.5);
-      z-index: 999;
+      margin-top: 10px;
+      padding: 10px;
+      background: #f9f9f9;
+      border-left: 4px solid #333;
+      border-radius: 5px;
     }
     .back-btn {
       margin-top: 20px;
-      display: inline-block;
-      background: #111;
+      padding: 10px 15px;
+      background-color: #333;
       color: white;
-      padding: 10px;
       border: none;
+      border-radius: 4px;
       cursor: pointer;
+      transition: background-color 0.3s;
     }
-    .game {
-      cursor: pointer;
-      color: blue;
-      text-decoration: underline;
+    .back-btn:hover {
+      background-color: #555;
+    }
+    @keyframes fadeIn {
+      from {opacity: 0; transform: translateY(10px);}
+      to {opacity: 1; transform: translateY(0);}
     }
   </style>
 </head>
 <body>
   <div class="sidebar">
-    <h2>Juegos</h2>
-    <button onclick="mostrarSeccion('alto')">Alto Rendimiento</button>
-    <button onclick="mostrarSeccion('medio')">Medio Rendimiento</button>
-    <button onclick="mostrarSeccion('bajo')">Bajo Rendimiento</button>
+    <h2>Categorías</h2>
+    <ul>
+      <li onclick="showSection('alto')">Juegos de Alto Rendimiento</li>
+      <li onclick="showSection('medio')">Juegos de Medio Rendimiento</li>
+      <li onclick="showSection('bajo')">Juegos de Bajo Rendimiento</li>
+    </ul>
   </div>
 
-  <div class="content">
-    <div id="principal">
+  <div class="main">
+    <div id="inicio" class="section active">
       <h1>Bienvenido</h1>
-      <p>Selecciona una categoría en la barra lateral para ver los juegos disponibles.</p>
+      <p>Selecciona una categoría de juegos en la barra izquierda.</p>
     </div>
 
+    <!-- Sección Alto -->
     <div id="alto" class="section">
       <h2>Juegos de Alto Rendimiento</h2>
-      <p class="game" onclick="mostrarModal('God of War', 'RAM: 8GB\nGPU: GTX 1060\nCPU: i5 6600k\nEspacio: 80GB')">God of War</p>
-      <p class="game" onclick="mostrarModal('Red Dead Redemption 2', 'RAM: 12GB\nGPU: GTX 1060 6GB\nCPU: i7 4770k\nEspacio: 150GB')">Red Dead Redemption 2</p>
-      <button class="back-btn" onclick="volverInicio()">Volver</button>
+      <div class="game" onclick="toggleRequisitos(this)">
+        Call of Duty Warzone
+        <div class="requisitos">
+          Requiere mínimo 8GB RAM, GPU GTX 960, Intel i5 o superior.
+        </div>
+      </div>
+      <div class="game" onclick="toggleRequisitos(this)">
+        Resident Evil 4 Remake
+        <div class="requisitos">
+          16GB RAM, GPU GTX 1050Ti, Procesador Ryzen 5 o equivalente.
+        </div>
+      </div>
+      <div class="game" onclick="toggleRequisitos(this)">
+        GTA V
+        <div class="requisitos">
+          8GB RAM, GPU GTX 660, Procesador Intel i5.
+        </div>
+      </div>
+      <button class="back-btn" onclick="goHome()">Volver al inicio</button>
     </div>
 
+    <!-- Sección Medio -->
     <div id="medio" class="section">
       <h2>Juegos de Medio Rendimiento</h2>
-      <p class="game" onclick="mostrarModal('GTA V', 'RAM: 8GB\nGPU: GTX 660\nCPU: i5 3470\nEspacio: 72GB')">GTA V</p>
-      <p class="game" onclick="mostrarModal('Fortnite', 'RAM: 8GB\nGPU: GTX 660\nCPU: i5 7300U\nEspacio: 30GB')">Fortnite</p>
-      <button class="back-btn" onclick="volverInicio()">Volver</button>
+      <div class="game" onclick="toggleRequisitos(this)">
+        Mortal Kombat Komplete Edition
+        <div class="requisitos">
+          4GB RAM, GPU integrada, Procesador Dual Core.
+        </div>
+      </div>
+      <div class="game" onclick="toggleRequisitos(this)">
+        Call of Duty Black Ops 2
+        <div class="requisitos">
+          4GB RAM, GPU GT 610, Procesador Core 2 Duo.
+        </div>
+      </div>
+      <div class="game" onclick="toggleRequisitos(this)">
+        Outlast
+        <div class="requisitos">
+          4GB RAM, GPU HD Graphics, Procesador i3 o superior.
+        </div>
+      </div>
+      <button class="back-btn" onclick="goHome()">Volver al inicio</button>
     </div>
 
+    <!-- Sección Bajo -->
     <div id="bajo" class="section">
       <h2>Juegos de Bajo Rendimiento</h2>
-      <p class="game" onclick="mostrarModal('Among Us', 'RAM: 1GB\nGPU: integrada\nCPU: Dual Core\nEspacio: 250MB')">Among Us</p>
-      <p class="game" onclick="mostrarModal('Minecraft (Lite)', 'RAM: 2GB\nGPU: integrada\nCPU: Core 2 Duo\nEspacio: 200MB')">Minecraft (Lite)</p>
-      <button class="back-btn" onclick="volverInicio()">Volver</button>
-    </div>
-
-    <div class="overlay" id="overlay" onclick="cerrarModal()"></div>
-    <div class="modal" id="modal">
-      <h3 id="modal-title"></h3>
-      <p id="modal-content"></p>
-      <button onclick="cerrarModal()">Cerrar</button>
+      <div class="game" onclick="toggleRequisitos(this)">
+        Slendytubbies
+        <div class="requisitos">
+          2GB RAM, CPU Dual Core, GPU integrada.
+        </div>
+      </div>
+      <div class="game" onclick="toggleRequisitos(this)">
+        Five Nights at Freddy’s 1-2
+        <div class="requisitos">
+          2GB RAM, Celeron, gráficos básicos.
+        </div>
+      </div>
+      <div class="game" onclick="toggleRequisitos(this)">
+        Plants vs Zombies
+        <div class="requisitos">
+          1GB RAM, Procesador Pentium 4, Windows XP o superior.
+        </div>
+      </div>
+      <button class="back-btn" onclick="goHome()">Volver al inicio</button>
     </div>
   </div>
 
   <script>
-    function mostrarSeccion(id) {
-      document.querySelectorAll('.section').forEach(sec => sec.style.display = 'none');
-      document.getElementById('principal').style.display = 'none';
-      document.getElementById(id).style.display = 'block';
+    function showSection(id) {
+      const sections = document.querySelectorAll('.section');
+      sections.forEach(s => s.classList.remove('active'));
+      document.getElementById(id).classList.add('active');
     }
 
-    function volverInicio() {
-      document.querySelectorAll('.section').forEach(sec => sec.style.display = 'none');
-      document.getElementById('principal').style.display = 'block';
+    function goHome() {
+      showSection('inicio');
     }
 
-    function mostrarModal(titulo, contenido) {
-      document.getElementById('modal-title').textContent = titulo;
-      document.getElementById('modal-content').textContent = contenido;
-      document.getElementById('modal').style.display = 'block';
-      document.getElementById('overlay').style.display = 'block';
-    }
-
-    function cerrarModal() {
-      document.getElementById('modal').style.display = 'none';
-      document.getElementById('overlay').style.display = 'none';
+    function toggleRequisitos(gameElement) {
+      const req = gameElement.querySelector('.requisitos');
+      req.style.display = req.style.display === 'block' ? 'none' : 'block';
     }
   </script>
 </body>
