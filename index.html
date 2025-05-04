@@ -6,11 +6,12 @@
   <title>Juegos por Rendimiento</title>
   <style>
     body {
-  background-color: #2c3e50; /* Cambié el fondo a un tono gris azulado elegante */
-  color: #ffffff; /* Las letras siguen siendo blancas */
-  font-family: Arial, sans-serif;
-  padding: 20px;
-}
+      background-color: #2c3e50;
+      color: #ffffff;
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+
     h1 {
       color: #ff6347;
       text-align: center;
@@ -19,19 +20,19 @@
     }
 
     h2 {
-      color: #00cc99; /* Diferente color para el segundo título */
+      color: #00cc99;
       text-align: center;
     }
 
     @keyframes colorChange {
       0% {
-        color: #ff6347; /* Rojo tomate */
+        color: #ff6347;
       }
       50% {
-        color: #00ffff; /* Cyan */
+        color: #00ffff;
       }
       100% {
-        color: #00ffcc; /* Verde claro */
+        color: #00ffcc;
       }
     }
 
@@ -70,61 +71,7 @@
     .boton-descarga:hover {
       background-color: #00ffaa;
     }
-        #commento {
-      position: fixed;
-      top: 10px;
-      right: 10px;
-      width: 300px;
-      height: auto;
-      z-index: 1000;  /* Asegura que esté por encima de otros elementos */
-    }
-      h1 {
-      color: #ff6347;
-      text-align: center;
-      font-size: 40px;
-      animation: colorChange 3s infinite alternate;
-    }
-    * {
-      box-sizing: border-box;
-    }
-    .sidebar {
-      width: 250px;
-      background-color: #333;
-      color: #fff;
-      height: 100vh;
-      padding-top: 20px;
-      position: fixed;
-      transition: transform 0.3s ease;
-    }
-    .sidebar h2 {
-      text-align: center;
-      margin-bottom: 20px;
-    }
-    .sidebar ul {
-      list-style: none;
-      padding: 0;
-    }
-    .sidebar ul li {
-      padding: 15px 20px;
-      cursor: pointer;
-      transition: background-color 0.3s;
-    }
-    .sidebar ul li:hover {
-      background-color: #444;
-    }
-    .main {
-      margin-left: 250px;
-      padding: 30px;
-      width: 100%;
-      transition: all 0.3s ease;
-    }
-    .section {
-      display: none;
-      animation: fadeIn 0.5s ease-in-out;
-    }
-    .active {
-      display: block;
-    }
+
     .game {
       background: #fff;
       margin: 10px 0;
@@ -134,9 +81,11 @@
       transition: transform 0.3s ease;
       cursor: pointer;
     }
+
     .game:hover {
       transform: scale(1.02);
     }
+
     .requisitos {
       display: none;
       margin-top: 10px;
@@ -145,6 +94,7 @@
       border-left: 4px solid #333;
       border-radius: 5px;
     }
+
     .back-btn {
       margin-top: 20px;
       padding: 10px 15px;
@@ -155,13 +105,71 @@
       cursor: pointer;
       transition: background-color 0.3s;
     }
+
     .back-btn:hover {
       background-color: #555;
     }
+
+    .sidebar {
+      width: 250px;
+      background-color: #333;
+      color: #fff;
+      height: 100vh;
+      padding-top: 20px;
+      position: fixed;
+      transition: transform 0.3s ease;
+    }
+
+    .sidebar h2 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .sidebar ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .sidebar ul li {
+      padding: 15px 20px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .sidebar ul li:hover {
+      background-color: #444;
+    }
+
+    .main {
+      margin-left: 250px;
+      padding: 30px;
+      width: 100%;
+      transition: all 0.3s ease;
+    }
+
+    .section {
+      display: none;
+      animation: fadeIn 0.5s ease-in-out;
+    }
+
+    .active {
+      display: block;
+    }
+
     @keyframes fadeIn {
       from {opacity: 0; transform: translateY(10px);}
       to {opacity: 1; transform: translateY(0);}
     }
+
+    .search-bar {
+      width: 100%;
+      padding: 10px;
+      margin: 20px 0;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 16px;
+    }
+
   </style>
 </head>
 <body>
@@ -175,100 +183,57 @@
   </div>
 
   <div class="main">
-    <div id="inicio" class="section active">
-      <h1>AviJetZ_Zone</h1>
-       <h2>AviJetZ PlayGames</h2>
-     <p>
-    Para instalar los juegos, necesitas dos aplicaciones esenciales:
-    <ul>
-      <li><strong>WinRAR:</strong> Necesario para descomprimir los archivos .rar. Puedes descargarlo aquí: 
-        <a href="https://www.winrar.es/descargas" target="_blank">Descargar WinRAR</a>.
-        <p>
-    Ojo algunos juegos vienen en formato .RAR, otros son portables y otros son ISO
-  </p>
-      </li>
-      <li><strong>Daemon Tools:</strong> Necesario para montar los archivos ISO y poder instalarlos. Descárgalo desde: 
-        <a href="https://www.daemon-tools.cc/spa/downloads" target="_blank">Descargar Daemon Tools</a>.
-        <p>
-    Una vez que tengas Daemon Tools instalado, simplemente haz doble clic en el archivo ISO del juego que descargaste.
-    Debería aparecer un mensaje como <em>"Se ha insertado un disco"</em>. Después, ve al explorador de archivos y abre el disco montado.
-    Allí encontrarás los archivos del juego, y podrás iniciar la instalación haciendo doble clic en <strong>setup.exe</strong>.
-  </p>
-      </li>
-    </ul>
-  </p>
-
-    </div>
-
-    <!-- Sección Alto -->
-    <div id="alto" class="section">
+    <!-- Sección Alto Rendimiento -->
+    <div id="alto" class="section active">
       <h2>Juegos de Alto Rendimiento</h2>
-      <div class="game" onclick="toggleRequisitos(this)">
-        Call of Duty Warzone
-        <div class="requisitos">
-          Requiere mínimo 8GB RAM, GPU GTX 960, Intel i5 o superior.
-        </div>
-      </div>
-      <div class="game" onclick="toggleRequisitos(this)">
-        Resident Evil 4 Remake
-        <div class="requisitos">
-          16GB RAM, GPU GTX 1050Ti, Procesador Ryzen 5 o equivalente.
-        </div>
-      </div>
-      <div class="game" onclick="toggleRequisitos(this)">
-        GTA V
-        <div class="requisitos">
-          8GB RAM, GPU GTX 660, Procesador Intel i5.
-        </div>
-      </div>
+      <input type="text" class="search-bar" id="searchAlto" placeholder="Buscar juegos..." onkeyup="searchGames('alto')">
+      <ul id="alto-list">
+        <li>
+          <strong>Nombre del juego:</strong> <em>The Elder Scrolls V: SKYRIM</em><br>
+          <img src="https://blog.unipin.com/wp-content/uploads/2021/06/skyrim-legendary-edition-steam.jpg" alt="Skyrim" style="width: 200px; height: auto; border-radius: 8px; margin-top: 10px;">
+          <br>
+          <a class="boton-descarga" href="https://drive.usercontent.google.com/download?id=19sHFNntGs6PnuJuccvKsHZjZZFrb_e4D&export=download&authuser=0" target="_blank">
+            Descargar juego
+          </a>
+        </li>
+        <!-- Agrega más juegos aquí -->
+      </ul>
       <button class="back-btn" onclick="goHome()">Volver al inicio</button>
     </div>
 
-    <!-- Sección Medio -->
+    <!-- Sección Medio Rendimiento -->
     <div id="medio" class="section">
       <h2>Juegos de Medio Rendimiento</h2>
-      <div class="game" onclick="toggleRequisitos(this)">
-        Mortal Kombat Komplete Edition
-        <div class="requisitos">
-          4GB RAM, GPU integrada, Procesador Dual Core.
-        </div>
-      </div>
-      <div class="game" onclick="toggleRequisitos(this)">
-        Call of Duty Black Ops 2
-        <div class="requisitos">
-          4GB RAM, GPU GT 610, Procesador Core 2 Duo.
-        </div>
-      </div>
-      <div class="game" onclick="toggleRequisitos(this)">
-        Outlast
-        <div class="requisitos">
-          4GB RAM, GPU HD Graphics, Procesador i3 o superior.
-        </div>
-      </div>
+      <input type="text" class="search-bar" id="searchMedio" placeholder="Buscar juegos..." onkeyup="searchGames('medio')">
+      <ul id="medio-list">
+        <li>
+          <strong>Nombre del juego:</strong> <em>Outlast</em><br>
+          <img src="https://www.somagnews.com/wp-content/uploads/2020/05/Outlast-1200x675.jpg" alt="Outlast" style="width: 200px; height: auto; border-radius: 8px; margin-top: 10px;">
+          <br>
+          <a class="boton-descarga" href="https://drive.usercontent.google.com/download?id=XXXXXX" target="_blank">
+            Descargar juego
+          </a>
+        </li>
+        <!-- Agrega más juegos aquí -->
+      </ul>
       <button class="back-btn" onclick="goHome()">Volver al inicio</button>
     </div>
 
-    <!-- Sección Bajo -->
+    <!-- Sección Bajo Rendimiento -->
     <div id="bajo" class="section">
       <h2>Juegos de Bajo Rendimiento</h2>
-      <div class="game" onclick="toggleRequisitos(this)">
-        Slendytubbies
-        <div class="requisitos">
-          2GB RAM, CPU Dual Core, GPU integrada.
-        </div>
-      </div>
-      <div class="game" onclick="toggleRequisitos(this)">
-        Five Nights at Freddy’s 1-2
-        <div class="requisitos">
-          2GB RAM, Celeron, gráficos básicos.
-        </div>
-      </div>
-      <div class="game" onclick="toggleRequisitos(this)">
-        Plants vs Zombies
-        <div class="requisitos">
-          1GB RAM, Procesador Pentium 4, Windows XP o superior.
-        </div>
-      </div>
+      <input type="text" class="search-bar" id="searchBajo" placeholder="Buscar juegos..." onkeyup="searchGames('bajo')">
+      <ul id="bajo-list">
+        <li>
+          <strong>Nombre del juego:</strong> <em>Plants vs Zombies</em><br>
+          <img src="https://i.pinimg.com/originals/6b/8e/68/6b8e68a3fa56b0d433a7d5a77f9be2bb.jpg" alt="Plants vs Zombies" style="width: 200px; height: auto; border-radius: 8px; margin-top: 10px;">
+          <br>
+          <a class="boton-descarga" href="https://drive.usercontent.google.com/download?id=XXXXXX" target="_blank">
+            Descargar juego
+          </a>
+        </li>
+        <!-- Agrega más juegos aquí -->
+      </ul>
       <button class="back-btn" onclick="goHome()">Volver al inicio</button>
     </div>
   </div>
@@ -284,9 +249,23 @@
       showSection('inicio');
     }
 
-    function toggleRequisitos(gameElement) {
-      const req = gameElement.querySelector('.requisitos');
-      req.style.display = req.style.display === 'block' ? 'none' : 'block';
+    function searchGames(section) {
+      const input = document.getElementById(`search${capitalize(section)}`).value.toLowerCase();
+      const ul = document.getElementById(`${section}-list`);
+      const li = ul.getElementsByTagName('li');
+
+      for (let i = 0; i < li.length; i++) {
+        const game = li[i].textContent.toLowerCase();
+        if (game.includes(input)) {
+          li[i].style.display = '';
+        } else {
+          li[i].style.display = 'none';
+        }
+      }
+    }
+
+    function capitalize(str) {
+      return str.charAt(0).toUpperCase() + str.slice(1);
     }
   </script>
 </body>
