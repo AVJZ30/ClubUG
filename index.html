@@ -170,6 +170,36 @@
       font-size: 16px;
     }
 
+    .inicio {
+      text-align: center;
+      color: #ffffff;
+      padding: 50px 0;
+    }
+
+    .inicio h1 {
+      font-size: 60px;
+      font-weight: bold;
+      color: #ff6347;
+    }
+
+    .inicio h2 {
+      font-size: 30px;
+      color: #00cc99;
+    }
+
+    .inicio p {
+      font-size: 18px;
+      margin: 20px 0;
+    }
+
+    .inicio a {
+      color: #00cc99;
+      text-decoration: none;
+    }
+
+    .inicio a:hover {
+      text-decoration: underline;
+    }
   </style>
 </head>
 <body>
@@ -183,8 +213,27 @@
   </div>
 
   <div class="main">
+    <!-- Sección Inicio -->
+    <div id="inicio" class="inicio active">
+      <h1>AviJetZ_Zone</h1>
+      <h2>AviJetZ_Play Games</h2>
+      <p>Para instalar los juegos, necesitas dos aplicaciones esenciales:</p>
+      <ul>
+        <li><strong>WinRAR:</strong> Necesario para descomprimir los archivos .rar. Puedes descargarlo aquí: 
+          <a href="https://www.winrar.es/descargas" target="_blank">Descargar WinRAR</a>.
+          <p>Ojo algunos juegos vienen en formato .RAR, otros son portables y otros son ISO</p>
+        </li>
+        <li><strong>Daemon Tools:</strong> Necesario para montar los archivos ISO y poder instalarlos. Descárgalo desde: 
+          <a href="https://www.daemon-tools.cc/spa/downloads" target="_blank">Descargar Daemon Tools</a>.
+          <p>Una vez que tengas Daemon Tools instalado, simplemente haz doble clic en el archivo ISO del juego que descargaste.
+          Debería aparecer un mensaje como <em>"Se ha insertado un disco"</em>. Después, ve al explorador de archivos y abre el disco montado.
+          Allí encontrarás los archivos del juego, y podrás iniciar la instalación haciendo doble clic en <strong>setup.exe</strong>.</p>
+        </li>
+      </ul>
+    </div>
+
     <!-- Sección Alto Rendimiento -->
-    <div id="alto" class="section active">
+    <div id="alto" class="section">
       <h2>Juegos de Alto Rendimiento</h2>
       <input type="text" class="search-bar" id="searchAlto" placeholder="Buscar juegos..." onkeyup="searchGames('alto')">
       <ul id="alto-list">
