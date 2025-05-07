@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistema de Farmacias del Ecuador</title>
+    <title>Sistema Integral de Farmacias del Ecuador</title>
     <style>
         * {
             box-sizing: border-box;
@@ -31,12 +31,41 @@
             padding: 1rem;
         }
         
-        .search-container {
+        .tabs {
+            display: flex;
+            margin-bottom: 1rem;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .tab {
+            padding: 0.8rem 1.5rem;
+            cursor: pointer;
+            background-color: #f1f1f1;
+            margin-right: 0.5rem;
+            border-radius: 5px 5px 0 0;
+            transition: background-color 0.3s;
+        }
+        
+        .tab.active {
+            background-color: #005baa;
+            color: white;
+        }
+        
+        .tab-content {
+            display: none;
             background-color: white;
             padding: 1.5rem;
-            border-radius: 8px;
+            border-radius: 0 0 8px 8px;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
             margin-bottom: 2rem;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        .search-container {
+            margin-bottom: 1.5rem;
         }
         
         .chat-container {
@@ -61,6 +90,7 @@
             padding: 0.8rem;
             border-radius: 4px;
             max-width: 80%;
+            line-height: 1.4;
         }
         
         .user-message {
@@ -176,6 +206,57 @@
             font-size: 0.9rem;
         }
         
+        .medication-uses {
+            font-size: 0.8rem;
+            color: #555;
+            margin-top: 0.2rem;
+            font-style: italic;
+        }
+        
+        .medications-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1rem;
+        }
+        
+        .medication-card {
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            padding: 1rem;
+            background-color: white;
+        }
+        
+        .medication-name {
+            font-weight: bold;
+            color: #005baa;
+            margin-bottom: 0.5rem;
+        }
+        
+        .medication-details {
+            font-size: 0.9rem;
+            color: #666;
+        }
+        
+        .quick-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .quick-action {
+            padding: 0.5rem 1rem;
+            background-color: #e3f2fd;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .quick-action:hover {
+            background-color: #bbdefb;
+        }
+        
         footer {
             background-color: #333;
             color: white;
@@ -185,27 +266,56 @@
         }
         
         @media (max-width: 768px) {
-            .pharmacy-list {
+            .pharmacy-list, .medications-container {
                 grid-template-columns: 1fr;
+            }
+            
+            .tabs {
+                flex-wrap: wrap;
+            }
+            
+            .tab {
+                margin-bottom: 0.5rem;
             }
         }
     </style>
 </head>
 <body>
     <header>
-        <h1>Sistema de Atención en Farmacias del Ecuador</h1>
-        <p>Encuentra medicamentos y farmacias por provincia</p>
+        <h1>Sistema Integral de Farmacias del Ecuador</h1>
+        <p>Encuentra medicamentos, farmacias y toda la información farmacéutica que necesitas</p>
     </header>
     
     <div class="container">
-        <div class="search-container">
-            <h2>Asistente Virtual de Farmacias</h2>
-            <p>Escribe tu consulta sobre medicamentos, farmacias o ubicaciones:</p>
+        <div class="tabs">
+            <div class="tab active" onclick="openTab('assistant')">Asistente Virtual</div>
+            <div class="tab" onclick="openTab('pharmacies')">Farmacias por Provincia</div>
+            <div class="tab" onclick="openTab('medications')">Medicamentos y Usos</div>
+        </div>
+        
+        <!-- Pestaña del Asistente Virtual -->
+        <div id="assistant" class="tab-content active">
+            <h2>Asistente Farmacéutico Virtual</h2>
+            <p>Consulta sobre medicamentos, farmacias cercanas, usos de medicinas y más.</p>
+            
+            <div class="quick-actions">
+                <div class="quick-action" onclick="quickQuestion('¿Dónde puedo encontrar paracetamol en Quito?')">Paracetamol en Quito</div>
+                <div class="quick-action" onclick="quickQuestion('Farmacias abiertas ahora en Guayaquil')">Farmacias 24h</div>
+                <div class="quick-action" onclick="quickQuestion('¿Para qué sirve el ibuprofeno?')">Usos Ibuprofeno</div>
+                <div class="quick-action" onclick="quickQuestion('Medicamentos para alergias')">Alergias</div>
+            </div>
             
             <div class="chat-container">
                 <div class="chat-messages" id="chat-messages">
                     <div class="message bot-message">
-                        ¡Hola! Soy tu asistente virtual de farmacias. ¿En qué puedo ayudarte hoy? Puedes preguntar por medicamentos, farmacias en tu provincia o información sobre horarios de atención.
+                        <strong>Asistente Farmacéutico:</strong> ¡Hola! Soy tu asistente virtual especializado en farmacias y medicamentos del Ecuador. ¿En qué puedo ayudarte hoy? Puedes preguntar sobre:
+                        <ul>
+                            <li>Ubicación de farmacias por provincia</li>
+                            <li>Información sobre medicamentos y sus usos</li>
+                            <li>Horarios de atención</li>
+                            <li>Precios referenciales</li>
+                        </ul>
+                        También puedes usar los botones rápidos arriba para consultas comunes.
                     </div>
                 </div>
                 <div class="chat-input">
@@ -215,165 +325,237 @@
             </div>
         </div>
         
-        <h2>Farmacias por Provincia</h2>
-        
-        <!-- Provincia de Pichincha -->
-        <div class="province-section">
-            <div class="province-header" onclick="toggleProvince('pichincha')">
-                <h3>Pichincha</h3>
-                <span>▼</span>
-            </div>
-            <div class="province-content" id="pichincha">
-                <div class="pharmacy-list">
-                    <div class="pharmacy-card">
-                        <div class="pharmacy-name">Farmacias Cruz Azul</div>
-                        <div class="pharmacy-info">📍 Av. Amazonas N34-123 y Av. Atahualpa, Quito</div>
-                        <div class="pharmacy-info">📞 02 222 2222</div>
-                        <div class="pharmacy-info">🕒 Lunes a Viernes: 8:00 - 20:00</div>
-                        
-                        <div class="medication-section">
-                            <div class="medication-title">Medicamentos disponibles:</div>
-                            <div class="medication-item">
-                                <span>Paracetamol 500mg</span>
-                                <span>$1.50</span>
-                            </div>
-                            <div class="medication-item">
-                                <span>Ibuprofeno 400mg</span>
-                                <span>$2.00</span>
-                            </div>
-                            <div class="medication-item">
-                                <span>Amoxicilina 500mg</span>
-                                <span>$3.50</span>
+        <!-- Pestaña de Farmacias por Provincia -->
+        <div id="pharmacies" class="tab-content">
+            <h2>Farmacias por Provincia</h2>
+            <p>Selecciona una provincia para ver las farmacias disponibles:</p>
+            
+            <!-- Provincia de Pichincha -->
+            <div class="province-section">
+                <div class="province-header" onclick="toggleProvince('pichincha')">
+                    <h3>Pichincha</h3>
+                    <span>▼</span>
+                </div>
+                <div class="province-content" id="pichincha">
+                    <div class="pharmacy-list">
+                        <div class="pharmacy-card">
+                            <div class="pharmacy-name">Farmacias Cruz Azul</div>
+                            <div class="pharmacy-info">📍 Av. Amazonas N34-123 y Av. Atahualpa, Quito</div>
+                            <div class="pharmacy-info">📞 02 222 2222</div>
+                            <div class="pharmacy-info">🕒 Lunes a Viernes: 8:00 - 20:00 | Sábados: 9:00 - 18:00</div>
+                            <div class="pharmacy-info">🟢 Abierto ahora</div>
+                            
+                            <div class="medication-section">
+                                <div class="medication-title">Medicamentos destacados:</div>
+                                <div class="medication-item">
+                                    <span>Paracetamol 500mg</span>
+                                    <span>$1.50</span>
+                                </div>
+                                <div class="medication-item">
+                                    <span>Ibuprofeno 400mg</span>
+                                    <span>$2.00</span>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    
-                    <div class="pharmacy-card">
-                        <div class="pharmacy-name">Fybeca</div>
-                        <div class="pharmacy-info">📍 Av. 6 de Diciembre N24-156, Quito</div>
-                        <div class="pharmacy-info">📞 02 333 3333</div>
-                        <div class="pharmacy-info">🕒 Lunes a Domingo: 8:00 - 22:00</div>
                         
-                        <div class="medication-section">
-                            <div class="medication-title">Medicamentos disponibles:</div>
-                            <div class="medication-item">
-                                <span>Omeprazol 20mg</span>
-                                <span>$2.50</span>
+                        <div class="pharmacy-card">
+                            <div class="pharmacy-name">Fybeca</div>
+                            <div class="pharmacy-info">📍 Av. 6 de Diciembre N24-156, Quito</div>
+                            <div class="pharmacy-info">📞 02 333 3333</div>
+                            <div class="pharmacy-info">🕒 Lunes a Domingo: 8:00 - 22:00</div>
+                            <div class="pharmacy-info">🟢 Abierto ahora</div>
+                            
+                            <div class="medication-section">
+                                <div class="medication-title">Medicamentos destacados:</div>
+                                <div class="medication-item">
+                                    <span>Omeprazol 20mg</span>
+                                    <span>$2.50</span>
+                                </div>
+                                <div class="medication-item">
+                                    <span>Loratadina 10mg</span>
+                                    <span>$1.80</span>
+                                </div>
                             </div>
-                            <div class="medication-item">
-                                <span>Loratadina 10mg</span>
-                                <span>$1.80</span>
-                            </div>
-                            <div class="medication-item">
-                                <span>Salbutamol inhalador</span>
-                                <span>$8.00</span>
+                        </div>
+                        
+                        <div class="pharmacy-card">
+                            <div class="pharmacy-name">MegaFarmacias</div>
+                            <div class="pharmacy-info">📍 C.C. Quicentro Shopping, Quito</div>
+                            <div class="pharmacy-info">📞 02 444 4444</div>
+                            <div class="pharmacy-info">🕒 Lunes a Domingo: 10:00 - 21:00</div>
+                            <div class="pharmacy-info">🟢 Abierto ahora</div>
+                            
+                            <div class="medication-section">
+                                <div class="medication-title">Medicamentos destacados:</div>
+                                <div class="medication-item">
+                                    <span>Amoxicilina 500mg</span>
+                                    <span>$3.50</span>
+                                </div>
+                                <div class="medication-item">
+                                    <span>Salbutamol inhalador</span>
+                                    <span>$8.00</span>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-        
-        <!-- Provincia de Guayas -->
-        <div class="province-section">
-            <div class="province-header" onclick="toggleProvince('guayas')">
-                <h3>Guayas</h3>
-                <span>▼</span>
-            </div>
-            <div class="province-content" id="guayas">
-                <div class="pharmacy-list">
-                    <div class="pharmacy-card">
-                        <div class="pharmacy-name">Pharmacy's</div>
-                        <div class="pharmacy-info">📍 Av. Francisco de Orellana, Guayaquil</div>
-                        <div class="pharmacy-info">📞 04 444 4444</div>
-                        <div class="pharmacy-info">🕒 Lunes a Sábado: 7:00 - 21:00</div>
-                        
-                        <div class="medication-section">
-                            <div class="medication-title">Medicamentos disponibles:</div>
-                            <div class="medication-item">
-                                <span>Diclofenaco 50mg</span>
-                                <span>$1.20</span>
-                            </div>
-                            <div class="medication-item">
-                                <span>Metformina 500mg</span>
-                                <span>$2.30</span>
-                            </div>
-                            <div class="medication-item">
-                                <span>Atorvastatina 20mg</span>
-                                <span>$4.50</span>
+            
+            <!-- Provincia de Guayas -->
+            <div class="province-section">
+                <div class="province-header" onclick="toggleProvince('guayas')">
+                    <h3>Guayas</h3>
+                    <span>▼</span>
+                </div>
+                <div class="province-content" id="guayas">
+                    <div class="pharmacy-list">
+                        <div class="pharmacy-card">
+                            <div class="pharmacy-name">Pharmacy's</div>
+                            <div class="pharmacy-info">📍 Av. Francisco de Orellana, Guayaquil</div>
+                            <div class="pharmacy-info">📞 04 444 4444</div>
+                            <div class="pharmacy-info">🕒 Lunes a Sábado: 7:00 - 21:00</div>
+                            <div class="pharmacy-info">🔴 Cerrado ahora</div>
+                            
+                            <div class="medication-section">
+                                <div class="medication-title">Medicamentos destacados:</div>
+                                <div class="medication-item">
+                                    <span>Diclofenaco 50mg</span>
+                                    <span>$1.20</span>
+                                </div>
+                                <div class="medication-item">
+                                    <span>Metformina 500mg</span>
+                                    <span>$2.30</span>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    
-                    <div class="pharmacy-card">
-                        <div class="pharmacy-name">Farmacias Sana Sana</div>
-                        <div class="pharmacy-info">📍 Av. 9 de Octubre, Guayaquil</div>
-                        <div class="pharmacy-info">📞 04 555 5555</div>
-                        <div class="pharmacy-info">🕒 24 Horas</div>
                         
-                        <div class="medication-section">
-                            <div class="medication-title">Medicamentos disponibles:</div>
-                            <div class="medication-item">
-                                <span>Cetirizina 10mg</span>
-                                <span>$1.80</span>
-                            </div>
-                            <div class="medication-item">
-                                <span>Losartán 50mg</span>
-                                <span>$3.20</span>
-                            </div>
-                            <div class="medication-item">
-                                <span>Metronidazol 250mg</span>
-                                <span>$2.10</span>
+                        <div class="pharmacy-card">
+                            <div class="pharmacy-name">Farmacias Sana Sana</div>
+                            <div class="pharmacy-info">📍 Av. 9 de Octubre, Guayaquil</div>
+                            <div class="pharmacy-info">📞 04 555 5555</div>
+                            <div class="pharmacy-info">🕒 24 Horas</div>
+                            <div class="pharmacy-info">🟢 Abierto ahora</div>
+                            
+                            <div class="medication-section">
+                                <div class="medication-title">Medicamentos destacados:</div>
+                                <div class="medication-item">
+                                    <span>Cetirizina 10mg</span>
+                                    <span>$1.80</span>
+                                </div>
+                                <div class="medication-item">
+                                    <span>Losartán 50mg</span>
+                                    <span>$3.20</span>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+            
+            <!-- Puedes agregar más provincias aquí -->
+            
         </div>
         
-        <!-- Provincia de Azuay -->
-        <div class="province-section">
-            <div class="province-header" onclick="toggleProvince('azuay')">
-                <h3>Azuay</h3>
-                <span>▼</span>
-            </div>
-            <div class="province-content" id="azuay">
-                <div class="pharmacy-list">
-                    <div class="pharmacy-card">
-                        <div class="pharmacy-name">Farmacias Mi Salud</div>
-                        <div class="pharmacy-info">📍 Av. Loja y Huayna Cápac, Cuenca</div>
-                        <div class="pharmacy-info">📞 07 666 6666</div>
-                        <div class="pharmacy-info">🕒 Lunes a Viernes: 8:30 - 19:30</div>
-                        
-                        <div class="medication-section">
-                            <div class="medication-title">Medicamentos disponibles:</div>
-                            <div class="medication-item">
-                                <span>Ranitidina 150mg</span>
-                                <span>$1.40</span>
-                            </div>
-                            <div class="medication-item">
-                                <span>Hidroclorotiazida 25mg</span>
-                                <span>$1.20</span>
-                            </div>
-                            <div class="medication-item">
-                                <span>Dexametasona 4mg</span>
-                                <span>$1.80</span>
-                            </div>
+        <!-- Pestaña de Medicamentos y Usos -->
+        <div id="medications" class="tab-content">
+            <h2>Medicamentos y sus Usos</h2>
+            <p>Información detallada sobre los medicamentos más comunes:</p>
+            
+            <div class="medications-container">
+                <div class="medication-card">
+                    <div class="medication-name">Paracetamol 500mg</div>
+                    <div class="medication-details">
+                        <strong>Tipo:</strong> Analgésico y antipirético<br>
+                        <strong>Precio referencial:</strong> $1.50 - $2.00<br>
+                        <div class="medication-uses">
+                            <strong>Usos:</strong> Alivio del dolor leve a moderado (dolor de cabeza, dental, muscular) y reducción de fiebre.
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="medication-card">
+                    <div class="medication-name">Ibuprofeno 400mg</div>
+                    <div class="medication-details">
+                        <strong>Tipo:</strong> Antiinflamatorio no esteroideo (AINE)<br>
+                        <strong>Precio referencial:</strong> $2.00 - $2.50<br>
+                        <div class="medication-uses">
+                            <strong>Usos:</strong> Alivio del dolor, reducción de inflamación y fiebre. Usado para dolores musculares, artritis y cólicos menstruales.
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="medication-card">
+                    <div class="medication-name">Amoxicilina 500mg</div>
+                    <div class="medication-details">
+                        <strong>Tipo:</strong> Antibiótico (penicilina)<br>
+                        <strong>Precio referencial:</strong> $3.50 - $4.50<br>
+                        <div class="medication-uses">
+                            <strong>Usos:</strong> Tratamiento de infecciones bacterianas como neumonía, bronquitis, infecciones de oído, garganta y urinarias.
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="medication-card">
+                    <div class="medication-name">Omeprazol 20mg</div>
+                    <div class="medication-details">
+                        <strong>Tipo:</strong> Inhibidor de bomba de protones<br>
+                        <strong>Precio referencial:</strong> $2.50 - $3.00<br>
+                        <div class="medication-uses">
+                            <strong>Usos:</strong> Tratamiento de acidez estomacal, reflujo gastroesofágico y úlceras gástricas.
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="medication-card">
+                    <div class="medication-name">Loratadina 10mg</div>
+                    <div class="medication-details">
+                        <strong>Tipo:</strong> Antihistamínico<br>
+                        <strong>Precio referencial:</strong> $1.80 - $2.20<br>
+                        <div class="medication-uses">
+                            <strong>Usos:</strong> Alivio de síntomas de alergias como estornudos, picazón, lagrimeo y urticaria.
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="medication-card">
+                    <div class="medication-name">Salbutamol inhalador</div>
+                    <div class="medication-details">
+                        <strong>Tipo:</strong> Broncodilatador<br>
+                        <strong>Precio referencial:</strong> $8.00 - $10.00<br>
+                        <div class="medication-uses">
+                            <strong>Usos:</strong> Tratamiento y prevención del broncoespasmo en asma y enfermedad pulmonar obstructiva crónica (EPOC).
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        
-        <!-- Puedes agregar más provincias siguiendo el mismo patrón -->
-        
     </div>
     
     <footer>
-        <p>Sistema de Farmacias del Ecuador &copy; 2023 - Todos los derechos reservados</p>
+        <p>Sistema Integral de Farmacias del Ecuador &copy; 2023 - Todos los derechos reservados</p>
+        <p>Información proporcionada como referencia. Consulte siempre a un profesional de la salud.</p>
     </footer>
     
     <script>
+        // Función para cambiar entre pestañas
+        function openTab(tabId) {
+            // Ocultar todos los contenidos de pestañas
+            const tabContents = document.getElementsByClassName('tab-content');
+            for (let i = 0; i < tabContents.length; i++) {
+                tabContents[i].classList.remove('active');
+            }
+            
+            // Desactivar todas las pestañas
+            const tabs = document.getElementsByClassName('tab');
+            for (let i = 0; i < tabs.length; i++) {
+                tabs[i].classList.remove('active');
+            }
+            
+            // Activar la pestaña seleccionada
+            document.getElementById(tabId).classList.add('active');
+            event.currentTarget.classList.add('active');
+        }
+        
         // Función para mostrar/ocultar el contenido de la provincia
         function toggleProvince(provinceId) {
             const content = document.getElementById(provinceId);
@@ -396,6 +578,11 @@
             }
         });
         
+        function quickQuestion(question) {
+            document.getElementById('user-input').value = question;
+            sendMessage();
+        }
+        
         function sendMessage() {
             const userInput = document.getElementById('user-input');
             const message = userInput.value.trim();
@@ -417,7 +604,13 @@
             const chatMessages = document.getElementById('chat-messages');
             const messageDiv = document.createElement('div');
             messageDiv.classList.add('message', className);
-            messageDiv.textContent = text;
+            
+            if (className === 'bot-message') {
+                messageDiv.innerHTML = `<strong>Asistente Farmacéutico:</strong> ${text}`;
+            } else {
+                messageDiv.textContent = text;
+            }
+            
             chatMessages.appendChild(messageDiv);
             chatMessages.scrollTop = chatMessages.scrollHeight;
         }
@@ -425,24 +618,26 @@
         function generateBotResponse(userMessage) {
             const lowerMessage = userMessage.toLowerCase();
             
-            if (lowerMessage.includes('hola') || lowerMessage.includes('buenos días') || lowerMessage.includes('buenas tardes')) {
-                return '¡Hola! ¿En qué puedo ayudarte hoy? Puedes preguntar por medicamentos, farmacias en tu provincia o información sobre horarios de atención.';
-            } else if (lowerMessage.includes('medicamento') || lowerMessage.includes('pastilla') || lowerMessage.includes('droga')) {
-                return 'Puedo ayudarte a encontrar información sobre medicamentos. ¿Buscas algún medicamento en particular? Por ejemplo: "¿Dónde puedo encontrar paracetamol en Quito?"';
+            // Respuestas sobre medicamentos y sus usos
+            if (lowerMessage.includes('paracetamol') || lowerMessage.includes('acetaminofén')) {
+                return 'El Paracetamol (también llamado Acetaminofén) es un analgésico y antipirético usado para aliviar dolores leves a moderados (como dolor de cabeza, dental o muscular) y reducir la fiebre. Dosis común: 500mg cada 6-8 horas. Precio referencial: $1.50 - $2.00. ¿Quieres saber en qué farmacias está disponible?';
+            
+            } else if (lowerMessage.includes('ibuprofeno')) {
+                return 'El Ibuprofeno es un antiinflamatorio no esteroideo (AINE) que reduce el dolor, la inflamación y la fiebre. Se usa para dolores musculares, artritis y cólicos menstruales. Dosis común: 400mg cada 6-8 horas. Puede irritar el estómago, se recomienda tomarlo con alimentos. Precio referencial: $2.00 - $2.50.';
+            
+            } else if (lowerMessage.includes('amoxicilina') || lowerMessage.includes('antibiótico')) {
+                return 'La Amoxicilina es un antibiótico del grupo de las penicilinas. Se usa para tratar infecciones bacterianas como neumonía, bronquitis, infecciones de oído, garganta y urinarias. Dosis típica: 500mg cada 8 horas por 7-10 días. Solo debe usarse con prescripción médica. Precio referencial: $3.50 - $4.50.';
+            
+            } else if (lowerMessage.includes('omeprazol') || lowerMessage.includes('acidez')) {
+                return 'El Omeprazol es un inhibidor de la bomba de protones que reduce la producción de ácido estomacal. Se usa para tratar acidez, reflujo gastroesofágico y úlceras. Dosis común: 20mg una vez al día antes del desayuno. Precio referencial: $2.50 - $3.00.';
+            
+            } else if (lowerMessage.includes('loratadina') || lowerMessage.includes('antihistamínico') || lowerMessage.includes('alergia')) {
+                return 'La Loratadina es un antihistamínico que alivia síntomas de alergias como estornudos, picazón, lagrimeo y urticaria. No causa somnolencia como otros antihistamínicos. Dosis: 10mg una vez al día. Precio referencial: $1.80 - $2.20.';
+            
+            } else if (lowerMessage.includes('salbutamol') || lowerMessage.includes('inhalador') || lowerMessage.includes('asma')) {
+                return 'El Salbutamol en inhalador es un broncodilatador que alivia el broncoespasmo en asma y EPOC. Actúa rápidamente (5-15 minutos) y su efecto dura 4-6 horas. Uso: 1-2 inhalaciones cada 4-6 horas según necesidad. Precio referencial: $8.00 - $10.00.';
+            
+            // Respuestas sobre ubicaciones de farmacias
             } else if (lowerMessage.includes('quito') || lowerMessage.includes('pichincha')) {
-                return 'En Pichincha tenemos varias farmacias disponibles. Puedes encontrar Farmacias Cruz Azul en Av. Amazonas y Fybeca en la Av. 6 de Diciembre. Ambas tienen una amplia variedad de medicamentos.';
-            } else if (lowerMessage.includes('guayaquil') || lowerMessage.includes('guayas')) {
-                return 'En Guayas tenemos farmacias como Pharmacy\'s en la Av. Francisco de Orellana y Farmacias Sana Sana en la Av. 9 de Octubre que está abierta 24 horas.';
-            } else if (lowerMessage.includes('cuenca') || lowerMessage.includes('azuay')) {
-                return 'En Azuay puedes visitar Farmacias Mi Salud en Av. Loja y Huayna Cápac en Cuenca. Atienden de lunes a viernes de 8:30 a 19:30.';
-            } else if (lowerMessage.includes('horario') || lowerMessage.includes('hora') || lowerMessage.includes('abierto')) {
-                return 'Los horarios varían por farmacia. Por ejemplo, Fybeca en Quito atiende de 8:00 a 22:00 todos los días, mientras que Farmacias Sana Sana en Guayaquil está abierta 24 horas. ¿De qué farmacia necesitas el horario?';
-            } else if (lowerMessage.includes('precio') || lowerMessage.includes('cuesta') || lowerMessage.includes('valor')) {
-                return 'Los precios pueden variar según el medicamento y la farmacia. Por ejemplo, el Paracetamol 500mg cuesta alrededor de $1.50 y el Ibuprofeno 400mg cerca de $2.00. ¿De qué medicamento necesitas el precio exacto?';
-            } else {
-                return 'Gracias por tu consulta. ¿Podrías ser más específico para que pueda ayudarte mejor? Por ejemplo, puedes preguntar: "¿Dónde puedo encontrar amoxicilina en Cuenca?" o "¿Qué farmacias están abiertas ahora en Guayaquil?"';
-            }
-        }
-    </script>
-</body>
-</html>
+                return 'En Pichincha (Quito) puedes encontrar estas farmacias:\n\n' +
+                       '1. <strong>Farmacias Cruz Azul</strong> - Av. Amazonas N34-123 (Abierto ahora)\n
