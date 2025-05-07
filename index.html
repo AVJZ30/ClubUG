@@ -1,168 +1,1140 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sistema Integral de Farmacias del Ecuador</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <!-- ... aquí irían tus estilos (omito por brevedad) ... -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FarmaAssist - Tu Asistente Farmacéutico Inteligente</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #4a6fa5;
+            --secondary-color: #6b8cae;
+            --accent-color: #ff7e5f;
+            --light-color: #f8f9fa;
+            --dark-color: #343a40;
+            --success-color: #28a745;
+            --warning-color: #ffc107;
+            --danger-color: #dc3545;
+            --border-radius: 12px;
+            --box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f5f7fa;
+            color: var(--dark-color);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 20px 0;
+            box-shadow: var(--box-shadow);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo i {
+            font-size: 2rem;
+            color: var(--accent-color);
+        }
+
+        .logo h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 25px;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1.1rem;
+            transition: var(--transition);
+            padding: 5px 10px;
+            border-radius: var(--border-radius);
+        }
+
+        nav a:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .active {
+            background-color: var(--accent-color);
+        }
+
+        .hero {
+            background: url('https://images.unsplash.com/photo-1631815588090-d4bfec5b1ccb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80') no-repeat center center/cover;
+            height: 500px;
+            display: flex;
+            align-items: center;
+            position: relative;
+            color: white;
+            text-align: center;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            padding: 0 20px;
+        }
+
+        .hero h2 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            animation: fadeInDown 1s ease;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto 30px;
+            animation: fadeInUp 1s ease;
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: var(--accent-color);
+            color: white;
+            padding: 12px 30px;
+            border-radius: var(--border-radius);
+            text-decoration: none;
+            font-weight: 600;
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+            background-color: #ff6a45;
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            border: 2px solid white;
+            margin-left: 15px;
+        }
+
+        .btn-outline:hover {
+            background-color: white;
+            color: var(--primary-color);
+        }
+
+        section {
+            padding: 80px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .section-title h2 {
+            font-size: 2.5rem;
+            color: var(--primary-color);
+            position: relative;
+            display: inline-block;
+            padding-bottom: 15px;
+        }
+
+        .section-title h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background-color: var(--accent-color);
+            border-radius: 2px;
+        }
+
+        .section-title p {
+            color: #666;
+            font-size: 1.1rem;
+            max-width: 700px;
+            margin: 15px auto 0;
+        }
+
+        .ai-assistant {
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            padding: 30px;
+            margin-bottom: 50px;
+        }
+
+        .ai-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .ai-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 20px;
+        }
+
+        .ai-icon i {
+            color: white;
+            font-size: 1.8rem;
+        }
+
+        .ai-header h3 {
+            font-size: 1.8rem;
+            color: var(--primary-color);
+        }
+
+        .chat-container {
+            border: 1px solid #eee;
+            border-radius: var(--border-radius);
+            height: 400px;
+            overflow-y: auto;
+            padding: 20px;
+            margin-bottom: 20px;
+            background-color: #fafafa;
+        }
+
+        .message {
+            margin-bottom: 15px;
+            max-width: 80%;
+            padding: 12px 18px;
+            border-radius: 20px;
+            line-height: 1.5;
+            position: relative;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .user-message {
+            background-color: var(--primary-color);
+            color: white;
+            margin-left: auto;
+            border-bottom-right-radius: 5px;
+        }
+
+        .ai-message {
+            background-color: #e9ecef;
+            color: var(--dark-color);
+            margin-right: auto;
+            border-bottom-left-radius: 5px;
+        }
+
+        .input-container {
+            display: flex;
+            gap: 10px;
+        }
+
+        #user-input {
+            flex: 1;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: var(--border-radius);
+            font-size: 1rem;
+            outline: none;
+            transition: var(--transition);
+        }
+
+        #user-input:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(74, 111, 165, 0.2);
+        }
+
+        #send-btn {
+            padding: 0 25px;
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 600;
+        }
+
+        #send-btn:hover {
+            background-color: #ff6a45;
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        .feature-card {
+            background-color: white;
+            border-radius: var(--border-radius);
+            padding: 30px;
+            box-shadow: var(--box-shadow);
+            transition: var(--transition);
+            text-align: center;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .feature-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+        }
+
+        .feature-icon i {
+            color: white;
+            font-size: 2rem;
+        }
+
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: var(--primary-color);
+        }
+
+        .feature-card p {
+            color: #666;
+        }
+
+        .medicines {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        .medicine-card {
+            background-color: white;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--box-shadow);
+            transition: var(--transition);
+        }
+
+        .medicine-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .medicine-img {
+            height: 200px;
+            overflow: hidden;
+        }
+
+        .medicine-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+
+        .medicine-card:hover .medicine-img img {
+            transform: scale(1.05);
+        }
+
+        .medicine-info {
+            padding: 20px;
+        }
+
+        .medicine-info h3 {
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+            color: var(--primary-color);
+        }
+
+        .medicine-price {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--accent-color);
+            margin-bottom: 15px;
+        }
+
+        .medicine-details {
+            margin-bottom: 15px;
+        }
+
+        .detail-item {
+            display: flex;
+            margin-bottom: 8px;
+        }
+
+        .detail-item i {
+            color: var(--primary-color);
+            margin-right: 10px;
+            margin-top: 3px;
+        }
+
+        .pharmacies-map {
+            height: 500px;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--box-shadow);
+            margin-bottom: 30px;
+        }
+
+        .pharmacy-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .pharmacy-card {
+            background-color: white;
+            border-radius: var(--border-radius);
+            padding: 20px;
+            box-shadow: var(--box-shadow);
+            transition: var(--transition);
+        }
+
+        .pharmacy-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .pharmacy-card h3 {
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+
+        .pharmacy-info {
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .pharmacy-info i {
+            color: var(--accent-color);
+            margin-right: 10px;
+            width: 20px;
+        }
+
+        footer {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 50px 0 20px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .footer-column h3 {
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .footer-column h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background-color: var(--accent-color);
+        }
+
+        .footer-column p {
+            margin-bottom: 15px;
+            opacity: 0.9;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+            transition: var(--transition);
+            opacity: 0.9;
+        }
+
+        .footer-links a:hover {
+            opacity: 1;
+            padding-left: 5px;
+            color: var(--accent-color);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            color: white;
+            transition: var(--transition);
+        }
+
+        .social-links a:hover {
+            background-color: var(--accent-color);
+            transform: translateY(-3px);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            opacity: 0.8;
+            font-size: 0.9rem;
+        }
+
+        /* Animaciones */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+                gap: 20px;
+            }
+
+            nav ul {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .hero h2 {
+                font-size: 2.2rem;
+            }
+
+            .section-title h2 {
+                font-size: 2rem;
+            }
+
+            .features {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Estilos para el modo de carga */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Estilo para el typing indicator */
+        .typing-indicator {
+            display: flex;
+            padding: 12px 18px;
+            background-color: #e9ecef;
+            border-radius: 20px;
+            margin-bottom: 15px;
+            margin-right: auto;
+            border-bottom-left-radius: 5px;
+            width: fit-content;
+        }
+
+        .typing-dot {
+            width: 8px;
+            height: 8px;
+            background-color: #6c757d;
+            border-radius: 50%;
+            margin: 0 2px;
+            animation: typingAnimation 1.4s infinite ease-in-out;
+        }
+
+        .typing-dot:nth-child(1) {
+            animation-delay: 0s;
+        }
+
+        .typing-dot:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .typing-dot:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes typingAnimation {
+            0%, 60%, 100% { transform: translateY(0); }
+            30% { transform: translateY(-5px); }
+        }
+    </style>
 </head>
 <body>
-  <!-- HEADER, TABS, CONTENIDO, FOOTER (idéntico a tu plantilla original) -->
-  <!-- ... -->
-  <script>
-    // ---------- Datos ----------
-    const knowledgeBase = { /* igual que antes */ };
-    const medications = [ /* igual que antes */ ];
-    const pharmacies = { /* igual que antes */ };
+    <header>
+        <div class="container header-content">
+            <div class="logo">
+                <i class="fas fa-pills"></i>
+                <h1>FarmaAssist</h1>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#inicio" class="active">Inicio</a></li>
+                    <li><a href="#asistente">Asistente IA</a></li>
+                    <li><a href="#medicamentos">Medicamentos</a></li>
+                    <li><a href="#farmacias">Farmacias</a></li>
+                    <li><a href="#contacto">Contacto</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
 
-    // ---------- Funciones de UI ----------
-    function openTab(tabId) {
-      // activar pestaña
-      document.querySelectorAll('.tab').forEach(tab => {
-        tab.classList.toggle('active', tab.getAttribute('onclick').includes(tabId));
-      });
-      // mostrar contenido
-      document.querySelectorAll('.tab-content').forEach(content => {
-        content.classList.toggle('active', content.id === tabId);
-      });
-    }
+    <section class="hero" id="inicio">
+        <div class="hero-content">
+            <h2>Tu Asistente Farmacéutico Inteligente</h2>
+            <p>Obtén respuestas instantáneas sobre medicamentos, dosis, interacciones y encuentra las farmacias más cercanas en Guayaquil.</p>
+            <a href="#asistente" class="btn">Habla con nuestro asistente</a>
+            <a href="#medicamentos" class="btn btn-outline">Explora medicamentos</a>
+        </div>
+    </section>
 
-    function toggleProvince(prov) {
-      const section = document.getElementById(prov);
-      const arrow = section.previousElementSibling.querySelector('span');
-      const isOpen = section.style.display === 'block';
-      if (!isOpen) {
-        // cargar farmacia la primera vez
-        if (!section.dataset.loaded) {
-          const list = section.querySelector('.pharmacy-list');
-          pharmacies[prov].forEach(f => {
-            const card = document.createElement('div');
-            card.className = 'pharmacy-card';
-            card.innerHTML = `
-              <div class="pharmacy-name"><i class="fas fa-clinic-medical"></i> ${f.name}</div>
-              <div class="pharmacy-info"><i class="fas fa-map-marker-alt"></i> ${f.address}</div>
-              <div class="pharmacy-info"><i class="fas fa-phone"></i> ${f.phone}</div>
-              <div class="pharmacy-info"><i class="fas fa-clock"></i> ${f.schedule}</div>
-              <div class="pharmacy-info ${f.status==='open'?'status-open':'status-closed'}">
-                ${f.status==='open'?'Abierto':'Cerrado'}
-              </div>
-              <div class="medication-section">
-                <div class="medication-title"><i class="fas fa-pills"></i> Medicamentos Disponibles</div>
-                ${f.medications.map(m=>`
-                  <div class="medication-item">
-                    <span>${m.name}</span>
-                    <span class="medication-price">${m.price}</span>
-                  </div>
-                `).join('')}
-              </div>
-            `;
-            list.appendChild(card);
-          });
-          section.dataset.loaded = true;
-        }
-        section.style.display = 'block';
-        arrow.textContent = '▲';
-      } else {
-        section.style.display = 'none';
-        arrow.textContent = '▼';
-      }
-    }
+    <section id="asistente">
+        <div class="container">
+            <div class="section-title">
+                <h2>Asistente Farmacéutico IA</h2>
+                <p>Nuestro asistente inteligente está disponible 24/7 para responder todas tus preguntas sobre medicamentos, dosis, efectos secundarios y más.</p>
+            </div>
+            
+            <div class="ai-assistant">
+                <div class="ai-header">
+                    <div class="ai-icon">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <h3>FarmaBot</h3>
+                </div>
+                
+                <div class="chat-container" id="chat-container">
+                    <div class="message ai-message">
+                        ¡Hola! Soy FarmaBot, tu asistente farmacéutico inteligente. ¿En qué puedo ayudarte hoy? Puedes preguntarme sobre medicamentos, dosis, efectos secundarios, interacciones o cualquier otra duda relacionada con la salud.
+                    </div>
+                </div>
+                
+                <div class="input-container">
+                    <input type="text" id="user-input" placeholder="Escribe tu pregunta aquí..." autocomplete="off">
+                    <button id="send-btn" class="btn">Enviar <i class="fas fa-paper-plane"></i></button>
+                </div>
+            </div>
+            
+            <div class="features">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-info-circle"></i>
+                    </div>
+                    <h3>Información Detallada</h3>
+                    <p>Obtén información completa sobre cualquier medicamento, incluyendo usos, dosis, precauciones y efectos secundarios.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <h3>Recordatorios</h3>
+                    <p>Configura recordatorios para tomar tus medicamentos a la hora correcta y nunca olvides una dosis.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-map-marker-alt"></i>
+                    </div>
+                    <h3>Farmacias Cercanas</h3>
+                    <p>Encuentra las farmacias más cercanas en Guayaquil con horarios, direcciones y servicios disponibles.</p>
+                </div>
+            </div>
+        </div>
+    </section>
 
-    function searchMedications() {
-      const query = document.getElementById('medication-search').value.toLowerCase();
-      const container = document.getElementById('medications-list');
-      container.innerHTML = '';
-      medications
-        .filter(m => m.name.toLowerCase().includes(query) 
-                  || m.type.toLowerCase().includes(query)
-                  || m.uses.toLowerCase().includes(query))
-        .forEach(m => {
-          const card = document.createElement('div');
-          card.className = 'medication-card';
-          card.innerHTML = `
-            <div class="medication-name"><i class="fas fa-pills"></i> ${m.name}</div>
-            <div class="medication-details"><strong>Tipo:</strong> ${m.type}</div>
-            <div class="medication-details"><strong>Presentación:</strong> ${m.presentation}</div>
-            <div class="medication-details"><strong>Precio:</strong> ${m.price}</div>
-            <div class="medication-details"><strong>Dosificación:</strong> ${m.dosage}</div>
-            <div class="medication-uses"><strong>Usos:</strong> ${m.uses}</div>
-          `;
-          container.appendChild(card);
+    <section id="medicamentos">
+        <div class="container">
+            <div class="section-title">
+                <h2>Catálogo de Medicamentos</h2>
+                <p>Explora nuestra base de datos completa de medicamentos con información detallada, precios y recomendaciones.</p>
+            </div>
+            
+            <div class="medicines">
+                <div class="medicine-card">
+                    <div class="medicine-img">
+                        <img src="https://www.farmaciasdesimilares.com.mx/wp-content/uploads/2021/08/Paracetamol-500mg-caja-con-20-tabletas.png" alt="Paracetamol">
+                    </div>
+                    <div class="medicine-info">
+                        <h3>Paracetamol</h3>
+                        <div class="medicine-price">$0.50/unidad</div>
+                        <div class="medicine-details">
+                            <div class="detail-item">
+                                <i class="fas fa-flask"></i>
+                                <span>Analgésico y antipirético</span>
+                            </div>
+                            <div class="detail-item">
+                                <i class="fas fa-clock"></i>
+                                <span>Cada 6-8 horas</span>
+                            </div>
+                            <div class="detail-item">
+                                <i class="fas fa-exclamation-triangle"></i>
+                                <span>Máximo 4g/día</span>
+                            </div>
+                        </div>
+                        <button class="btn" style="width: 100%;">Más información</button>
+                    </div>
+                </div>
+                
+                <div class="medicine-card">
+                    <div class="medicine-img">
+                        <img src="https://www.fybeca.com/FybecaProductImages/0/500/100000000031500.jpg" alt="Ibuprofeno">
+                    </div>
+                    <div class="medicine-info">
+                        <h3>Ibuprofeno</h3>
+                        <div class="medicine-price">$0.75/unidad</div>
+                        <div class="medicine-details">
+                            <div class="detail-item">
+                                <i class="fas fa-flask"></i>
+                                <span>Antiinflamatorio no esteroideo</span>
+                            </div>
+                            <div class="detail-item">
+                                <i class="fas fa-clock"></i>
+                                <span>Cada 8 horas</span>
+                            </div>
+                            <div class="detail-item">
+                                <i class="fas fa-exclamation-triangle"></i>
+                                <span>Con alimentos</span>
+                            </div>
+                        </div>
+                        <button class="btn" style="width: 100%;">Más información</button>
+                    </div>
+                </div>
+                
+                <div class="medicine-card">
+                    <div class="medicine-img">
+                        <img src="https://www.fybeca.com/FybecaProductImages/0/500/100000000031500.jpg" alt="Amoxicilina">
+                    </div>
+                    <div class="medicine-info">
+                        <h3>Amoxicilina</h3>
+                        <div class="medicine-price">$1.20/unidad</div>
+                        <div class="medicine-details">
+                            <div class="detail-item">
+                                <i class="fas fa-flask"></i>
+                                <span>Antibiótico penicilínico</span>
+                            </div>
+                            <div class="detail-item">
+                                <i class="fas fa-clock"></i>
+                                <span>Cada 8-12 horas</span>
+                            </div>
+                            <div class="detail-item">
+                                <i class="fas fa-exclamation-triangle"></i>
+                                <span>Completar tratamiento</span>
+                            </div>
+                        </div>
+                        <button class="btn" style="width: 100%;">Más información</button>
+                    </div>
+                </div>
+                
+                <div class="medicine-card">
+                    <div class="medicine-img">
+                        <img src="https://www.fybeca.com/FybecaProductImages/0/500/100000000031500.jpg" alt="Loratadina">
+                    </div>
+                    <div class="medicine-info">
+                        <h3>Loratadina</h3>
+                        <div class="medicine-price">$0.90/unidad</div>
+                        <div class="medicine-details">
+                            <div class="detail-item">
+                                <i class="fas fa-flask"></i>
+                                <span>Antihistamínico</span>
+                            </div>
+                            <div class="detail-item">
+                                <i class="fas fa-clock"></i>
+                                <span>1 vez al día</span>
+                            </div>
+                            <div class="detail-item">
+                                <i class="fas fa-exclamation-triangle"></i>
+                                <span>Evitar alcohol</span>
+                            </div>
+                        </div>
+                        <button class="btn" style="width: 100%;">Más información</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div style="text-align: center; margin-top: 40px;">
+                <a href="#" class="btn">Ver todos los medicamentos</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="farmacias" style="background-color: #f0f4f8;">
+        <div class="container">
+            <div class="section-title">
+                <h2>Farmacias en Guayaquil</h2>
+                <p>Encuentra las farmacias más cercanas a tu ubicación en Guayaquil con horarios de atención y servicios disponibles.</p>
+            </div>
+            
+            <div class="pharmacies-map" id="map">
+                <!-- Aquí iría el mapa de Google Maps o similar -->
+                <img src="https://maps.googleapis.com/maps/api/staticmap?center=Guayaquil,Ecuador&zoom=12&size=1200x500&maptype=roadmap&markers=color:red%7C-2.170998,-79.922356&markers=color:red%7C-2.145251,-79.966248&markers=color:red%7C-2.196529,-79.897699&key=YOUR_API_KEY" alt="Mapa de farmacias en Guayaquil" style="width: 100%; height: 100%; object-fit: cover;">
+            </div>
+            
+            <div class="pharmacy-list">
+                <div class="pharmacy-card">
+                    <h3>Farmacias Cruz Azul</h3>
+                    <div class="pharmacy-info">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>Av. Francisco de Orellana, Guayaquil 090150</span>
+                    </div>
+                    <div class="pharmacy-info">
+                        <i class="fas fa-clock"></i>
+                        <span>Lunes a Domingo: 8:00 AM - 10:00 PM</span>
+                    </div>
+                    <div class="pharmacy-info">
+                        <i class="fas fa-phone"></i>
+                        <span>(04) 268-0900</span>
+                    </div>
+                    <div class="pharmacy-info">
+                        <i class="fas fa-check-circle"></i>
+                        <span>Entrega a domicilio • Servicio 24h</span>
+                    </div>
+                </div>
+                
+                <div class="pharmacy-card">
+                    <h3>Fybeca</h3>
+                    <div class="pharmacy-info">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>Mall del Sol, Local 125, Guayaquil</span>
+                    </div>
+                    <div class="pharmacy-info">
+                        <i class="fas fa-clock"></i>
+                        <span>Lunes a Domingo: 9:00 AM - 9:00 PM</span>
+                    </div>
+                    <div class="pharmacy-info">
+                        <i class="fas fa-phone"></i>
+                        <span>(04) 268-1234</span>
+                    </div>
+                    <div class="pharmacy-info">
+                        <i class="fas fa-check-circle"></i>
+                        <span>Descuentos • Asesoría farmacéutica</span>
+                    </div>
+                </div>
+                
+                <div class="pharmacy-card">
+                    <h3>Pharmacy's</h3>
+                    <div class="pharmacy-info">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>Av. Juan Tanca Marengo, Guayaquil</span>
+                    </div>
+                    <div class="pharmacy-info">
+                        <i class="fas fa-clock"></i>
+                        <span>Lunes a Viernes: 8:00 AM - 8:00 PM</span>
+                    </div>
+                    <div class="pharmacy-info">
+                        <i class="fas fa-phone"></i>
+                        <span>(04) 268-5678</span>
+                    </div>
+                    <div class="pharmacy-info">
+                        <i class="fas fa-check-circle"></i>
+                        <span>Vacunas • Productos naturales</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer id="contacto">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>FarmaAssist</h3>
+                    <p>Tu asistente farmacéutico inteligente disponible 24/7 para responder todas tus dudas sobre medicamentos y salud.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Enlaces Rápidos</h3>
+                    <ul class="footer-links">
+                        <li><a href="#inicio">Inicio</a></li>
+                        <li><a href="#asistente">Asistente IA</a></li>
+                        <li><a href="#medicamentos">Medicamentos</a></li>
+                        <li><a href="#farmacias">Farmacias</a></li>
+                        <li><a href="#contacto">Contacto</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Información</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Política de Privacidad</a></li>
+                        <li><a href="#">Términos y Condiciones</a></li>
+                        <li><a href="#">Preguntas Frecuentes</a></li>
+                        <li><a href="#">Sobre Nosotros</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Contacto</h3>
+                    <p><i class="fas fa-map-marker-alt"></i> Av. Francisco de Orellana, Guayaquil, Ecuador</p>
+                    <p><i class="fas fa-phone"></i> +593 4 1234567</p>
+                    <p><i class="fas fa-envelope"></i> info@farmaassist.com</p>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; 2023 FarmaAssist. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Chatbot functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const chatContainer = document.getElementById('chat-container');
+            const userInput = document.getElementById('user-input');
+            const sendBtn = document.getElementById('send-btn');
+            
+            // Función para agregar mensajes al chat
+            function addMessage(message, isUser) {
+                const messageDiv = document.createElement('div');
+                messageDiv.classList.add('message');
+                messageDiv.classList.add(isUser ? 'user-message' : 'ai-message');
+                messageDiv.textContent = message;
+                chatContainer.appendChild(messageDiv);
+                chatContainer.scrollTop = chatContainer.scrollHeight;
+            }
+            
+            // Función para mostrar el indicador de "escribiendo"
+            function showTypingIndicator() {
+                const typingDiv = document.createElement('div');
+                typingDiv.classList.add('typing-indicator');
+                typingDiv.id = 'typing-indicator';
+                
+                for (let i = 0; i < 3; i++) {
+                    const dot = document.createElement('div');
+                    dot.classList.add('typing-dot');
+                    typingDiv.appendChild(dot);
+                }
+                
+                chatContainer.appendChild(typingDiv);
+                chatContainer.scrollTop = chatContainer.scrollHeight;
+            }
+            
+            // Función para ocultar el indicador de "escribiendo"
+            function hideTypingIndicator() {
+                const typingIndicator = document.getElementById('typing-indicator');
+                if (typingIndicator) {
+                    typingIndicator.remove();
+                }
+            }
+            
+            // Función para obtener respuesta del "IA"
+            function getAIResponse(userMessage) {
+                // Aquí normalmente harías una llamada a una API de IA real
+                // Esto es solo una simulación con respuestas predefinidas
+                
+                const responses = {
+                    "hola": "¡Hola! ¿En qué puedo ayudarte hoy?",
+                    "qué es paracetamol": "El paracetamol es un medicamento analgésico y antipirético utilizado para tratar el dolor leve a moderado y reducir la fiebre. Dosis usual para adultos: 500-1000mg cada 6-8 horas, máximo 4g al día.",
+                    "ibuprofeno para qué sirve": "El ibuprofeno es un antiinflamatorio no esteroideo (AINE) que se usa para aliviar el dolor, reducir la inflamación y bajar la fiebre. Dosis común: 200-400mg cada 6-8 horas con alimentos.",
+                    "efectos secundarios de la amoxicilina": "Los efectos secundarios comunes de la amoxicilina pueden incluir diarrea, náuseas, erupción cutánea y candidiasis vaginal. En raros casos puede causar reacciones alérgicas graves.",
+                    "interacción entre medicamentos": "Algunas interacciones comunes a considerar: Paracetamol con alcohol puede dañar el hígado. Ibuprofeno con anticoagulantes aumenta riesgo de sangrado. Siempre consulta con tu médico sobre posibles interacciones.",
+                    "farmacias abiertas ahora": "Las farmacias de turno en Guayaquil en este momento son: 1) Farmacias Cruz Azul en Av. Francisco de Orellana (24 horas) 2) Fybeca en Mall del Sol (hasta 9pm) 3) Pharmacy's en Urdesa (hasta 8pm).",
+                    "dosis de loratadina": "La dosis usual de loratadina para adultos y niños mayores de 6 años es de 10mg una vez al día. Para niños de 2-5 años: 5mg una vez al día. No causa somnolencia en la mayoría de las personas.",
+                    "gracias": "¡De nada! Estoy aquí para ayudarte cuando lo necesites. ¿Hay algo más sobre lo que te gustaría información?",
+                    "default": "Entiendo que tienes una pregunta sobre medicamentos. Para darte la información más precisa, ¿podrías ser más específico? Por ejemplo, puedes preguntar sobre usos, dosis, efectos secundarios o interacciones de un medicamento en particular."
+                };
+                
+                const lowerMessage = userMessage.toLowerCase();
+                let response = responses.default;
+                
+                for (const key in responses) {
+                    if (lowerMessage.includes(key)) {
+                        response = responses[key];
+                        break;
+                    }
+                }
+                
+                return response;
+            }
+            
+            // Manejar el envío de mensajes
+            function handleSendMessage() {
+                const message = userInput.value.trim();
+                if (message === '') return;
+                
+                // Agregar mensaje del usuario
+                addMessage(message, true);
+                userInput.value = '';
+                
+                // Mostrar que el "IA" está escribiendo
+                showTypingIndicator();
+                
+                // Simular tiempo de respuesta del "IA"
+                setTimeout(() => {
+                    hideTypingIndicator();
+                    const aiResponse = getAIResponse(message);
+                    addMessage(aiResponse, false);
+                }, 1000 + Math.random() * 2000); // Tiempo aleatorio entre 1-3 segundos
+            }
+            
+            // Event listeners
+            sendBtn.addEventListener('click', handleSendMessage);
+            
+            userInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    handleSendMessage();
+                }
+            });
+            
+            // Smooth scrolling para los enlaces del menú
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    const targetId = this.getAttribute('href');
+                    if (targetId === '#') return;
+                    
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        targetElement.scrollIntoView({
+                            behavior: 'smooth'
+                        });
+                        
+                        // Actualizar el menú activo
+                        document.querySelectorAll('nav a').forEach(link => {
+                            link.classList.remove('active');
+                        });
+                        this.classList.add('active');
+                    }
+                });
+            });
+            
+            // Cambiar el menú activo al hacer scroll
+            window.addEventListener('scroll', function() {
+                const sections = document.querySelectorAll('section');
+                let currentSection = '';
+                
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    const sectionHeight = section.clientHeight;
+                    
+                    if (pageYOffset >= sectionTop - 100) {
+                        currentSection = section.getAttribute('id');
+                    }
+                });
+                
+                document.querySelectorAll('nav a').forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href') === `#${currentSection}`) {
+                        link.classList.add('active');
+                    }
+                });
+            });
+            
+            // Simular carga de medicamentos (en un caso real, esto vendría de una API)
+            // Aquí podrías hacer una llamada fetch a tu backend
+            console.log("Cargando datos de medicamentos...");
+            
+            // Simular carga de mapa (en un caso real, usarías la API de Google Maps)
+            // Aquí podrías inicializar el mapa con marcadores de farmacias
+            console.log("Inicializando mapa de farmacias...");
         });
-    }
-
-    // ---------- Chatbot ----------
-    function quickQuestion(q) {
-      document.getElementById('user-input').value = q;
-      sendMessage();
-    }
-
-    function handleKeyPress(e) {
-      if (e.key === 'Enter') sendMessage();
-    }
-
-    function getBotResponse(message) {
-      const key = message.toLowerCase().trim();
-      // buscar coincidencia exacta
-      if (knowledgeBase[key]) {
-        return knowledgeBase[key].response;
-      }
-      // buscar palabra clave
-      for (let k in knowledgeBase) {
-        if (key.includes(k) && k !== 'default') {
-          return knowledgeBase[k].response;
-        }
-      }
-      return knowledgeBase.default.response;
-    }
-
-    function sendMessage() {
-      const input = document.getElementById('user-input');
-      const text = input.value.trim();
-      if (!text) return;
-      displayMessage(text, 'user');
-      input.value = '';
-      showTypingIndicator();
-      setTimeout(() => {
-        removeTypingIndicator();
-        const botResp = getBotResponse(text);
-        displayMessage(botResp, 'bot');
-      }, 800);
-    }
-
-    // ---------- Helpers de Chat ----------
-    function displayMessage(msg, sender) {
-      const chat = document.getElementById('chat-messages');
-      const div = document.createElement('div');
-      div.className = `message ${sender === 'user' ? 'user-message' : 'bot-message'}`;
-      div.innerHTML = sender === 'bot'
-        ? `<strong>Asistente Farmacéutico:</strong> ${msg}`
-        : msg;
-      chat.appendChild(div);
-      chat.scrollTop = chat.scrollHeight;
-    }
-
-    function showTypingIndicator() {
-      const chat = document.getElementById('chat-messages');
-      const div = document.createElement('div');
-      div.className = 'typing-indicator';
-      div.id = 'typing-indicator';
-      div.innerHTML = '<span></span><span></span><span></span>';
-      chat.appendChild(div);
-      chat.scrollTop = chat.scrollHeight;
-    }
-
-    function removeTypingIndicator() {
-      const ind = document.getElementById('typing-indicator');
-      if (ind) ind.remove();
-    }
-
-    // ---------- Inicialización ----------
-    document.addEventListener('DOMContentLoaded', () => {
-      // Carga inicial de medicamentos completos
-      searchMedications();
-    });
-  </script>
+    </script>
 </body>
 </html>
