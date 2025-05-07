@@ -640,4 +640,51 @@
             // Respuestas sobre ubicaciones de farmacias
             } else if (lowerMessage.includes('quito') || lowerMessage.includes('pichincha')) {
                 return 'En Pichincha (Quito) puedes encontrar estas farmacias:\n\n' +
-                       '1. <strong>Farmacias Cruz Azul</strong> - Av. Amazonas N34-123 (Abierto ahora)\n
+                       '1. <strong>Farmacias Cruz Azul</strong> - Av. Amazonas N34-123 (Abierto ahora)\n' +
+                       '2. <strong>Fybeca</strong> - Av. 6 de Diciembre N24-156 (Abierto ahora)\n' +
+                       '3. <strong>MegaFarmacias</strong> - C.C. Quicentro Shopping (Abierto ahora)\n\n' +
+                       '¿Necesitas información sobre horarios o medicamentos específicos en alguna de estas?';
+            
+            } else if (lowerMessage.includes('guayaquil') || lowerMessage.includes('guayas')) {
+                return 'En Guayas (Guayaquil) estas farmacias están disponibles:\n\n' +
+                       '1. <strong>Pharmacy\'s</strong> - Av. Francisco de Orellana (Cerrado ahora, abre a las 7:00)\n' +
+                       '2. <strong>Farmacias Sana Sana</strong> - Av. 9 de Octubre (Abierto 24 horas)\n\n' +
+                       '¿Buscas algún medicamento en particular en Guayaquil?';
+            
+            } else if (lowerMessage.includes('cuenca') || lowerMessage.includes('azuay')) {
+                return 'En Azuay (Cuenca) puedes visitar:\n\n' +
+                       '1. <strong>Farmacias Mi Salud</strong> - Av. Loja y Huayna Cápac (Horario: 8:30-19:30)\n' +
+                       '2. <strong>Farmacias Santa Marianita</strong> - Av. Solano y Gran Colombia (Horario: 8:00-20:00)\n\n' +
+                       '¿Necesitas más información sobre farmacias en Cuenca?';
+            
+            // Respuestas sobre horarios
+            } else if (lowerMessage.includes('horario') || lowerMessage.includes('hora') || lowerMessage.includes('abierto')) {
+                return 'Los horarios varían por farmacia:\n\n' +
+                       '🕒 <strong>Farmacias estándar:</strong> Generalmente 8:00-20:00 de lunes a viernes, 9:00-18:00 sábados\n' +
+                       '🌙 <strong>Farmacias 24 horas:</strong> Farmacias Sana Sana en Guayaquil y algunas ubicaciones de Fybeca en Quito\n' +
+                       '🛒 <strong>Centros comerciales:</strong> Suelen seguir horarios del centro comercial (ej. 10:00-21:00)\n\n' +
+                       '¿De qué farmacia en particular necesitas el horario exacto?';
+            
+            // Respuestas generales
+            } else if (lowerMessage.includes('hola') || lowerMessage.includes('buenos días') || lowerMessage.includes('buenas tardes')) {
+                return '¡Hola! Soy tu asistente farmacéutico virtual. Puedo ayudarte con:\n\n' +
+                       '💊 Información sobre medicamentos y sus usos\n' +
+                       '🏥 Ubicación de farmacias por provincia\n' +
+                       '🕒 Horarios de atención\n' +
+                       '💰 Precios referenciales de medicamentos\n\n' +
+                       '¿En qué necesitas ayuda hoy?';
+            
+            } else if (lowerMessage.includes('gracias') || lowerMessage.includes('agradezco')) {
+                return '¡De nada! Estoy aquí para ayudarte. Si tienes alguna otra consulta sobre medicamentos o farmacias en Ecuador, no dudes en preguntar.';
+            
+            } else {
+                return 'Entendido. Para ayudarte mejor, ¿podrías especificar si tu consulta es sobre:\n\n' +
+                       '1. 📍 Ubicación de una farmacia en una provincia específica\n' +
+                       '2. 💊 Información sobre un medicamento (usos, dosis, precio)\n' +
+                       '3. 🕒 Horarios de atención de farmacias\n\n' +
+                       'Por ejemplo, puedes preguntar: "¿Dónde hay una farmacia abierta ahora en Quito?" o "¿Para qué sirve el omeprazol?"';
+            }
+        }
+    </script>
+</body>
+</html>
