@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catálogo Completo de Medicamentos</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --secondary: #3498db;
+            --light: #ecf0f1;
+            --dark: #2c3e50;
+            --success: #27ae60;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .search-container {
+            margin: 2rem auto;
+            max-width: 600px;
+            position: relative;
+        }
+        
+        #search {
+            width: 100%;
+            padding: 12px 20px;
+            border: 2px solid #ddd;
+            border-radius: 50px;
+            font-size: 16px;
+            outline: none;
+            transition: all 0.3s;
+        }
+        
+        #search:focus {
+            border-color: var(--secondary);
+            box-shadow: 0 0 10px rgba(52, 152, 219, 0.3);
+        }
+        
+        .search-icon {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #777;
+        }
+        
+        .medicamentos-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+            margin: 3rem 0;
+        }
+        
+        .medicamento-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .medicamento-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+        
+        .medicamento-img {
+            height: 200px;
+            overflow: hidden;
+        }
+        
+        .medicamento-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+        
+        .medicamento-card:hover .medicamento-img img {
+            transform: scale(1.05);
+        }
+        
+        .medicamento-info {
+            padding: 20px;
+        }
+        
+        .medicamento-info h3 {
+            color: var(--primary);
+            margin-bottom: 10px;
+            font-size: 1.3rem;
+        }
+        
+        .medicamento-precio {
+            font-size: 1.5rem;
+            color: var(--success);
+            font-weight: bold;
+            margin: 10px 0;
+        }
+        
+        .medicamento-desc {
+            color: #666;
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+        }
+        
+        .medicamento-dosis {
+            background: #f8f9fa;
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 0.85rem;
+            margin-top: 10px;
+        }
+        
+        .medicamento-dosis span {
+            font-weight: bold;
+            color: var(--primary);
+        }
+        
+        .categoria {
+            display: inline-block;
+            background: var(--light);
+            color: var(--dark);
+            padding: 3px 8px;
+            border-radius: 5px;
+            font-size: 0.7rem;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        footer {
+            background: var(--dark);
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+            margin-top: 3rem;
+        }
+        
+        @media (max-width: 768px) {
+            .medicamentos-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Catálogo de Medicamentos</h1>
+            <p>Encuentra toda la información sobre tus medicamentos</p>
+        </div>
+    </header>
+    
+    <div class="container">
+        <div class="search-container">
+            <input type="text" id="search" placeholder="Buscar medicamento...">
+            <i class="fas fa-search search-icon"></i>
+        </div>
+        
+        <div class="medicamentos-grid" id="medicamentos-container">
+            <!-- Medicamento 1 -->
+            <div class="medicamento-card" data-categoria="analgesico" data-nombre="paracetamol">
+                <div class="medicamento-img">
+                    <img src="https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Paracetamol">
+                </div>
+                <div class="medicamento-info">
+                    <span class="categoria">Analgésico</span>
+                    <h3>Paracetamol 500mg</h3>
+                    <div class="medicamento-precio">$5.99</div>
+                    <p class="medicamento-desc">Alivia el dolor y reduce la fiebre. No contiene antiinflamatorio.</p>
+                    <div class="medicamento-dosis">
+                        <span>Uso:</span> Oral<br>
+                        <span>Dosis:</span> 1 tableta cada 6-8 horas<br>
+                        <span>Máximo:</span> 4g en 24 horas
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Medicamento 2 -->
+            <div class="medicamento-card" data-categoria="antiinflamatorio" data-nombre="ibuprofeno">
+                <div class="medicamento-img">
+                    <img src="https://images.unsplash.com/photo-1591047139829-d91aecb6caea?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Ibuprofeno">
+                </div>
+                <div class="medicamento-info">
+                    <span class="categoria">Antiinflamatorio</span>
+                    <h3>Ibuprofeno 400mg</h3>
+                    <div class="medicamento-precio">$7.50</div>
+                    <p class="medicamento-desc">Alivia el dolor, reduce la inflamación y baja la fiebre.</p>
+                    <div class="medicamento-dosis">
+                        <span>Uso:</span> Oral con alimentos<br>
+                        <span>Dosis:</span> 1 tableta cada 6-8 horas<br>
+                        <span>Máximo:</span> 1200mg en 24 horas
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Medicamento 3 -->
+            <div class="medicamento-card" data-categoria="antihistaminico" data-nombre="loratadina">
+                <div class="medicamento-img">
+                    <img src="https://images.unsplash.com/photo-1587854692152-cbe660dbde88?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Loratadina">
+                </div>
+                <div class="medicamento-info">
+                    <span class="categoria">Antihistamínico</span>
+                    <h3>Loratadina 10mg</h3>
+                    <div class="medicamento-precio">$8.25</div>
+                    <p class="medicamento-desc">Alivia los síntomas de alergias como estornudos, picazón y secreción nasal.</p>
+                    <div class="medicamento-dosis">
+                        <span>Uso:</span> Oral con o sin alimentos<br>
+                        <span>Dosis:</span> 1 tableta cada 24 horas<br>
+                        <span>Máximo:</span> 10mg en 24 horas
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Medicamento 4 -->
+            <div class="medicamento-card" data-categoria="antialergico" data-nombre="desloratadina">
+                <div class="medicamento-img">
+                    <img src="https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Desloratadina">
+                </div>
+                <div class="medicamento-info">
+                    <span class="categoria">Antialérgico</span>
+                    <h3>Desloratadina 5mg</h3>
+                    <div class="medicamento-precio">$9.75</div>
+                    <p class="medicamento-desc">Tratamiento de los síntomas de la rinitis alérgica y urticaria.</p>
+                    <div class="medicamento-dosis">
+                        <span>Uso:</span> Oral con agua<br>
+                        <span>Dosis:</span> 1 tableta cada 24 horas<br>
+                        <span>Máximo:</span> 5mg en 24 horas
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Medicamento 5 -->
+            <div class="medicamento-card" data-categoria="antibiotico" data-nombre="amoxicilina">
+                <div class="medicamento-img">
+                    <img src="https://images.unsplash.com/photo-1587854692152-cbe660dbde88?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Amoxicilina">
+                </div>
+                <div class="medicamento-info">
+                    <span class="categoria">Antibiótico</span>
+                    <h3>Amoxicilina 500mg</h3>
+                    <div class="medicamento-precio">$12.50</div>
+                    <p class="medicamento-desc">Antibiótico para tratar infecciones bacterianas. Requiere receta médica.</p>
+                    <div class="medicamento-dosis">
+                        <span>Uso:</span> Oral con o sin alimentos<br>
+                        <span>Dosis:</span> 1 tableta cada 8 horas<br>
+                        <span>Duración:</span> Según prescripción médica
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Medicamento 6 -->
+            <div class="medicamento-card" data-categoria="antiacido" data-nombre="omeprazol">
+                <div class="medicamento-img">
+                    <img src="https://images.unsplash.com/photo-1591047139829-d91aecb6caea?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=80" alt="Omeprazol">
+                </div>
+                <div class="medicamento-info">
+                    <span class="categoria">Antiácido</span>
+                    <h3>Omeprazol 20mg</h3>
+                    <div class="medicamento-precio">$6.80</div>
+                    <p class="medicamento-desc">Reduce la producción de ácido estomacal. Para gastritis y reflujo.</p>
+                    <div class="medicamento-dosis">
+                        <span>Uso:</span> Oral antes del desayuno<br>
+                        <span>Dosis:</span> 1 cápsula cada 24 horas<br>
+                        <span>Duración:</span> Máximo 14 días sin supervisión
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <div class="container">
+            <p>© 2023 Farmacia Digital - Todos los derechos reservados</p>
+            <p>Consulta siempre a tu médico antes de tomar cualquier medicamento</p>
+        </div>
+    </footer>
+
+    <script>
+        // Función de búsqueda
+        document.getElementById('search').addEventListener('input', function() {
+            const searchTerm = this.value.toLowerCase();
+            const cards = document.querySelectorAll('.medicamento-card');
+            
+            cards.forEach(card => {
+                const nombre = card.getAttribute('data-nombre');
+                const categoria = card.getAttribute('data-categoria');
+                
+                if (nombre.includes(searchTerm) || categoria.includes(searchTerm)) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
