@@ -7,161 +7,80 @@
   <style>
     /* Reinicio ligero */
     * { box-sizing: border-box; margin: 0; padding: 0; }
-
-    body {
-      font-family: Arial, sans-serif;
-      line-height: 1.5;
-      background: #f9f9f9;
-      color: #333;
-    }
-
+    body { font-family: Arial, sans-serif; background: #f9f9f9; color: #333; }
     /* HEADER */
-    header {
-      background-color: #fff;
-      border-bottom: 4px solid #003366;
-      padding: 15px 20px;
-      display: flex;
-      align-items: center;
-    }
-    header img {
-      height: 60px;
-      margin-right: 15px;
-    }
-    header h1 {
-      font-size: 1.8rem;
-      color: #003366;
-    }
-
+    header { background: #fff; border-bottom: 4px solid #003366; padding: 15px 20px; display: flex; align-items: center; }
+    header img { height: 60px; margin-right: 15px; }
+    header h1 { font-size: 1.8rem; color: #003366; }
     /* NAVBAR */
-    nav {
-      background-color: #003366;
-    }
-    nav .container {
-      display: flex;
-      justify-content: center;
-      padding: 10px 0;
-    }
-    nav a {
-      color: #fff;
-      text-decoration: none;
-      font-weight: bold;
-      margin: 0 15px;
-      padding: 8px 12px;
-      border-radius: 4px;
-      transition: background .3s;
-    }
-    nav a:hover {
-      background-color: #0059b3;
-    }
-
+    nav { background: #003366; }
+    nav .container { display: flex; justify-content: center; padding: 10px 0; }
+    nav a { color: #fff; text-decoration: none; font-weight: bold; margin: 0 15px; padding: 8px 12px; border-radius: 4px; transition: background .3s; cursor: pointer; }
+    nav a:hover { background: #0059b3; }
     /* MAIN */
-    main {
-      max-width: 900px;
-      margin: 30px auto;
-      padding: 0 20px;
-      background: #fff;
-      border-radius: 6px;
-      box-shadow: 0 2px 6px rgba(0,0,0,.1);
-    }
-    section {
-      padding: 20px 0;
-      border-bottom: 1px solid #eee;
-    }
-    section:last-child {
-      border-bottom: none;
-    }
-    section h2 {
-      font-size: 1.5rem;
-      color: #003366;
-      margin-bottom: 10px;
-    }
-    section p {
-      margin-bottom: 10px;
-    }
-
+    main { max-width: 900px; margin: 30px auto; padding: 0 20px; background: #fff; border-radius: 6px; box-shadow: 0 2px 6px rgba(0,0,0,.1); }
+    section { display: none; padding: 20px 0; }
+    section.active { display: block; }
+    section h2 { font-size: 1.5rem; color: #003366; margin-bottom: 10px; }
+    section p, section ul { margin-bottom: 10px; }
     /* TOGGLE */
-    .toggle-title {
-      cursor: pointer;
-      background: #f0f4f8;
-      padding: 12px;
-      border: 1px solid #ccdce6;
-      border-radius: 4px;
-      margin: 10px 0;
-      font-weight: bold;
-    }
-    .toggle-content {
-      display: none;
-      padding: 10px 15px;
-      border-left: 4px solid #003366;
-      background: #fdfdfd;
-      margin-bottom: 15px;
-    }
-
+    .toggle-title { cursor: pointer; background: #f0f4f8; padding: 12px; border: 1px solid #ccdce6; border-radius: 4px; margin: 10px 0; font-weight: bold; }
+    .toggle-content { display: none; padding: 10px 15px; border-left: 4px solid #003366; background: #fdfdfd; margin-bottom: 15px; }
     /* FOOTER */
-    footer {
-      text-align: center;
-      padding: 15px 0;
-      background-color: #003366;
-      color: #fff;
-      font-size: 0.9rem;
-      margin-top: 30px;
-    }
+    footer { text-align: center; padding: 15px 0; background: #003366; color: #fff; font-size: 0.9rem; margin-top: 30px; }
   </style>
 </head>
 <body>
-
   <!-- HEADER -->
   <header>
-    <img src="https://univercimas.com/wp-content/uploads/2021/01/universidad-de-guayaquil-1-2048x2048.png" alt="Logo UG">
+    <img src="https://p16-sign-va.tiktokcdn.com/tos-maliva-avt-0068/9534a7e889f1c98486bf089fd87815db~tplv-tiktokx-cropcenter:1080:1080.jpeg?dr=14579&refresh_token=4f2e79fd&x-expires=1748660400&x-signature=toJ8z%2Ft70yq%2BUPGfZbHC%2FWuxQbY%3D&t=4d5b0474&ps=13740610&shp=a5d48078&shcp=81f88b70&idc=maliva" alt="Logo UG">
     <h1>Hair Club UG - Comunidad Estudiantil</h1>
   </header>
 
   <!-- NAVBAR -->
   <nav>
     <div class="container">
-      <a href="#inicio">Página Principal</a>
-      <a href="#registro">Registro Único</a>
-      <a href="#procesos">Procesos UG</a>
+      <a onclick="showSection('inicio')">Página Principal</a>
+      <a onclick="showSection('registro')">Registro Único</a>
+      <a onclick="showSection('procesos')">Procesos UG</a>
+      <a onclick="showSection('contacto')">Contacto</a>
     </div>
   </nav>
 
   <!-- CONTENIDO PRINCIPAL -->
   <main>
-    <section id="inicio">
+    <section id="inicio" class="active">
       <h2>Página Principal</h2>
       <p>Bienvenido a la comunidad estudiantil <strong>"Hair Club UG"</strong>. Esta plataforma centraliza toda la información y procesos que necesitas para tu vida académica en la Universidad de Guayaquil.</p>
-      <p><strong>Términos y condiciones:</strong> Uso exclusivo para fines académicos y de orientación estudiantil.</p>
     </section>
 
     <section id="registro">
       <h2>Proceso de Registro Único</h2>
       <p>Aquí encontrarás los pasos para realizar tu registro único como estudiante nuevo en UG.</p>
-      <!-- Podrías agregar aquí una lista de pasos o incluso un PDF enlazado -->
     </section>
 
     <section id="procesos">
       <h2>Procesos UG</h2>
-
-      <div class="toggle-title" onclick="toggleContent('proceso1')">
-        ¿Cómo solicitar certificado de matrícula?
-      </div>
+      <div class="toggle-title" onclick="toggleContent('proceso1')">¿Cómo solicitar certificado de matrícula?</div>
       <div id="proceso1" class="toggle-content">
-        <p>Ingresa al sistema académico, ve a "Certificados", y selecciona "Certificado de Matrícula". Sigue las instrucciones en pantalla.</p>
+        <p>Selecciona 'Certificado de Matrícula' en el sistema académico y sigue las instrucciones.</p>
       </div>
 
-      <div class="toggle-title" onclick="toggleContent('proceso2')">
-        ¿Cómo hacer una solicitud de retiro?
-      </div>
+      <div class="toggle-title" onclick="toggleContent('proceso2')">¿Cómo hacer una solicitud de retiro?</div>
       <div id="proceso2" class="toggle-content">
-        <p>Accede al módulo de "Procesos Académicos" y elige "Solicitud de Retiro". Completa el formulario y espera la confirmación.</p>
+        <p>Accede a 'Solicitud de Retiro' en Procesos Académicos, completa el formulario y envíalo.</p>
       </div>
 
-      <div class="toggle-title" onclick="toggleContent('proceso3')">
-        ¿Cómo recuperar tu clave?
-      </div>
+      <div class="toggle-title" onclick="toggleContent('proceso3')">¿Cómo recuperar tu clave?</div>
       <div id="proceso3" class="toggle-content">
-        <p>Ve a la página de recuperación de contraseña, ingresa tu cédula y correo institucional, y sigue los pasos para restablecerla.</p>
+        <p>Usa la opción 'Olvidé mi contraseña', ingresa tu cédula y correo institucional, y sigue el proceso.</p>
       </div>
+    </section>
+
+    <section id="contacto">
+      <h2>Contacto</h2>
+      <p>Teléfono: +593 9 1234 5678</p>
+      <p>Email: contacto@hairclubug.com</p>
     </section>
   </main>
 
@@ -171,13 +90,16 @@
   </footer>
 
   <script>
+    function showSection(id) {
+      document.querySelectorAll('main section').forEach(sec => {
+        sec.classList.remove('active');
+      });
+      document.getElementById(id).classList.add('active');
+    }
     function toggleContent(id) {
       const el = document.getElementById(id);
-      el.style.display = (el.style.display === 'block') ? 'none' : 'block';
+      el.style.display = el.style.display === 'block' ? 'none' : 'block';
     }
   </script>
-
 </body>
 </html>
-
-
