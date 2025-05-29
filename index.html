@@ -1,141 +1,183 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Hair Club UG - Comunidad Estudiantil</title>
   <style>
+    /* Reinicio ligero */
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
     body {
-      margin: 0;
       font-family: Arial, sans-serif;
+      line-height: 1.5;
+      background: #f9f9f9;
+      color: #333;
     }
 
+    /* HEADER */
     header {
       background-color: #fff;
-      padding: 10px;
+      border-bottom: 4px solid #003366;
+      padding: 15px 20px;
       display: flex;
       align-items: center;
-      border-bottom: 3px solid #0072c6;
     }
-
     header img {
       height: 60px;
       margin-right: 15px;
     }
-
     header h1 {
-      font-size: 24px;
+      font-size: 1.8rem;
       color: #003366;
     }
 
+    /* NAVBAR */
     nav {
       background-color: #003366;
-      padding: 10px 0;
+    }
+    nav .container {
       display: flex;
       justify-content: center;
+      padding: 10px 0;
     }
-
     nav a {
-      color: white;
+      color: #fff;
       text-decoration: none;
-      padding: 12px 20px;
       font-weight: bold;
+      margin: 0 15px;
+      padding: 8px 12px;
+      border-radius: 4px;
+      transition: background .3s;
     }
-
     nav a:hover {
       background-color: #0059b3;
     }
 
+    /* MAIN */
     main {
-      padding: 20px;
+      max-width: 900px;
+      margin: 30px auto;
+      padding: 0 20px;
+      background: #fff;
+      border-radius: 6px;
+      box-shadow: 0 2px 6px rgba(0,0,0,.1);
+    }
+    section {
+      padding: 20px 0;
+      border-bottom: 1px solid #eee;
+    }
+    section:last-child {
+      border-bottom: none;
+    }
+    section h2 {
+      font-size: 1.5rem;
+      color: #003366;
+      margin-bottom: 10px;
+    }
+    section p {
+      margin-bottom: 10px;
     }
 
-    .section {
-      margin-bottom: 20px;
-    }
-
-    .toggle-content {
-      display: none;
-      background: #f0f0f0;
-      padding: 10px;
-      border-left: 4px solid #0072c6;
-      margin-top: 10px;
-    }
-
+    /* TOGGLE */
     .toggle-title {
       cursor: pointer;
-      background-color: #e0e0e0;
-      padding: 10px;
+      background: #f0f4f8;
+      padding: 12px;
+      border: 1px solid #ccdce6;
+      border-radius: 4px;
+      margin: 10px 0;
       font-weight: bold;
-      border: 1px solid #ccc;
+    }
+    .toggle-content {
+      display: none;
+      padding: 10px 15px;
+      border-left: 4px solid #003366;
+      background: #fdfdfd;
+      margin-bottom: 15px;
     }
 
+    /* FOOTER */
     footer {
-      background-color: #003366;
-      color: white;
       text-align: center;
-      padding: 10px;
-      font-size: 14px;
-      margin-top: 20px;
+      padding: 15px 0;
+      background-color: #003366;
+      color: #fff;
+      font-size: 0.9rem;
+      margin-top: 30px;
     }
   </style>
 </head>
 <body>
 
+  <!-- HEADER -->
   <header>
-    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/89/Escudo_de_la_Universidad_de_Guayaquil.svg/1200px-Escudo_de_la_Universidad_de_Guayaquil.svg.png" alt="Logo UG">
+    <img src="https://univercimas.com/wp-content/uploads/2021/01/universidad-de-guayaquil-1-2048x2048.png" alt="Logo UG">
     <h1>Hair Club UG - Comunidad Estudiantil</h1>
   </header>
 
+  <!-- NAVBAR -->
   <nav>
-    <a href="#inicio">Página Principal</a>
-    <a href="#registro">Proceso de Registro Único</a>
-    <a href="#procesos">Procesos UG</a>
+    <div class="container">
+      <a href="#inicio">Página Principal</a>
+      <a href="#registro">Registro Único</a>
+      <a href="#procesos">Procesos UG</a>
+    </div>
   </nav>
 
+  <!-- CONTENIDO PRINCIPAL -->
   <main>
-    <section id="inicio" class="section">
+    <section id="inicio">
       <h2>Página Principal</h2>
-      <p>Bienvenido a la comunidad estudiantil "Hair Club UG". Esta página fue creada con el objetivo de centralizar la información y los procesos que los estudiantes necesitan para desenvolverse dentro de la Universidad de Guayaquil.</p>
-      <p><strong>Términos y condiciones:</strong> Esta plataforma es de uso exclusivo para fines académicos y de orientación estudiantil.</p>
+      <p>Bienvenido a la comunidad estudiantil <strong>"Hair Club UG"</strong>. Esta plataforma centraliza toda la información y procesos que necesitas para tu vida académica en la Universidad de Guayaquil.</p>
+      <p><strong>Términos y condiciones:</strong> Uso exclusivo para fines académicos y de orientación estudiantil.</p>
     </section>
 
-    <section id="registro" class="section">
+    <section id="registro">
       <h2>Proceso de Registro Único</h2>
-      <p>En esta sección se detallará paso a paso cómo realizar el registro único para estudiantes nuevos.</p>
+      <p>Aquí encontrarás los pasos para realizar tu registro único como estudiante nuevo en UG.</p>
+      <!-- Podrías agregar aquí una lista de pasos o incluso un PDF enlazado -->
     </section>
 
-    <section id="procesos" class="section">
+    <section id="procesos">
       <h2>Procesos UG</h2>
 
-      <div class="toggle-title" onclick="toggleContent('proceso1')">¿Cómo solicitar certificado de matrícula?</div>
+      <div class="toggle-title" onclick="toggleContent('proceso1')">
+        ¿Cómo solicitar certificado de matrícula?
+      </div>
       <div id="proceso1" class="toggle-content">
-        <p>Debes ingresar al sistema académico, ir a la sección de certificados, seleccionar "Certificado de Matrícula" y seguir las instrucciones.</p>
+        <p>Ingresa al sistema académico, ve a "Certificados", y selecciona "Certificado de Matrícula". Sigue las instrucciones en pantalla.</p>
       </div>
 
-      <div class="toggle-title" onclick="toggleContent('proceso2')">¿Cómo hacer una solicitud de retiro?</div>
+      <div class="toggle-title" onclick="toggleContent('proceso2')">
+        ¿Cómo hacer una solicitud de retiro?
+      </div>
       <div id="proceso2" class="toggle-content">
-        <p>Accede al módulo de procesos académicos y selecciona la opción "Solicitud de retiro". Completa el formulario y espera la aprobación.</p>
+        <p>Accede al módulo de "Procesos Académicos" y elige "Solicitud de Retiro". Completa el formulario y espera la confirmación.</p>
       </div>
 
-      <div class="toggle-title" onclick="toggleContent('proceso3')">¿Cómo recuperar tu clave del SIUG?</div>
+      <div class="toggle-title" onclick="toggleContent('proceso3')">
+        ¿Cómo recuperar tu clave?
+      </div>
       <div id="proceso3" class="toggle-content">
-        <p>Entra a la página del SIUG, haz clic en “Olvidé mi contraseña” e ingresa tu cédula y correo institucional.</p>
+        <p>Ve a la página de recuperación de contraseña, ingresa tu cédula y correo institucional, y sigue los pasos para restablecerla.</p>
       </div>
     </section>
   </main>
 
+  <!-- FOOTER -->
   <footer>
     &copy; 2025 Hair Club UG - Comunidad Estudiantil. Todos los derechos reservados.
   </footer>
 
   <script>
     function toggleContent(id) {
-      const element = document.getElementById(id);
-      element.style.display = element.style.display === "block" ? "none" : "block";
+      const el = document.getElementById(id);
+      el.style.display = (el.style.display === 'block') ? 'none' : 'block';
     }
   </script>
 
 </body>
 </html>
+
 
