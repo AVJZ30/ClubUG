@@ -10,7 +10,7 @@
     body { display: flex; flex-direction: column; font-family: Arial, sans-serif; background: #f9f9f9; color: #333; }
 
     /* HEADER */
-    header { background: #fff; border-bottom: 4px solid #003366; padding: 15px 20px; display: flex; align-items: center; }
+    header { background: #fff; border-bottom: 4px solid #003366; padding: 15px 20px; display: flex; align-items: center; flex-wrap: wrap; }
     header img {
       height: 60px;
       margin-right: 15px;
@@ -22,57 +22,32 @@
       transform: scale(1.1);
       box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
     }
-    header h1 { font-size: 1.8rem; color: #003366; }
+    header h1 { font-size: 1.8rem; color: #003366; margin: 0; flex: 1; text-align: center; }
 
-    
     /* NAVBAR */
     nav { background: #003366; }
-    nav .container { display: flex; justify-content: center; padding: 10px 0; }
-    nav a { color: #fff; text-decoration: none; font-weight: bold; margin: 0 15px; padding: 8px 12px; border-radius: 4px; transition: background .3s, transform .2s; cursor: pointer; }
+    nav .container { display: flex; justify-content: center; flex-wrap: wrap; padding: 10px 0; }
+    nav a { color: #fff; text-decoration: none; font-weight: bold; margin: 5px 10px; padding: 8px 12px; border-radius: 4px; transition: background .3s, transform .2s; cursor: pointer; }
     nav a:hover { background: #0059b3; transform: translateY(-2px); }
 
     /* MAIN */
-    main { flex: 1; max-width: 900px; margin: 30px auto; padding: 0 20px; background: #fff; border-radius: 6px; box-shadow: 0 2px 6px rgba(0,0,0,.1); }
+    main { flex: 1; max-width: 900px; width: 100%; margin: 30px auto; padding: 0 20px; background: #fff; border-radius: 6px; box-shadow: 0 2px 6px rgba(0,0,0,.1); }
     section { display: none; padding: 20px 0; animation: fadeIn 0.5s ease; }
     section.active { display: block; }
     section h2 { font-size: 1.5rem; color: #003366; margin-bottom: 10px; }
-    section p { margin-bottom: 10px; }
+    section p { margin-bottom: 10px; line-height: 1.6; }
 
     /* Search Bar en Procesos */
     #procesos .search-container { margin-bottom: 20px; }
     #procesos .search-container input {
-      width: 100%;
-      padding: 10px 15px;
-      font-size: 1rem;
-      border: 2px solid #ccc;
-      border-radius: 4px;
-      transition: border-color .3s;
+      width: 100%; padding: 10px 15px; font-size: 1rem; border: 2px solid #ccc; border-radius: 4px; transition: border-color .3s;
     }
-    #procesos .search-container input:focus {
-      border-color: #003366;
-      outline: none;
-    }
+    #procesos .search-container input:focus { border-color: #003366; outline: none; }
 
-    /* Listas para Terminos y Registro */
-    section ul {
-      list-style: none;
-      padding-left: 0;
-      margin-top: 10px;
-    }
-    section ul li {
-      position: relative;
-      padding-left: 25px;
-      margin-bottom: 10px;
-      color: #333;
-    }
-    /* bullet personalizado */
-    section ul li::before {
-      content: '\2022';
-      position: absolute;
-      left: 0;
-      color: #0072c6;
-      font-weight: bold;
-    }
+    /* Listas para Términos y Registro */
+    section ul { list-style: none; padding-left: 0; margin-top: 10px; }
+    section ul li { position: relative; padding-left: 25px; margin-bottom: 10px; color: #333; }
+    section ul li::before { content: '\2022'; position: absolute; left: 0; color: #0072c6; font-weight: bold; }
 
     /* TOGGLE */
     .toggle-title { cursor: pointer; background: #f0f4f8; padding: 12px; border: 1px solid #ccdce6; border-radius: 4px; margin: 10px 0; font-weight: bold; transition: background .3s; }
@@ -81,20 +56,9 @@
     .toggle-content.show { display: block; opacity: 1; }
 
     /* REDES SOCIALES */
-    .social-links a {
-      display: inline-flex;
-      align-items: center;
-      margin-right: 20px;
-      text-decoration: none;
-      font-size: 1rem;
-      color: #003366;
-      transition: color .3s, transform .2s;
-    }
-    .social-links a img {
-      width: 24px;
-      height: 24px;
-      margin-right: 8px;
-    }
+    .social-links { display: flex; flex-wrap: wrap; justify-content: center; }
+    .social-links a { display: inline-flex; align-items: center; margin: 5px 10px; text-decoration: none; font-size: 1rem; color: #003366; transition: color .3s, transform .2s; }
+    .social-links a img { width: 24px; height: 24px; margin-right: 8px; }
     .social-links a:hover { color: #0059b3; transform: scale(1.1); }
 
     /* FOOTER */
@@ -102,13 +66,30 @@
 
     /* ANIMACIONES */
     @keyframes fadeIn { from { opacity: 0; transform: translateY(10px);} to { opacity: 1; transform: translateY(0);} }
+
+    /* MEDIA QUERIES */
+    @media (max-width: 768px) {
+      header img { height: 50px; margin-bottom: 10px; }
+      header h1 { font-size: 1.4rem; }
+      nav a { font-size: 0.9rem; margin: 5px; padding: 6px 10px; }
+      main { margin: 20px auto; padding: 0 10px; }
+      section h2 { font-size: 1.3rem; }
+      .toggle-title { font-size: 0.95rem; padding: 10px; }
+      .search-container input { font-size: 0.9rem; }
+    }
+    @media (max-width: 480px) {
+      header { justify-content: center; }
+      header h1 { text-align: center; margin-top: 8px; }
+      nav .container { flex-direction: column; }
+      nav a { width: 100%; text-align: center; }
+    }
   </style>
 </head>
 <body>
   <!-- HEADER -->
   <header>
     <img src="https://p16-sign-va.tiktokcdn.com/tos-maliva-avt-0068/9534a7e889f1c98486bf089fd87815db~tplv-tiktokx-cropcenter:1080:1080.jpeg?dr=14579&refresh_token=f57a52df&x-expires=1748743200&x-signature=xXqZRX%2FUTgkz2kD0G7YtRk2r2SM%3D&t=4d5b0474&ps=13740610&shp=a5d48078&shcp=81f88b70&idc=maliva" alt="Logo UG" />
-    <h1> Club UG - Comunidad Estudiantil</h1>
+    <h1>Club UG - Comunidad Estudiantil</h1>
   </header>
 
   <!-- NAVBAR -->
@@ -140,55 +121,33 @@
     <section id="registro">
       <h2>Proceso de Registro Único</h2>
       <ul>
-        <li>Accede a la plataforma <a href="https://registrounicoedusup.gob.ec" target="_blank">https://www.registrounicoedusup.gob.ec/</a>.</li>
-        <li>Haz clic en el botón «Regístrate Aquí» para crear una nueva cuenta (si ya se tiene un usuario, no es necesario crear uno nuevo)</li>
+        <li>Accede a la plataforma <a href="https://registrounicoedusup.gob.ec" target="_blank">https://registrounicoedusup.gob.ec</a>.</li>
+        <li>Haz clic en el botón «Regístrate Aquí» para crear una nueva cuenta (si ya se tiene un usuario, no es necesario crear uno nuevo).</li>
         <li>En el menú principal, selecciona «Proceso» y luego «Registro Nacional».</li>
         <li>Lee y acepta el Acuerdo de responsabilidad y los términos y condiciones del proceso.</li>
         <li>Completa el formulario con la información requerida.</li>
         <li>Descarga e imprime la confirmación del registro como comprobante.</li>
-        <li>Si quieres ver algo mas detallado:  <a href="https://youtu.be/5_Q3wbGN4Kc?si=NKWuehOakNdrlEG9" target="_blank">Video YT</a>.</li>
+        <li>Si quieres ver algo más detallado: <a href="https://youtu.be/5_Q3wbGN4Kc?si=NKWuehOakNdrlEG9" target="_blank">Video YT</a>.</li>
       </ul>
     </section>
 
     <section id="procesos">
       <h2>Procesos UG</h2>
       <div class="search-container">
-        <input type="text" id="search" placeholder="Buscar..." />
+        <input type="text" id="search" placeholder="Buscar proceso..." />
       </div>
-      <div class="toggle-title" onclick="toggleContent('proceso1')">¿Como me matriculo ?</div>
-      <div id="proceso1" class="toggle-content">
-        <p>Cuando ya tengas todos tus datos actualizados y estén abiertas las matrículas debes ir a Académico > Estudiante > Matriculación > Curso de nivelación > eliges carrera (curso de nivelación). Debajo aparecen dos opciones: pre requisitos y horarios; das click en horarios > seleccionas tu horario > generas y descargas tu comprobante de matrícula en PDF o lo imprimes. ¡Y listo!</p>
-      </div>
-
-      <div class="toggle-title" onclick="toggleContent('proceso11')">¿Porque las encuestas no me permiten hacerlas?</div>
-      <div id="proceso11" class="toggle-content">
-        <p>Si no te dejan realizar las encuestas, debes estar atento en las inducciones, ya que en esos momentos las habilitan. (OJO: las encuestas son un prerequisito para matricularte)</p>
-      </div>
-
-      <div class="toggle-title" onclick="toggleContent('proceso12')">¿Que documentos subo?</div>
-      <div id="proceso12" class="toggle-content">
-        <p>Si eres nuevo y recién estás realizando el proceso, debes subir: título o acta, cédula o pasaporte, certificado de votación y currículo estudiantil.</p>
-      </div>
-
-      <div class="toggle-title" onclick="toggleContent('proceso13')">¿Donde veo mi horario?</div>
-      <div id="proceso13" class="toggle-content">
-        <p>Académico > Estudiante > Horarios. Selecciona tu proceso y ciclo, y SIUG te mostrará el horario que elegiste al generar la matrícula.</p>
-      </div>
-
-      <div class="toggle-title" onclick="toggleContent('proceso2')">¿Como crear mi cuenta SIUG?</div>
-      <div id="proceso2" class="toggle-content">
-        <ul>
-          <li>Visita <a href="https://servicioenlinea.ug.edu.ec/SIUG/Account/Register.aspx" target="_blank">Registro SIUG</a>.</li>
-          <li>Completa todos los datos solicitados.</li>
-          <li>Espera el correo de activación.</li>
-          <li>¡Listo! Ya tienes tu cuenta SIUG.</li>
-        </ul>
-      </div>
-
-      <div class="toggle-title" onclick="toggleContent('proceso3')">¿Que hacer una vez creada mi cuenta SIUG?</div>
-      <div id="proceso3" class="toggle-content">
-        <p>Una vez tengas tu cuenta SIUG, actualiza tus datos en Académico > Estudiante > Datos Personales (completa sección: personales, estudios secundarios, documentos y encuestas).</p>
-      </div>
+      <div class="toggle-title" onclick="toggleContent('proceso1')">¿Cómo me matriculo?</div>
+      <div id="proceso1" class="toggle-content"><p>Cuando ya tengas todos tus datos actualizados y estén abiertas las matrículas debes ir a Académico > Estudiante > Matriculación > Curso de nivelación > eliges carrera (curso de nivelación). Debajo aparecen dos opciones: prerequisitos y horarios; das click en horarios > seleccionas tu horario > generas y descargas tu comprobante de matrícula en PDF o lo imprimes. ¡Y listo!</p></div>
+      <div class="toggle-title" onclick="toggleContent('proceso11')">¿Por qué las encuestas no me permiten hacerlas?</div>
+      <div id="proceso11" class="toggle-content"><p>Si no te dejan realizar las encuestas, debes estar atento en las inducciones, ya que en esos momentos las habilitan. (OJO: las encuestas son un prerequisito para matricularte)</p></div>
+      <div class="toggle-title" onclick="toggleContent('proceso12')">¿Qué documentos subo?</div>
+      <div id="proceso12" class="toggle-content"><p>Si eres nuevo y recién estás realizando el proceso, debes subir: título o acta, cédula o pasaporte, certificado de votación y currículo estudiantil.</p></div>
+      <div class="toggle-title" onclick="toggleContent('proceso13')">¿Dónde veo mi horario?</div>
+      <div id="proceso13" class="toggle-content"><p>Académico > Estudiante > Horarios. Selecciona tu proceso y ciclo, y SIUG te mostrará el horario que elegiste al generar la matrícula.</p></div>
+      <div class="toggle-title" onclick="toggleContent('proceso2')">¿Cómo crear mi cuenta SIUG?</div>
+      <div id="proceso2" class="toggle-content"><ul><li>Visita <a href="https://servicioenlinea.ug.edu.ec/SIUG/Account/Register.aspx" target="_blank">Registro SIUG</a>.</li><li>Completa todos los datos solicitados.</li><li>Espera el correo de activación.</li><li>¡Listo! Ya tienes tu cuenta SIUG.</li></ul></div>
+      <div class="toggle-title" onclick="toggleContent('proceso3')">¿Qué hacer una vez creada mi cuenta SIUG?</div>
+      <div id="proceso3" class="toggle-content"><p>Una vez tengas tu cuenta SIUG, actualiza tus datos en Académico > Estudiante > Datos Personales (completa sección: personales, estudios secundarios, documentos y encuestas).</p></div>
     </section>
 
     <section id="contacto">
@@ -200,14 +159,8 @@
     <section id="redes">
       <h2>Redes Sociales</h2>
       <div class="social-links">
-        <a href="https://www.tiktok.com/@club_ug_" target="_blank">
-          <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/tiktok.svg" alt="TikTok" />
-          TikTok
-        </a>
-        <a href="https://www.instagram.com/club_ug_/" target="_blank">
-          <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/instagram.svg" alt="Instagram" />
-          Instagram
-        </a>
+        <a href="https://www.tiktok.com/@club_ug_" target="_blank"><img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/tiktok.svg" alt="TikTok" /> TikTok</a>
+        <a href="https://www.instagram.com/club_ug_/" target="_blank"><img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/instagram.svg" alt="Instagram" /> Instagram</a>
       </div>
     </section>
   </main>
@@ -218,19 +171,11 @@
   </footer>
 
   <script>
-    function showSection(id) {
-      document.querySelectorAll('main section').forEach(sec => sec.classList.remove('active'));
-      document.getElementById(id).classList.add('active');
-    }
-    function toggleContent(id) {
-      document.getElementById(id).classList.toggle('show');
-    }
-    // Filtro de búsqueda en Procesos UG
+    function showSection(id) { document.querySelectorAll('main section').forEach(sec => sec.classList.remove('active')); document.getElementById(id).classList.add('active'); }
+    function toggleContent(id) { document.getElementById(id).classList.toggle('show'); }
     document.getElementById('search').addEventListener('input', function() {
       const filter = this.value.toLowerCase();
-      document.querySelectorAll('#procesos .toggle-title').forEach(el => {
-        el.style.display = el.textContent.toLowerCase().includes(filter) ? '' : 'none';
-      });
+      document.querySelectorAll('#procesos .toggle-title').forEach(el => { el.style.display = el.textContent.toLowerCase().includes(filter) ? '' : 'none'; });
     });
   </script>
 </body>
