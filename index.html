@@ -11,9 +11,20 @@
 
     /* HEADER */
     header { background: #fff; border-bottom: 4px solid #003366; padding: 15px 20px; display: flex; align-items: center; }
-    header img { height: 60px; margin-right: 15px; }
+    header img {
+      height: 60px;
+      margin-right: 15px;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      transition: transform .3s, box-shadow .3s;
+    }
+    header img:hover {
+      transform: scale(1.1);
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+    }
     header h1 { font-size: 1.8rem; color: #003366; }
 
+    
     /* NAVBAR */
     nav { background: #003366; }
     nav .container { display: flex; justify-content: center; padding: 10px 0; }
@@ -26,6 +37,21 @@
     section.active { display: block; }
     section h2 { font-size: 1.5rem; color: #003366; margin-bottom: 10px; }
     section p { margin-bottom: 10px; }
+
+    /* Search Bar en Procesos */
+    #procesos .search-container { margin-bottom: 20px; }
+    #procesos .search-container input {
+      width: 100%;
+      padding: 10px 15px;
+      font-size: 1rem;
+      border: 2px solid #ccc;
+      border-radius: 4px;
+      transition: border-color .3s;
+    }
+    #procesos .search-container input:focus {
+      border-color: #003366;
+      outline: none;
+    }
 
     /* Listas para Terminos y Registro */
     section ul {
@@ -81,7 +107,7 @@
 <body>
   <!-- HEADER -->
   <header>
-    <img src="https://univercimas.com/wp-content/uploads/2021/01/universidad-de-guayaquil-1-2048x2048.png" alt="Logo UG">
+    <img src="https://univercimas.com/wp-content/uploads/2021/01/universidad-de-guayaquil-1-2048x2048.png" alt="Logo UG" />
     <h1> Club UG - Comunidad Estudiantil</h1>
   </header>
 
@@ -126,20 +152,42 @@
 
     <section id="procesos">
       <h2>Procesos UG</h2>
-      <div class="toggle-title" onclick="toggleContent('proceso1')">¿Donde veo mi horario?</div>
-      <div id="proceso1" class="toggle-content">
-      <p>Academico>Estudiante>Horarios> Seleccionas tu proceso y el ciclo  y la SIUG te dara el horario que elegiste en la generacion de la matricula </p>
+      <div class="search-container">
+        <input type="text" id="search" placeholder="Buscar..." />
       </div>
+      <div class="toggle-title" onclick="toggleContent('proceso1')">¿Como me matriculo ?</div>
+      <div id="proceso1" class="toggle-content">
+        <p>Cuando ya tengas todos tus datos actualizados y estén abiertas las matrículas debes ir a Académico > Estudiante > Matriculación > Curso de nivelación > eliges carrera (curso de nivelación). Debajo aparecen dos opciones: pre requisitos y horarios; das click en horarios > seleccionas tu horario > generas y descargas tu comprobante de matrícula en PDF o lo imprimes. ¡Y listo!</p>
+      </div>
+
+      <div class="toggle-title" onclick="toggleContent('proceso11')">¿Porque las encuestas no me permiten hacerlas?</div>
+      <div id="proceso11" class="toggle-content">
+        <p>Si no te dejan realizar las encuestas, debes estar atento en las inducciones, ya que en esos momentos las habilitan. (OJO: las encuestas son un prerequisito para matricularte)</p>
+      </div>
+
+      <div class="toggle-title" onclick="toggleContent('proceso12')">¿Que documentos subo?</div>
+      <div id="proceso12" class="toggle-content">
+        <p>Si eres nuevo y recién estás realizando el proceso, debes subir: título o acta, cédula o pasaporte, certificado de votación y currículo estudiantil.</p>
+      </div>
+
+      <div class="toggle-title" onclick="toggleContent('proceso13')">¿Donde veo mi horario?</div>
+      <div id="proceso13" class="toggle-content">
+        <p>Académico > Estudiante > Horarios. Selecciona tu proceso y ciclo, y SIUG te mostrará el horario que elegiste al generar la matrícula.</p>
+      </div>
+
       <div class="toggle-title" onclick="toggleContent('proceso2')">¿Como crear mi cuenta SIUG?</div>
       <div id="proceso2" class="toggle-content">
-        <li>Primero vamos a <a href="https://servicioenlinea.ug.edu.ec/SIUG/Account/Register.aspx" target="_blank">Registro SIUG</a>.</li>
-         <li>Completamos con todo los datos que nos pidan</li>
-            <li>Y Activamos nuestra cuenta con el link que nos envien por correo</li>
-        <li> Y Listo Ya tienes tu cuenta SIUG</li>
+        <ul>
+          <li>Visita <a href="https://servicioenlinea.ug.edu.ec/SIUG/Account/Register.aspx" target="_blank">Registro SIUG</a>.</li>
+          <li>Completa todos los datos solicitados.</li>
+          <li>Espera el correo de activación.</li>
+          <li>¡Listo! Ya tienes tu cuenta SIUG.</li>
+        </ul>
       </div>
-      <div class="toggle-title" onclick="toggleContent('proceso3')">¿Cómo recuperar tu clave?</div>
+
+      <div class="toggle-title" onclick="toggleContent('proceso3')">¿Que hacer una vez creada mi cuenta SIUG?</div>
       <div id="proceso3" class="toggle-content">
-        <p>Usa la opción 'Olvidé mi contraseña', ingresa tu cédula y correo institucional, y sigue el proceso.</p>
+        <p>Una vez tengas tu cuenta SIUG, actualiza tus datos en Académico > Estudiante > Datos Personales (completa sección: personales, estudios secundarios, documentos y encuestas).</p>
       </div>
     </section>
 
@@ -153,11 +201,11 @@
       <h2>Redes Sociales</h2>
       <div class="social-links">
         <a href="https://www.tiktok.com/@club_ug_" target="_blank">
-          <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/tiktok.svg" alt="TikTok">
+          <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/tiktok.svg" alt="TikTok" />
           TikTok
         </a>
         <a href="https://www.instagram.com/club_ug_/" target="_blank">
-          <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/instagram.svg" alt="Instagram">
+          <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/instagram.svg" alt="Instagram" />
           Instagram
         </a>
       </div>
@@ -166,7 +214,7 @@
 
   <!-- FOOTER -->
   <footer>
-    &copy; 2025 Hair Club UG - Comunidad Estudiantil. Todos los derechos reservados.
+    &copy; 2025 Club UG - Comunidad Estudiantil. Todos los derechos reservados.
   </footer>
 
   <script>
@@ -175,9 +223,15 @@
       document.getElementById(id).classList.add('active');
     }
     function toggleContent(id) {
-      const el = document.getElementById(id);
-      el.classList.toggle('show');
+      document.getElementById(id).classList.toggle('show');
     }
+    // Filtro de búsqueda en Procesos UG
+    document.getElementById('search').addEventListener('input', function() {
+      const filter = this.value.toLowerCase();
+      document.querySelectorAll('#procesos .toggle-title').forEach(el => {
+        el.style.display = el.textContent.toLowerCase().includes(filter) ? '' : 'none';
+      });
+    });
   </script>
 </body>
 </html>
