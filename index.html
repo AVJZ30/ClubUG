@@ -170,6 +170,7 @@
     section:nth-child(3) { animation-delay: 0.6s; }
     section:nth-child(4) { animation-delay: 0.8s; }
     section:nth-child(5) { animation-delay: 1s; }
+    section:nth-child(6) { animation-delay: 1.2s; }
     
     section h2 { 
       font-size: 2.2rem; 
@@ -337,6 +338,115 @@
       top: 10px;
     }
 
+    /* Sección de Noticias */
+    .news-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 25px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    
+    .news-card {
+      background: var(--white);
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      transition: var(--transition);
+      position: relative;
+    }
+    
+    .news-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+    }
+    
+    .news-image {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    
+    .news-card:hover .news-image {
+      transform: scale(1.05);
+    }
+    
+    .news-content {
+      padding: 20px;
+    }
+    
+    .news-date {
+      display: block;
+      color: var(--accent);
+      font-size: 0.9rem;
+      margin-bottom: 10px;
+      font-weight: 500;
+    }
+    
+    .news-title {
+      font-size: 1.3rem;
+      margin-bottom: 10px;
+      color: var(--primary);
+    }
+    
+    .news-excerpt {
+      color: var(--text);
+      margin-bottom: 15px;
+      font-size: 0.95rem;
+    }
+    
+    .read-more {
+      display: inline-block;
+      color: var(--secondary);
+      font-weight: 500;
+      text-decoration: none;
+      transition: var(--transition);
+    }
+    
+    .read-more:hover {
+      color: var(--accent);
+    }
+    
+    /* Modal de Imagen */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1001;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.9);
+      overflow: auto;
+      animation: fadeIn 0.3s;
+    }
+    
+    .modal-content {
+      display: block;
+      margin: auto;
+      max-width: 90%;
+      max-height: 90%;
+      margin-top: 5vh;
+    }
+    
+    .close-modal {
+      position: absolute;
+      top: 20px;
+      right: 30px;
+      color: var(--white);
+      font-size: 35px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    
+    .close-modal:hover {
+      color: var(--accent);
+      transform: rotate(90deg);
+    }
+    
     /* Redes Sociales */
     .social-links { 
       display: flex; 
@@ -636,6 +746,10 @@
         padding: 60px 0;
       }
       
+      .news-grid {
+        grid-template-columns: 1fr;
+      }
+      
       .social-links {
         flex-direction: column;
         gap: 15px;
@@ -675,6 +789,12 @@
         padding: 12px 20px;
         font-size: 0.9rem;
       }
+      
+      .modal-content {
+        max-width: 95%;
+        max-height: 80%;
+        margin-top: 10vh;
+      }
     }
   </style>
 </head>
@@ -693,6 +813,7 @@
       <a href="#inicio" class="wave-effect">Inicio</a>
       <a href="#registro" class="wave-effect">Registro</a>
       <a href="#procesos" class="wave-effect">Procesos</a>
+      <a href="#noticias" class="wave-effect">Noticias</a>
       <a href="#contacto" class="wave-effect">Contacto</a>
       <a href="#redes" class="wave-effect">Redes</a>
     </div>
@@ -804,6 +925,39 @@
       </div>
     </section>
     
+    <!-- Nueva Sección de Noticias -->
+    <section id="noticias">
+      <div class="section-container">
+        <h2>Últimas Noticias</h2>
+        <p>Mantente informado con las últimas novedades y anuncios importantes de la Universidad de Guayaquil.</p>
+        
+        <div class="news-grid">
+          <!-- Noticia 1 -->
+          <div class="news-card">
+            <img src="https://scontent.fgye4-1.fna.fbcdn.net/v/t39.30808-6/501605519_1090723563103186_8060134047179510046_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=833d8c&_nc_ohc=oNoLbVBegwEQ7kNvwFfec7I&_nc_oc=Adl4MkL-BgRmmLP5-z4ocAclWOfKc_nQIqxVugE_n7L1v8sB-aktnm9kXoiiPNJ4XRg&_nc_zt=23&_nc_ht=scontent.fgye4-1.fna&_nc_gid=eBjgcIhGfteYWI8ZOI0cQQ&oh=00_AfLDEARoCqB8JJ-mfyw7vcYQsW3w_y0b3RCH6NoFuC4hIQ&oe=6841A3CB" alt="Noticia 1" class="news-image" onclick="openModal(this)">
+            <div class="news-content">
+              <span class="news-date">30 Mayo 2025</span>
+              <h3 class="news-title">Inicio de clases Curso De Nivelacion 2025-2</h3>
+              <p class="news-excerpt">Conoce las fecha exacta de cuando comienza el PRE, El camino de todo Chico UG!!! .</p>
+              <a href="https://www.instagram.com/admisionug/p/DKSrmZKucdW/" class="read-more">Leer más →</a>
+            </div>
+          </div>
+          
+      
+          <!-- Noticia 8 -->
+          <div class="news-card">
+            <img src="https://via.placeholder.com/600x400?text=Noticia+8" alt="Noticia 8" class="news-image" onclick="openModal(this)">
+            <div class="news-content">
+              <span class="news-date">No date</span>
+              <h3 class="news-title">ABCD</h3>
+              <p class="news-excerpt">TEXTUG</p>
+              <a href="#" class="read-more">Leer más →</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    
     <section id="contacto">
       <div class="section-container">
         <h2>Contacto</h2>
@@ -844,12 +998,19 @@
         <a href="#inicio">Inicio</a>
         <a href="#registro">Registro</a>
         <a href="#procesos">Procesos</a>
+        <a href="#noticias">Noticias</a>
         <a href="#contacto">Contacto</a>
         <a href="#redes">Redes</a>
       </div>
       <p>&copy; 2025 Club UG - Comunidad Estudiantil. Todos los derechos reservados.</p>
     </div>
   </footer>
+  
+  <!-- Modal para imágenes -->
+  <div id="imageModal" class="modal">
+    <span class="close-modal" onclick="closeModal()">&times;</span>
+    <img class="modal-content" id="modalImage">
+  </div>
   
   <div class="back-to-top" id="backToTop">
     <i class="fas fa-arrow-up"></i>
@@ -976,6 +1137,27 @@
         observer.observe(section);
       });
     });
+    
+    // Funciones para el modal de imágenes
+    function openModal(imgElement) {
+      const modal = document.getElementById('imageModal');
+      const modalImg = document.getElementById('modalImage');
+      
+      modal.style.display = "block";
+      modalImg.src = imgElement.src;
+    }
+    
+    function closeModal() {
+      document.getElementById('imageModal').style.display = "none";
+    }
+    
+    // Cerrar modal al hacer clic fuera de la imagen
+    window.onclick = function(event) {
+      const modal = document.getElementById('imageModal');
+      if (event.target == modal) {
+        modal.style.display = "none";
+      }
+    }
   </script>
 </body>
 </html>
