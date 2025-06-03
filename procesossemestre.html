@@ -1,0 +1,103 @@
+<!-- procesos-semestre.html -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Procesos Semestres</title>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    /* Variables y estilos generales */
+    :root {
+      --primary: #2c3e50;
+      --secondary: #ecf0f1;
+      --white: #ffffff;
+      --text: #333333;
+    }
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: var(--secondary);
+      color: var(--text);
+    }
+    header {
+      background: var(--primary);
+      padding: 20px;
+      color: var(--white);
+      text-align: center;
+    }
+    header a {
+      color: var(--white);
+      margin: 0 15px;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    .container {
+      max-width: 900px;
+      margin: 40px auto;
+      padding: 0 20px;
+    }
+    .news-list {
+      list-style: none;
+      padding: 0;
+    }
+    .news-item {
+      background: var(--white);
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      margin-bottom: 20px;
+      padding: 20px;
+      transition: box-shadow 0.2s;
+    }
+    .news-item:hover {
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    .news-item h3 {
+      margin-top: 0;
+    }
+    .news-item .meta {
+      font-size: 0.9em;
+      color: #777;
+      margin-bottom: 10px;
+    }
+    .btn-read {
+      display: inline-block;
+      margin-top: 10px;
+      padding: 8px 16px;
+      background: var(--primary);
+      color: var(--white);
+      text-decoration: none;
+      border-radius: 4px;
+      transition: background 0.2s;
+    }
+    .btn-read:hover {
+      background: #1a252f;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <a href="index.html">Inicio</a>
+    <a href="procesos-semestre.html">Semestre</a>
+  </header>
+
+  <div class="container">
+    <h2>Procesos de Nivelación</h2>
+    <ul class="news-list">
+      <li class="news-item">
+        <div class="meta">15 de Marzo, 2025</div>
+        <h3>Inscripción a nivelación</h3>
+        <p>Apertura de registro para estudiantes que requieran nivelación en materias básicas.</p>
+        <a href="#" class="btn-read">Leer más</a>
+      </li>
+      <li class="news-item">
+        <div class="meta">30 de Marzo, 2025</div>
+        <h3>Inicio de clases nivelación</h3>
+        <p>Comienzo de las clases de nivelación en modalidad presencial y virtual.</p>
+        <a href="#" class="btn-read">Leer más</a>
+      </li>
+      <!-- Agrega más ítems conforme lo necesites -->
+    </ul>
+  </div>
+</body>
+</html>
