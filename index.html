@@ -58,7 +58,36 @@
       transition: var(--transition);
       box-shadow: 0 2px 10px rgba(0,0,0,0.1);
     }
-    
+    /* Efecto Neon */
+.neon-text {
+  color: #fff;
+  text-shadow:
+    0 0 5px #00f,
+    0 0 10px #0ff,
+    0 0 20px #00f,
+    0 0 40px #0ff,
+    0 0 80px #00f;
+  animation: flicker 2s infinite alternate;
+}
+
+@keyframes flicker {
+  0% { opacity: 1; }
+  50% { opacity: 0.95; }
+  100% { opacity: 1; }
+}
+
+/* Neon para enlaces del menú */
+nav a {
+  color: #fff;
+  text-shadow: 0 0 8px #0ff, 0 0 16px #00f;
+}
+
+nav a:hover {
+  background: rgba(0, 114, 198, 0.2);
+  color: #0ff;
+  text-shadow: 0 0 10px #00f, 0 0 20px #0ff;
+}
+
     header.scrolled { 
       background: rgba(255,255,255,0.98); 
       padding: 10px 20px;
@@ -1189,6 +1218,7 @@
   </script>
 </body>
 </html>
+
 
 
 
