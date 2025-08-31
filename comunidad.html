@@ -1,119 +1,282 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Nuestra Comunidad</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Calendario - Cumpleaños Club UG</title>
+
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+
 <style>
-  body {
-    margin: 0;
-    padding: 0;
-    font-family: Arial, sans-serif;
-    background: radial-gradient(circle at top left, #001f3f, #000000, #003366);
-    color: white;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    overflow: hidden;
+  :root{
+    --primary:#003366;
+    --accent:#ff6b00;
+    --neon1:#00f;
+    --neon2:#0ff;
+    --bg:#0b1220;
+    --card:#071022;
+    --text:#e6f0fb;
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0;
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(180deg,#02122a 0%, #04162b 60%, #061524 100%);
+    color:var(--text);
+    -webkit-font-smoothing:antialiased;
+    min-height:100vh;
+    display:flex;
+    align-items:flex-start;
+    justify-content:center;
+    padding:30px;
+    gap:20px;
   }
 
-  h1 {
-    color: #fff;
-    text-shadow: 0 0 10px #00f, 0 0 20px #0ff, 0 0 30px #fff;
-    font-size: 3em;
-    text-align: center;
-    margin-bottom: 40px;
+  /* Header / title neon */
+  header {
+    width:100%;
+    max-width:1000px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+    margin-bottom:6px;
+  }
+  .neon-title {
+    font-size:1.45rem;
+    font-weight:700;
+    color:#fff;
+    text-shadow:
+      0 0 4px var(--neon2),
+      0 0 10px var(--neon1),
+      0 0 18px var(--neon2),
+      0 0 40px rgba(0,180,255,0.12);
+    letter-spacing: .4px;
   }
 
-  #birthdayBox {
-    background: rgba(0,0,0,0.6);
-    border-radius: 20px;
-    padding: 30px 50px;
-    text-align: center;
-    font-size: 24px;
-    box-shadow: 0 0 20px #0ff, 0 0 40px #00f;
-    animation: glow 1.5s infinite alternate;
-    position: relative;
+  .controls {
+    display:flex;
+    gap:10px;
+    align-items:center;
+  }
+  .btn {
+    background:transparent;
+    border:1px solid rgba(255,255,255,0.08);
+    color:var(--text);
+    padding:8px 12px;
+    border-radius:10px;
+    cursor:pointer;
+    transition:all .18s;
+    box-shadow: 0 4px 18px rgba(0,0,0,0.4);
+  }
+  .btn:hover{ transform:translateY(-3px); }
+
+  .calendar-wrap{
+    width:100%;
+    max-width:1000px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+    border-radius:16px;
+    padding:18px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+    border: 1px solid rgba(0,140,255,0.06);
   }
 
-  @keyframes glow {
-    0% { box-shadow: 0 0 20px #00f, 0 0 40px #0ff; }
-    50% { box-shadow: 0 0 40px #0ff, 0 0 60px #00f; }
-    100% { box-shadow: 0 0 20px #00f, 0 0 40px #0ff; }
+  .month-header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+    margin-bottom:12px;
+  }
+  .month-label{
+    font-size:1.2rem;
+    color:var(--neon2);
+    text-shadow: 0 0 8px rgba(0,255,255,0.08);
   }
 
+  .calendar{
+    display:grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap:8px;
+  }
+
+  .weekday{
+    text-align:center;
+    font-size:0.85rem;
+    color:rgba(230,240,251,0.8);
+    padding:8px 6px;
+  }
+
+  .day{
+    min-height:88px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.005));
+    border-radius:10px;
+    padding:8px;
+    position:relative;
+    overflow:hidden;
+    border:1px solid rgba(255,255,255,0.02);
+    transition:transform .16s, box-shadow .16s;
+    display:flex;
+    flex-direction:column;
+    justify-content:flex-start;
+  }
+  .day:hover{ transform: translateY(-6px); box-shadow: 0 12px 30px rgba(0,0,0,0.6); }
+
+  .day .num{
+    font-weight:600;
+    font-size:0.95rem;
+    margin-bottom:6px;
+    color:var(--text);
+  }
+
+  /* highlight today */
+  .day.today {
+    box-shadow: 0 0 20px rgba(0,160,255,0.14), inset 0 0 10px rgba(0,160,255,0.06);
+    border: 1px solid rgba(0,200,255,0.26);
+  }
+
+  /* mark if birthdays present */
+  .birthday-dot{
+    display:inline-block;
+    width:10px;height:10px;border-radius:50%;
+    background: linear-gradient(135deg,var(--neon2),var(--neon1));
+    box-shadow:0 0 12px rgba(0,200,255,0.8);
+    position:absolute;
+    right:8px;
+    top:8px;
+  }
+
+  .birthday-list {
+    margin-top:auto;
+    display:flex;
+    flex-direction:column;
+    gap:6px;
+    font-size:0.82rem;
+  }
+  .birthday-item {
+    background: linear-gradient(90deg, rgba(0,0,0,0.25), rgba(255,255,255,0.02));
+    padding:6px 8px;
+    border-radius:8px;
+    color:var(--text);
+    border: 1px solid rgba(0,140,255,0.06);
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:8px;
+  }
+  .birthday-item .name { font-weight:600; font-size:0.86rem; color:var(--neon2); }
+  .birthday-item .career { font-size:0.75rem; opacity:0.85; }
+
+  /* modal */
+  .modal {
+    position:fixed;
+    inset:0;
+    display:none;
+    align-items:center;
+    justify-content:center;
+    z-index:2000;
+    background: linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.75));
+  }
+  .modal.show{ display:flex; animation:pop .18s ease; }
+  @keyframes pop{ from{opacity:0;transform:scale(.98)} to{opacity:1;transform:scale(1)} }
+
+  .modal-card{
+    width:90%;
+    max-width:720px;
+    background: linear-gradient(180deg,#051026,#07112a);
+    border-radius:14px;
+    padding:18px;
+    border:1px solid rgba(0,140,255,0.08);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+  }
+  .modal-card h3 { margin:0 0 8px 0; color:var(--neon2); }
+  .modal-card p { margin:0 0 14px 0; opacity:0.9; }
+  .modal-card .list { display:flex; flex-direction:column; gap:10px; max-height:320px; overflow:auto; padding-right:6px; }
+  .modal-card .person {
+    padding:10px;
+    border-radius:10px;
+    background: linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+    display:flex; justify-content:space-between; align-items:center;
+    border:1px solid rgba(0,100,200,0.05);
+  }
+  .modal-actions{ display:flex; gap:10px; justify-content:flex-end; margin-top:14px; }
+
+  /* confetti pieces */
   .confetti {
-    position: fixed;
-    width: 10px;
-    height: 10px;
-    opacity: 0.8;
-    pointer-events: none;
-    border-radius: 50%;
-    animation: fall linear forwards;
+    position:fixed;
+    pointer-events:none;
+    z-index:3000;
+    width:10px;height:14px;
+    opacity:0.95;
+    transform-origin:center;
+    border-radius:2px;
   }
 
-  @keyframes fall {
-    0% { transform: translateY(-20px) rotate(0deg); opacity: 1; }
-    100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+  /* responsive */
+  @media (max-width:700px){
+    .day{ min-height:78px }
+    .neon-title{ font-size:1.05rem }
   }
-
-  .birthdayMessage {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%) scale(0);
-    font-size: 32px;
-    color: #0ff;
-    text-shadow: 0 0 10px #0ff, 0 0 20px #00f, 0 0 30px #fff;
-    animation: popUp 1s ease forwards;
-    z-index: 1000;
-  }
-
-  @keyframes popUp {
-    0% { transform: translate(-50%, -50%) scale(0); opacity: 0; }
-    50% { transform: translate(-50%, -50%) scale(1.3); opacity: 1; }
-    70% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
-    100% { transform: translate(-50%, -50%) scale(1) rotate(0deg); opacity: 1; }
-  }
-
-  /* Botón regresar */
-  #backBtn {
-    margin-top: 30px;
-    padding: 12px 25px;
-    font-size: 18px;
-    border: none;
-    border-radius: 12px;
-    background: #00f;
-    color: #fff;
-    cursor: pointer;
-    box-shadow: 0 0 15px #0ff;
-    transition: all 0.3s ease;
-  }
-
-  #backBtn:hover {
-    background: #0ff;
-    color: #000;
-    box-shadow: 0 0 25px #00f, 0 0 35px #0ff;
-    transform: scale(1.05);
-  }
-
 </style>
 </head>
 <body>
 
-<h1>Nuestra Comunidad</h1>
-<div id="birthdayBox">Esperando los próximos cumpleaños...</div>
-<button id="backBtn" onclick="location.href='index.html'">Regresar a Principal</button>
-<audio id="audio" src="https://www.soundjay.com/human/sounds/applause-8.mp3" preload="auto"></audio>
+<div style="width:100%;max-width:1000px">
+  <header>
+    <div class="neon-title"><i class="fas fa-cake-candles"></i> Nuestra Comunidad — Calendario de Cumpleaños</div>
+    <div class="controls">
+      <button class="btn" id="todayBtn" title="Ir al mes actual"><i class="fas fa-calendar-day"></i> Hoy</button>
+      <button class="btn" id="backToMain" onclick="location.href='index.html'"><i class="fas fa-arrow-left"></i> Principal</button>
+    </div>
+  </header>
+
+  <div class="calendar-wrap">
+    <div class="month-header">
+      <div style="display:flex;gap:8px;align-items:center">
+        <button class="btn" id="prevMonth"><i class="fas fa-chevron-left"></i></button>
+        <div class="month-label" id="monthLabel">Agosto 2025</div>
+        <button class="btn" id="nextMonth"><i class="fas fa-chevron-right"></i></button>
+      </div>
+      <div style="opacity:0.9">Haz clic en un día para ver quién cumple</div>
+    </div>
+
+    <div class="calendar" id="calendar">
+      <!-- cabezas de días -->
+      <div class="weekday">Lun</div>
+      <div class="weekday">Mar</div>
+      <div class="weekday">Mié</div>
+      <div class="weekday">Jue</div>
+      <div class="weekday">Vie</div>
+      <div class="weekday">Sáb</div>
+      <div class="weekday">Dom</div>
+      <!-- días generados por JS -->
+    </div>
+  </div>
+</div>
+
+<!-- modal -->
+<div class="modal" id="modal">
+  <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <h3 id="modalTitle">Cumpleaños</h3>
+    <p id="modalDate" style="margin-bottom:6px"></p>
+    <div class="list" id="modalList"></div>
+    <div class="modal-actions">
+      <button class="btn" id="notifyBtn"><i class="fas fa-bell"></i> Notificar</button>
+      <button class="btn" id="closeModal">Cerrar</button>
+    </div>
+  </div>
+</div>
+
+<!-- sonido -->
+<audio id="applause" src="https://www.soundjay.com/human/sounds/applause-8.mp3" preload="auto"></audio>
 
 <script>
-// Todos los usuarios de tu base de datos
+/* ----------------------
+  Datos de usuarios (ejemplo con varios registros).
+  Las fechas están en formato AAAA-MM-DD (importante).
+  ----------------------*/
 const usuarios = [
   { nombre: "Kavier", carrera: "Fan de la UG", fecha: "2025-08-31" },
-
    { nombre: "Miranda Danna", carrera: "Contabilidad y auditoría", fecha: "2025-08-29" },
   { nombre: "Campuzano Benavides Amelia Elizabeth", carrera: "Ingeniería civil", fecha: "1996-08-25" }
     { nombre: "Campuzano Benavides Amelia Elizabeth", carrera: "Ingeniería civil", fecha: "1996-08-25" },
@@ -196,68 +359,261 @@ const usuarios = [
   { nombre: "Salinas Guamán Francheska Marisol", carrera: "Educación Básica", fecha: "2007-10-11" },
   { nombre: "Yerexi Ginneth Matia Ayovi", carrera: "Pedagogía idiomas extranjeros y nacionales", fecha: "2007-06-26" },
   { nombre: "Silva Castro Rosa Nathalia", carrera: "Software", fecha: "2007-03-07" }
+
 ];
 
-// Fecha actual
-const hoy = new Date();
-const dia = hoy.getDate();
-const mes = hoy.getMonth() + 1;
+/* utilidad: obtener día y mes de una fecha ISO */
+function dmFromIso(iso){
+  const d = new Date(iso + 'T00:00:00'); // evitar zona horaria
+  return { day: d.getDate(), month: d.getMonth()+1, year: d.getFullYear() };
+}
 
-const cumpleHoy = usuarios.find(u => {
-  const f = new Date(u.fecha);
-  return f.getDate() === dia && (f.getMonth() + 1) === mes;
-});
+/* calendario */
+const calendarEl = document.getElementById('calendar');
+const monthLabel = document.getElementById('monthLabel');
+const modal = document.getElementById('modal');
+const modalTitle = document.getElementById('modalTitle');
+const modalDate = document.getElementById('modalDate');
+const modalList = document.getElementById('modalList');
+const notifyBtn = document.getElementById('notifyBtn');
 
-// Confeti
-function createConfetti() {
-  const colors = ['#0ff', '#00f', '#fff', '#0f0', '#f0f', '#ff0'];
-  for(let i=0;i<100;i++){
-    const confetti = document.createElement('div');
-    confetti.className = 'confetti';
-    confetti.style.left = Math.random() * 100 + 'vw';
-    confetti.style.background = colors[Math.floor(Math.random()*colors.length)];
-    confetti.style.animationDuration = (Math.random()*3 + 2) + 's';
-    confetti.style.width = confetti.style.height = (Math.random()*10 + 5) + 'px';
-    confetti.style.transform = `rotate(${Math.random()*360}deg)`;
-    document.body.appendChild(confetti);
-    setTimeout(()=> confetti.remove(), 5000);
+let viewDate = new Date(); // mes visible
+const today = new Date();
+let searchMap = {}; // map 'M-D' => [usuarios...]
+
+/* preparar mapa por día/mes (ignorar año para calendario anual) */
+function buildMap(){
+  searchMap = {};
+  usuarios.forEach(u=>{
+    try{
+      const {day,month} = dmFromIso(u.fecha);
+      const key = `${month}-${day}`;
+      if(!searchMap[key]) searchMap[key] = [];
+      searchMap[key].push(u);
+    }catch(e){
+      console.warn('fecha inválida:',u);
+    }
+  });
+}
+buildMap();
+
+/* render calendario */
+function renderCalendar(){
+  // limpiar sólo los días (después de las 7 weekday headers)
+  // Remove previously generated day nodes (keep first 7 weekday elements)
+  const existing = Array.from(calendarEl.querySelectorAll('.day, .weekday-placeholder'));
+  existing.forEach(n=>n.remove());
+
+  const year = viewDate.getFullYear();
+  const month = viewDate.getMonth(); // 0-index
+  const firstOfMonth = new Date(year, month, 1);
+  const lastOfMonth = new Date(year, month+1, 0);
+  const startWeekday = (firstOfMonth.getDay() + 6) % 7; // convert Sun(0) to last: want Mon=0
+  const daysInMonth = lastOfMonth.getDate();
+
+  monthLabel.textContent = firstOfMonth.toLocaleString('es-ES',{month:'long', year:'numeric'}).replace(/\b\w/g, c=>c.toUpperCase());
+
+  // add blank placeholders for first week
+  for(let i=0;i<startWeekday;i++){
+    const ph = document.createElement('div');
+    ph.className='weekday-placeholder';
+    calendarEl.appendChild(ph);
+  }
+
+  for(let d=1; d<=daysInMonth; d++){
+    const dayCell = document.createElement('div');
+    dayCell.className = 'day';
+    const num = document.createElement('div');
+    num.className='num';
+    num.textContent = d;
+    dayCell.appendChild(num);
+
+    // check birthdays for this day/month
+    const key = `${month+1}-${d}`;
+    const bday = searchMap[key];
+    if(bday && bday.length){
+      const dot = document.createElement('span');
+      dot.className = 'birthday-dot';
+      dayCell.appendChild(dot);
+
+      // show up to 2 names in cell (keeps UI clean)
+      const list = document.createElement('div');
+      list.className='birthday-list';
+      bday.slice(0,2).forEach(person=>{
+        const item = document.createElement('div');
+        item.className='birthday-item';
+        item.innerHTML = `<div style="display:flex;flex-direction:column">
+          <span class="name">${person.nombre}</span>
+          <span class="career">${person.carrera}</span>
+        </div>
+        <div style="font-size:0.78rem;opacity:0.9">${(new Date(person.fecha)).getFullYear()}</div>`;
+        list.appendChild(item);
+      });
+      if(bday.length>2){
+        const more = document.createElement('div');
+        more.className='birthday-item';
+        more.innerHTML = `<div class="name">+${bday.length-2} más</div>`;
+        list.appendChild(more);
+      }
+      dayCell.appendChild(list);
+    }
+
+    // mark today
+    if(year===today.getFullYear() && month===today.getMonth() && d===today.getDate()){
+      dayCell.classList.add('today');
+    }
+
+    // click handler -> open modal with full list for that date
+    dayCell.addEventListener('click', () => openDayModal(month+1, d));
+
+    calendarEl.appendChild(dayCell);
   }
 }
 
-// Mostrar cumpleaños
-function showBirthday(usuario) {
-  const box = document.getElementById("birthdayBox");
-  if (usuario) {
-    box.innerHTML = `🎉 ${usuario.nombre} cumple hoy 🎉<br>Carrera: ${usuario.carrera}`;
-    
-    createConfetti();
-    document.getElementById('audio').play();
+/* abrir modal con lista del día */
+function openDayModal(M,D){
+  const key = `${M}-${D}`;
+  const list = searchMap[key] || [];
+  modalTitle.textContent = list.length ? `Cumpleaños el ${D}/${String(M).padStart(2,'0')}` : `Sin cumpleaños el ${D}/${String(M).padStart(2,'0')}`;
+  modalDate.textContent = '';
+  modalList.innerHTML = '';
 
-    const msg = document.createElement('div');
-    msg.className = 'birthdayMessage';
-    msg.innerHTML = `🎉 ¡Feliz Cumpleaños ${usuario.nombre}! 🎉<br>Club UG te manda un abrazo`;
-    document.body.appendChild(msg);
-    setTimeout(() => { msg.remove(); }, 4000);
+  if(list.length){
+    list.forEach(p=>{
+      const node = document.createElement('div');
+      node.className='person';
+      const age = (new Date()).getFullYear() - (new Date(p.fecha)).getFullYear();
+      node.innerHTML = `<div style="display:flex;flex-direction:column">
+        <strong style="color:var(--neon2)">${p.nombre}</strong>
+        <span style="font-size:0.9rem;opacity:0.9">${p.carrera}</span>
+      </div>
+      <div style="text-align:right;font-size:0.85rem;color:rgba(255,255,255,0.9)">${age} años</div>`;
+      modalList.appendChild(node);
+    });
 
-    if (Notification.permission === "granted") {
-      new Notification(`🎉 ${usuario.nombre} cumple hoy! 🎉`, { body: `Carrera: ${usuario.carrera}` });
-    } else if (Notification.permission !== "denied") {
-      Notification.requestPermission().then(permission => {
-        if(permission === "granted") {
-          new Notification(`🎉 ${usuario.nombre} cumple hoy! 🎉`, { body: `Carrera: ${usuario.carrera}` });
-        }
-      });
+    modalDate.textContent = `${D}/${String(M).padStart(2,'0')}`;
+    // if today in list -> autoplay confetti + sound + browser notification
+    const isToday = (M=== (today.getMonth()+1) && D=== today.getDate());
+    if(isToday){
+      setTimeout(()=> triggerCelebration(list), 400); // small delay so modal shows
     }
   }
+
+  modal.classList.add('show');
 }
 
-showBirthday(cumpleHoy);
-</script>
+/* close modal */
+document.getElementById('closeModal').addEventListener('click', ()=> modal.classList.remove('show'));
 
+/* month navigation */
+document.getElementById('prevMonth').addEventListener('click', ()=>{
+  viewDate.setMonth(viewDate.getMonth()-1);
+  renderCalendar();
+});
+document.getElementById('nextMonth').addEventListener('click', ()=>{
+  viewDate.setMonth(viewDate.getMonth()+1);
+  renderCalendar();
+});
+document.getElementById('todayBtn').addEventListener('click', ()=>{
+  viewDate = new Date();
+  renderCalendar();
+});
+
+/* notification + confetti + sound */
+notifyBtn.addEventListener('click', ()=> {
+  const mdText = modalTitle.textContent;
+  const persons = Array.from(modalList.querySelectorAll('.person strong')).map(n=>n.textContent).join(', ');
+  if(persons.length===0) {
+    toast('No hay cumpleaños para notificar');
+    return;
+  }
+  requestAndNotify(`${persons} 🎉`, `Cumpleaños ${mdText}`);
+  triggerConfetti();
+  document.getElementById('applause').play().catch(()=>{});
+});
+
+/* helper: request notification permission and send */
+function requestAndNotify(title, body){
+  if(!('Notification' in window)) { toast('Notificaciones no soportadas en este navegador'); return; }
+  if(Notification.permission === 'granted'){
+    new Notification(title, { body });
+    toast('Notificación enviada');
+  } else if(Notification.permission !== 'denied') {
+    Notification.requestPermission().then(perm=>{
+      if(perm === 'granted'){ new Notification(title,{body}); toast('Notificación enviada'); }
+      else toast('Permiso de notificaciones no concedido');
+    });
+  } else {
+    toast('Notificaciones bloqueadas por el usuario');
+  }
+}
+
+/* small on-screen toast */
+let toastTimer;
+function toast(txt){
+  let el = document.getElementById('__toast__');
+  if(!el){
+    el = document.createElement('div'); el.id='__toast__';
+    el.style= "position:fixed;left:50%;transform:translateX(-50%);bottom:28px;background:linear-gradient(90deg,#001022,#00223a);padding:10px 16px;border-radius:10px;color:var(--neon2);box-shadow:0 8px 26px rgba(0,0,0,0.6);z-index:4000;border:1px solid rgba(0,140,255,0.08)";
+    document.body.appendChild(el);
+  }
+  el.textContent = txt;
+  el.style.opacity = 1;
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(()=> el.style.opacity = 0, 3200);
+}
+
+/* confetti generator (gentle) */
+function triggerConfetti(){
+  const colors = ['#0ff','#00f','#fff','#ffcf33','#60ff7b'];
+  const pieces = 90;
+  for(let i=0;i<pieces;i++){
+    const c = document.createElement('div');
+    c.className = 'confetti';
+    c.style.left = (Math.random()*100) + 'vw';
+    c.style.top = (-10 - Math.random()*40) + 'px';
+    c.style.background = colors[Math.floor(Math.random()*colors.length)];
+    c.style.width = (6 + Math.random()*10) + 'px';
+    c.style.height = (8 + Math.random()*18) + 'px';
+    c.style.opacity = 0.95;
+    c.style.transform = `rotate(${Math.random()*360}deg)`;
+    c.style.transition = `transform ${2+Math.random()*2}s linear, top ${2+Math.random()*2}s linear, opacity ${2+Math.random()}s`;
+    document.body.appendChild(c);
+    // animate
+    setTimeout(()=> {
+      c.style.top = (window.innerHeight + 30 + Math.random()*100) + 'px';
+      c.style.transform = `translateY(0) rotate(${Math.random()*720}deg)`;
+      c.style.opacity = 0;
+    }, 30);
+    setTimeout(()=> c.remove(), 4200);
+  }
+}
+
+/* convenience: celebration (sound + confetti + notification + toast) */
+function triggerCelebration(list){
+  document.getElementById('applause').play().catch(()=>{});
+  triggerConfetti();
+  const names = list.map(p=>p.nombre).join(', ');
+  requestAndNotify(`🎉 ${names} cumple hoy!`, `Club UG te manda un abrazo`);
+  toast(`¡Feliz cumpleaños a ${names}!`);
+}
+
+/* auto-open today if birthdays exist */
+function openTodayIfAny(){
+  const key = `${today.getMonth()+1}-${today.getDate()}`;
+  if(searchMap[key] && searchMap[key].length){
+    // open modal for today after short delay
+    setTimeout(()=> openDayModal(today.getMonth()+1, today.getDate()), 450);
+  }
+}
+
+/* init */
+renderCalendar();
+openTodayIfAny();
+
+</script>
 </body>
 </html>
-
-
 
 
 
