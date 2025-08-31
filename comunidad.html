@@ -3,616 +3,523 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Calendario - Cumpleaños Club UG</title>
-
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
-
+<title>Nuestra Comunidad - Club UG</title>
+<link rel="icon" href="https://raw.githubusercontent.com/LUISPLUAAAA/index.html/main/favicon-32x32.png" />
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <style>
   :root{
-    --primary:#003366;
-    --accent:#ff6b00;
-    --neon1:#00f;
-    --neon2:#0ff;
-    --bg:#0b1220;
-    --card:#071022;
-    --text:#e6f0fb;
+    --bg-1:#020218;
+    --bg-2:#001f3f;
+    --card: rgba(255,255,255,0.03);
+    --neon-a:#00e6ff;
+    --neon-b:#0066ff;
+    --accent:#00ffd6;
+    --text:#dff6ff;
+    --muted:#9fcfe8;
+    --shadow:0 18px 60px rgba(0,0,0,0.6);
+    --radius:14px;
+    --gap:20px;
   }
   *{box-sizing:border-box}
+  html,body{height:100%;margin:0}
   body{
-    margin:0;
-    font-family: 'Poppins', sans-serif;
-    background: linear-gradient(180deg,#02122a 0%, #04162b 60%, #061524 100%);
+    font-family:'Poppins',system-ui,-apple-system,'Segoe UI',Roboto,Arial;
+    background:
+      radial-gradient(900px 400px at 10% 10%, rgba(0,110,255,0.06), transparent 8%),
+      linear-gradient(180deg,var(--bg-1) 0%, var(--bg-2) 65%);
     color:var(--text);
-    -webkit-font-smoothing:antialiased;
-    min-height:100vh;
     display:flex;
     align-items:flex-start;
     justify-content:center;
-    padding:30px;
+    padding:28px;
+  }
+
+  /* Layout: stacked (message arriba, calendario abajo) */
+  .container {
+    width:100%;
+    max-width:1100px;
+    display:flex;
+    flex-direction:column;
     gap:20px;
   }
 
-  /* Header / title neon */
-  header {
-    width:100%;
-    max-width:1000px;
+  .header {
     display:flex;
-    align-items:center;
     justify-content:space-between;
-    gap:12px;
-    margin-bottom:6px;
-  }
-  .neon-title {
-    font-size:1.45rem;
-    font-weight:700;
-    color:#fff;
-    text-shadow:
-      0 0 4px var(--neon2),
-      0 0 10px var(--neon1),
-      0 0 18px var(--neon2),
-      0 0 40px rgba(0,180,255,0.12);
-    letter-spacing: .4px;
-  }
-
-  .controls {
-    display:flex;
-    gap:10px;
     align-items:center;
+    gap:12px;
   }
-  .btn {
-    background:transparent;
-    border:1px solid rgba(255,255,255,0.08);
-    color:var(--text);
-    padding:8px 12px;
-    border-radius:10px;
-    cursor:pointer;
-    transition:all .18s;
-    box-shadow: 0 4px 18px rgba(0,0,0,0.4);
-  }
-  .btn:hover{ transform:translateY(-3px); }
+  .brand { display:flex; align-items:center; gap:12px; }
+  .logo { width:56px; height:56px; border-radius:12px; background:linear-gradient(135deg,var(--neon-a),var(--neon-b)); display:flex; align-items:center; justify-content:center; font-weight:800; color:#00121a }
+  .title h1 { font-size:1.05rem; margin:0 }
+  .title p { margin:2px 0 0; color:var(--muted); font-size:0.86rem }
 
-  .calendar-wrap{
-    width:100%;
-    max-width:1000px;
+  /* Message box (arriba) */
+  .today-card {
     background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-    border-radius:16px;
     padding:18px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.6);
-    border: 1px solid rgba(0,140,255,0.06);
-  }
-
-  .month-header{
+    border-radius:var(--radius);
+    box-shadow: var(--shadow);
+    border:1px solid rgba(0,120,255,0.06);
     display:flex;
+    gap:18px;
     align-items:center;
     justify-content:space-between;
-    gap:12px;
-    margin-bottom:12px;
   }
-  .month-label{
-    font-size:1.2rem;
-    color:var(--neon2);
-    text-shadow: 0 0 8px rgba(0,255,255,0.08);
+  .left {
+    min-width:0;
+  }
+  .label { color:var(--neon-a); font-weight:700; margin-bottom:8px }
+  .main-text { font-size:1.05rem; font-weight:700; margin-bottom:6px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis }
+  .desc { color:var(--muted) }
+
+  .avatar {
+    width:96px; height:96px; border-radius:12px; background:linear-gradient(135deg,var(--neon-a),var(--neon-b)); display:flex;align-items:center;justify-content:center;font-weight:900;color:#00121a;
+    box-shadow:0 14px 48px rgba(0,64,255,0.08);
+    flex-shrink:0;
   }
 
-  .calendar{
-    display:grid;
-    grid-template-columns: repeat(7, 1fr);
-    gap:8px;
+  .today-actions { display:flex; gap:10px; align-items:center; }
+  .btn {
+    border:0; padding:10px 14px; border-radius:10px; cursor:pointer;
+    background: linear-gradient(90deg,var(--neon-a),var(--neon-b));
+    color:#00121a; font-weight:700; box-shadow: 0 12px 36px rgba(0,64,255,0.09);
   }
+  .btn.ghost { background:transparent; color:var(--muted); border:1px solid rgba(255,255,255,0.03) }
 
-  .weekday{
-    text-align:center;
-    font-size:0.85rem;
-    color:rgba(230,240,251,0.8);
-    padding:8px 6px;
-  }
-
-  .day{
-    min-height:88px;
-    background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.005));
-    border-radius:10px;
-    padding:8px;
-    position:relative;
-    overflow:hidden;
+  /* Calendar area (debajo) */
+  .calendar-wrapper {
+    background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.01));
+    padding:16px;
+    border-radius:var(--radius);
     border:1px solid rgba(255,255,255,0.02);
-    transition:transform .16s, box-shadow .16s;
-    display:flex;
-    flex-direction:column;
-    justify-content:flex-start;
-  }
-  .day:hover{ transform: translateY(-6px); box-shadow: 0 12px 30px rgba(0,0,0,0.6); }
-
-  .day .num{
-    font-weight:600;
-    font-size:0.95rem;
-    margin-bottom:6px;
-    color:var(--text);
+    box-shadow: 0 14px 40px rgba(0,0,0,0.6);
+    transition: transform .36s cubic-bezier(.2,.9,.2,1), box-shadow .36s;
+    overflow: hidden;
   }
 
-  /* highlight today */
-  .day.today {
-    box-shadow: 0 0 20px rgba(0,160,255,0.14), inset 0 0 10px rgba(0,160,255,0.06);
-    border: 1px solid rgba(0,200,255,0.26);
+  /* When expanded (clicked) increase padding and shadow */
+  .calendar-wrapper.expanded {
+    transform: translateY(-6px) scale(1.01);
+    box-shadow: 0 28px 90px rgba(0,0,0,0.72);
   }
 
-  /* mark if birthdays present */
-  .birthday-dot{
-    display:inline-block;
-    width:10px;height:10px;border-radius:50%;
-    background: linear-gradient(135deg,var(--neon2),var(--neon1));
-    box-shadow:0 0 12px rgba(0,200,255,0.8);
-    position:absolute;
-    right:8px;
-    top:8px;
+  .calendar-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; gap:12px }
+  .month-title { font-weight:800; color:var(--neon-a); font-size:1.02rem }
+  .navs { display:flex; gap:8px; align-items:center }
+
+  .weeknames { display:grid; grid-template-columns:repeat(7,1fr); gap:8px; color:var(--muted); font-size:0.78rem; text-align:center; margin-bottom:10px }
+  .days {
+    display:grid;
+    grid-template-columns:repeat(7,1fr);
+    gap:12px;
+    transition: all .28s ease;
   }
 
-  .birthday-list {
-    margin-top:auto;
-    display:flex;
-    flex-direction:column;
-    gap:6px;
-    font-size:0.82rem;
-  }
-  .birthday-item {
-    background: linear-gradient(90deg, rgba(0,0,0,0.25), rgba(255,255,255,0.02));
-    padding:6px 8px;
-    border-radius:8px;
-    color:var(--text);
-    border: 1px solid rgba(0,140,255,0.06);
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    gap:8px;
-  }
-  .birthday-item .name { font-weight:600; font-size:0.86rem; color:var(--neon2); }
-  .birthday-item .career { font-size:0.75rem; opacity:0.85; }
-
-  /* modal */
-  .modal {
-    position:fixed;
-    inset:0;
-    display:none;
-    align-items:center;
-    justify-content:center;
-    z-index:2000;
-    background: linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.75));
-  }
-  .modal.show{ display:flex; animation:pop .18s ease; }
-  @keyframes pop{ from{opacity:0;transform:scale(.98)} to{opacity:1;transform:scale(1)} }
-
-  .modal-card{
-    width:90%;
-    max-width:720px;
-    background: linear-gradient(180deg,#051026,#07112a);
-    border-radius:14px;
-    padding:18px;
-    border:1px solid rgba(0,140,255,0.08);
-    box-shadow: 0 20px 60px rgba(0,0,0,0.6);
-  }
-  .modal-card h3 { margin:0 0 8px 0; color:var(--neon2); }
-  .modal-card p { margin:0 0 14px 0; opacity:0.9; }
-  .modal-card .list { display:flex; flex-direction:column; gap:10px; max-height:320px; overflow:auto; padding-right:6px; }
-  .modal-card .person {
+  /* each day tile */
+  .day {
+    min-height:92px;
+    border-radius:12px;
     padding:10px;
-    border-radius:10px;
-    background: linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-    display:flex; justify-content:space-between; align-items:center;
-    border:1px solid rgba(0,100,200,0.05);
+    background: rgba(255,255,255,0.012);
+    color:var(--text);
+    position:relative;
+    font-size:0.92rem;
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+    transition: transform .18s cubic-bezier(.2,.9,.2,1), box-shadow .18s, background .18s;
+    cursor:pointer;
   }
-  .modal-actions{ display:flex; gap:10px; justify-content:flex-end; margin-top:14px; }
+  .day:hover { transform: translateY(-6px); box-shadow: 0 18px 40px rgba(0,0,0,0.6) }
+  .num { font-weight:800; color:#eafcff; font-size:0.95rem }
+  .names { font-size:0.78rem; color:var(--muted); line-height:1.05; max-height:3.6em; overflow:hidden; white-space:normal }
+  .dot { position:absolute; left:10px; bottom:10px; width:12px;height:12px;border-radius:50%; background:linear-gradient(90deg,var(--neon-a),var(--neon-b)); box-shadow:0 12px 30px rgba(0,120,255,0.12) }
 
-  /* confetti pieces */
-  .confetti {
-    position:fixed;
-    pointer-events:none;
-    z-index:3000;
-    width:10px;height:14px;
-    opacity:0.95;
-    transform-origin:center;
-    border-radius:2px;
+  /* better spacing on mobile (stack days into fewer rows visually by increasing gap) */
+  @media (max-width:900px){
+    .day{ min-height:78px; padding:8px }
+    .days{ gap:10px }
+  }
+  @media (max-width:640px){
+    .days{ gap:8px }
+    .day{ min-height:64px; border-radius:10px }
+    .avatar{ width:72px; height:72px }
   }
 
-  /* responsive */
-  @media (max-width:700px){
-    .day{ min-height:78px }
-    .neon-title{ font-size:1.05rem }
+  /* small helper highlight for quick view */
+  .glow-highlight { animation: highlightIn .9s cubic-bezier(.2,.9,.2,1) both; }
+  @keyframes highlightIn {
+    0%{ box-shadow:0 0 0 rgba(0,0,0,0); border-color: rgba(0,230,255,0); }
+    100%{ box-shadow:0 18px 60px rgba(0,110,255,0.06); border-color: rgba(0,230,255,0.08); }
   }
+
+  /* popup & confetti similar to previous */
+  .birthday-popup {
+    position:fixed; left:50%; top:14%; transform:translateX(-50%); z-index:1001;
+    background:linear-gradient(180deg, rgba(0,18,40,0.98), rgba(0,0,0,0.92)); border-radius:12px; padding:16px 20px;
+    border:1px solid rgba(0,230,255,0.08); box-shadow:0 30px 100px rgba(0,0,0,0.75); width:fit-content; max-width:92%; text-align:center; color:var(--text);
+    animation: popupIn .7s cubic-bezier(.2,.9,.2,1) both;
+  }
+  .popup-h1 { font-weight:900; color:var(--neon-a); margin-bottom:6px; font-size:1.15rem }
+  .popup-sub { color:var(--muted); font-size:0.95rem }
+  .confetti { position:fixed; pointer-events:none; z-index:1000; border-radius:3px; opacity:0.95 }
 </style>
 </head>
 <body>
+  <div class="container">
 
-<div style="width:100%;max-width:1000px">
-  <header>
-    <div class="neon-title"><i class="fas fa-cake-candles"></i> Nuestra Comunidad — Calendario de Cumpleaños</div>
-    <div class="controls">
-      <button class="btn" id="todayBtn" title="Ir al mes actual"><i class="fas fa-calendar-day"></i> Hoy</button>
-      <button class="btn" id="backToMain" onclick="location.href='index.html'"><i class="fas fa-arrow-left"></i> Principal</button>
-    </div>
-  </header>
-
-  <div class="calendar-wrap">
-    <div class="month-header">
-      <div style="display:flex;gap:8px;align-items:center">
-        <button class="btn" id="prevMonth"><i class="fas fa-chevron-left"></i></button>
-        <div class="month-label" id="monthLabel">Agosto 2025</div>
-        <button class="btn" id="nextMonth"><i class="fas fa-chevron-right"></i></button>
+    <div class="header">
+      <div class="brand">
+        <div class="logo">UG</div>
+        <div class="title">
+          <h1>Nuestra Comunidad</h1>
+          <p>Club UG — Celebramos a nuestra gente</p>
+        </div>
       </div>
-      <div style="opacity:0.9">Haz clic en un día para ver quién cumple</div>
+
+      <div style="display:flex;gap:8px;align-items:center">
+        <button class="btn" id="goToTodayTop"><i class="fas fa-calendar-day"></i>&nbsp; Hoy</button>
+        <button class="btn ghost" id="openCalendarTop"><i class="fas fa-calendar-alt"></i>&nbsp; Ver calendario</button>
+      </div>
     </div>
 
-    <div class="calendar" id="calendar">
-      <!-- cabezas de días -->
-      <div class="weekday">Lun</div>
-      <div class="weekday">Mar</div>
-      <div class="weekday">Mié</div>
-      <div class="weekday">Jue</div>
-      <div class="weekday">Vie</div>
-      <div class="weekday">Sáb</div>
-      <div class="weekday">Dom</div>
-      <!-- días generados por JS -->
+    <!-- Mensaje principal arriba -->
+    <div class="today-card" role="region" aria-label="Hoy">
+      <div class="left">
+        <div class="label">Hoy</div>
+        <div id="contentBox">
+          <div class="main-text" style="color:var(--muted)">Esperando los próximos cumpleaños...</div>
+        </div>
+        <div class="desc" id="subBox">Explora el calendario para ver quién cumple</div>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:12px;align-items:flex-end">
+        <div class="avatar" id="todayAvatar">🎈</div>
+        <div style="display:flex;gap:8px">
+          <button class="btn" id="openCalendar">Ver calendario</button>
+          <button class="btn ghost" id="backPrincipal" onclick="location.href='index.html'"><i class="fas fa-home"></i>&nbsp; Principal</button>
+        </div>
+      </div>
     </div>
+
+    <!-- Calendario (ABAJO, ancho completo) -->
+    <div id="calendarArea" class="calendar-wrapper" aria-live="polite">
+      <div class="calendar-header">
+        <div>
+          <div style="font-size:.85rem;color:var(--muted)">Calendario</div>
+          <div class="month-title" id="miniMonth"></div>
+        </div>
+        <div class="navs">
+          <button class="btn ghost" id="prevMonth"><i class="fas fa-chevron-left"></i></button>
+          <button class="btn ghost" id="nextMonth"><i class="fas fa-chevron-right"></i></button>
+        </div>
+      </div>
+
+      <div class="weeknames">
+        <div>Lun</div><div>Mar</div><div>Mié</div><div>Jue</div><div>Vie</div><div>Sáb</div><div>Dom</div>
+      </div>
+
+      <div class="days" id="daysGrid" role="grid" aria-label="dias del mes"></div>
+    </div>
+
   </div>
-</div>
 
-<!-- modal -->
-<div class="modal" id="modal">
-  <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
-    <h3 id="modalTitle">Cumpleaños</h3>
-    <p id="modalDate" style="margin-bottom:6px"></p>
-    <div class="list" id="modalList"></div>
-    <div class="modal-actions">
-      <button class="btn" id="notifyBtn"><i class="fas fa-bell"></i> Notificar</button>
-      <button class="btn" id="closeModal">Cerrar</button>
-    </div>
-  </div>
-</div>
-
-<!-- sonido -->
-<audio id="applause" src="https://www.soundjay.com/human/sounds/applause-8.mp3" preload="auto"></audio>
+  <audio id="applause" src="https://www.soundjay.com/human/sounds/applause-8.mp3" preload="auto"></audio>
+  <div id="modalRoot" style="display:none"></div>
 
 <script>
-/* ----------------------
-  Datos de usuarios (ejemplo con varios registros).
-  Las fechas están en formato AAAA-MM-DD (importante).
-  ----------------------*/
+/* Datos (igual que antes) */
 const usuarios = [
-   { nombre: "Kavier", carrera: "Fan de la UG", fecha: "2025-08-31" },
-  { nombre: "Miranda Danna", carrera: "Contabilidad y auditoría", fecha: "2025-08-29" },
-  { nombre: "Campuzano Benavides Amelia Elizabeth", carrera: "Ingeniería civil", fecha: "1996-08-25" },
-  { nombre: "Bajaña Aviles Deivid Alexander", carrera: "Comercio exterior", fecha: "2007-07-29" },
-  { nombre: "Mendoza Zambrano Thaylor Enrique", carrera: "Sociología", fecha: "2001-10-30" },
-  { nombre: "Luis Antonio Mite Contreras", carrera: "Derecho", fecha: "2006-04-10" },
-  { nombre: "AMAT BRIONES MAYKELL GONZALO", carrera: "Sistemas de Información", fecha: "2006-06-10" },
-  { nombre: "Raquel Macias", carrera: "Medicina", fecha: "2007-04-04" },
-  { nombre: "Yanez Orellana Silvia Narcisa", carrera: "Terapia Ocupacional", fecha: "2007-07-13" },
-  { nombre: "Bravo Calvas Rober Gabriel", carrera: "Agronomía", fecha: "2004-08-19" },
-  { nombre: "RAMIREZ PUCHAICELA JEREMY GABRIEL", carrera: "Pedagogía de la actividad física y deporte", fecha: "2007-01-12" },
-  { nombre: "Ortega Vera Alexander Israel", carrera: "Comunicación", fecha: "2006-07-04" },
-  { nombre: "QUIJIJE ZAMBRANO ASHLEY PAULETTE", carrera: "Economía", fecha: "2007-09-21" },
-  { nombre: "Coronado Chóez Kenya Sabrina", carrera: "Pedagogía de las ciencias experimentales", fecha: "2006-02-10" },
-  { nombre: "Molina Camba Dallyana Victoria", carrera: "Ingeniería química", fecha: "2007-09-10" },
-  { nombre: "Zharick Hernández", carrera: "Negocios Internacionales", fecha: "2025-09-11" },
-  { nombre: "Romero Pacheco Carlos Jeampierre", carrera: "Ingeniería en Ciencias de Datos e Inteligencia Artificial", fecha: "2007-05-05" },
-  { nombre: "Danny Tomalá", carrera: "Ingeniería química", fecha: "2002-10-02" },
-  { nombre: "Franco Nuñez Alinson Dominic", carrera: "Terapia respiratoria", fecha: "2007-06-21" },
-  { nombre: "LEÓN ORDÓÑEZ SAMANTHA ISABELA", carrera: "Pedagogía de la lengua y literatura", fecha: "2006-11-05" },
-  { nombre: "Luisa Chacha Melanny Akanne", carrera: "Comunicación", fecha: "2005-02-20" },
-  { nombre: "Plaza Matute Amelia Alejandra", carrera: "Educación básica", fecha: "2004-09-02" },
-  { nombre: "Medina Cordova Karla Amelia", carrera: "Derecho", fecha: "2007-11-11" },
-  { nombre: "Beatriz Vanessa Quiroga Vásquez", carrera: "Pedagogía de Historia y Ciencias Sociales", fecha: "1996-08-29" },
-  { nombre: "Oliveyra Vásquez Angel Gabriel", carrera: "Comunicación Social", fecha: "2005-03-04" },
-  { nombre: "Heydi Barrera", carrera: "Comunicación", fecha: "2002-07-30" },
-  { nombre: "Pilalo Villarroel Joseline Isabel", carrera: "Enfermería", fecha: "2007-05-30" },
-  { nombre: "León Freire Crista Sharik", carrera: "Derecho", fecha: "2025-12-04" },
-  { nombre: "Palma Martinez Tylor Alberto", carrera: "Ingeniería química", fecha: "2006-07-29" },
-  { nombre: "Carvajal Acosta Ariel Alejandro", carrera: "Comunicación social", fecha: "2004-02-13" },
-  { nombre: "Lilibeth Guzmán", carrera: "Ingeniería en Sistemas", fecha: "2007-10-19" },
-  { nombre: "Barzola Torres Ingrid Del Rocío", carrera: "Ingeniería Química", fecha: "2007-02-28" },
-  { nombre: "Santos Mora Adriana Georgette", carrera: "Psicología", fecha: "2025-11-13" },
-  { nombre: "Guevara Villamar Milena Tahis", carrera: "Comunicación social", fecha: "2001-06-13" },
-  { nombre: "Mayra Navarro", carrera: "Gastronomía", fecha: "2007-02-07" },
-  { nombre: "Rodriguez Ayovi Arlette Naomi", carrera: "Mercadotecnia", fecha: "2007-05-06" },
-  { nombre: "Taday Medina María Fernanda", carrera: "Medicina", fecha: "2007-05-14" },
-  { nombre: "Vélez Zambrano María José", carrera: "Economía", fecha: "2007-01-11" },
-  { nombre: "Vargas Mesias Narcisa Paulina", carrera: "Medicina veterinaria y zootecnia", fecha: "2007-05-30" },
-  { nombre: "Moreno Beltrán Christian Sleyner", carrera: "Agronomía", fecha: "2007-10-08" },
-  { nombre: "León Alvarado Juliana Scarlett", carrera: "Educación Básica", fecha: "2007-05-31" },
-  { nombre: "AYORA ZAMBRANO FABIAN ALEJANDRO", carrera: "Pedagogía de las ciencias experimentales - Informática", fecha: "2007-08-14" },
-  { nombre: "Yance Henrry Adrián", carrera: "Derecho", fecha: "2007-02-27" },
-  { nombre: "Palma Cornejo Elena Alejandra", carrera: "Comunicación social", fecha: "2005-06-01" },
-  { nombre: "Moreira vone Aaron Abraham", carrera: "Pedagogía de Química y Biología", fecha: "2004-08-13" },
-  { nombre: "Alonso Rodríguez María Alejandra", carrera: "Pedagogía de historia", fecha: "2002-03-02" },
-  { nombre: "Tixe Castro Brithany Gabriela", carrera: "Educación Básica", fecha: "2007-01-13" },
-  { nombre: "Muñoz Arana Anneliz Esther", carrera: "Terapia Ocupacional", fecha: "2005-09-28" },
-  { nombre: "Arias Anzoategui Keissy", carrera: "Pedagogía en la Lengua y Literatura", fecha: "2002-05-08" },
-  { nombre: "Drake Hunter Zolomon Addams", carrera: "Sistemas de formación", fecha: "1993-01-15" },
-  { nombre: "Troya Rodríguez Valeria Paulette", carrera: "Odontología", fecha: "2025-09-17" },
-  { nombre: "Medranda Merchán Wilmer Adalberto", carrera: "Educación básica", fecha: "2003-08-03" },
-  { nombre: "Triana Gamarra Rosmery Alejandra", carrera: "Ingeniería Química", fecha: "2008-04-06" },
-  { nombre: "Sasha Vinasco", carrera: "Pedagogía en las ciencias experimentales de la química y Biología", fecha: "2006-02-04" },
-  { nombre: "Cevallos Kayla", carrera: "Pedagogía en artes y humanidades", fecha: "2001-11-08" },
-  { nombre: "Isaías David Vitores", carrera: "Sistemas de Información", fecha: "2001-08-12" },
-  { nombre: "Melany Gutierrez Cajape", carrera: "Medicina Veterinaria y Zootecnia", fecha: "2006-10-23" },
-  { nombre: "CHIRIGUAYO García Bryan Alexander", carrera: "Psicológica", fecha: "2003-09-25" },
-  { nombre: "MALO SANTILLÁN LIZ ESTHELA", carrera: "Comunicación Social", fecha: "2025-10-14" },
-  { nombre: "VILLAMAR ROSALES BRYAN SAMIR", carrera: "Negocios internacionales", fecha: "2006-12-05" },
-  { nombre: "Frank Jahir Posligua Manrique", carrera: "Gastronomía", fecha: "2006-07-07" },
-  { nombre: "Carriel Lorenti Bryan Xavier", carrera: "Pedagogía de la Lengua y Literatura", fecha: "2006-11-08" },
-  { nombre: "Débora Guaigua", carrera: "Pedagogía en idiomas", fecha: "2025-09-16" },
-  { nombre: "Lamota Soriano Giuliana Scarlett", carrera: "Educación inicial", fecha: "2007-02-13" },
-  { nombre: "Crespo Chiquito Domenica Ayleen", carrera: "Telemática", fecha: "2025-10-02" },
-  { nombre: "Moncada Espinoza Adolfo Jefferson", carrera: "Educación básica", fecha: "1992-09-30" },
-  { nombre: "Romero Barahona Lía Dayana", carrera: "Pedagogía de matemáticas y física", fecha: "2007-10-20" },
-  { nombre: "Suplewiche Cedeño Noelia Dayana", carrera: "Contabilidad y auditoría", fecha: "2007-10-28" },
-  { nombre: "Lucin Alava Julián Isaac", carrera: "Telemática", fecha: "2007-03-13" },
-  { nombre: "Tenesaca Cepeda Nahin Isaias", carrera: "Comunicación Social", fecha: "2004-04-02" },
-  { nombre: "Barcos Tumbaco Aarón Alexander", carrera: "Sistemas de la Información", fecha: "2025-03-20" },
-  { nombre: "Jimenez Sanchez Brithany Anailen", carrera: "Finanzas", fecha: "2006-12-07" },
-  { nombre: "Mindiolaza Canto Cristopher Stalin", carrera: "Educación Básica", fecha: "2001-11-27" },
-  { nombre: "PILAMUNGA FLORES DOMENICA MABEL", carrera: "BIOQUÍMICA Y FARMACIA", fecha: "2007-04-02" },
-  { nombre: "MEJÍA MORA JOSELYN JAMILETH", carrera: "Pedagogía de matemáticas y física", fecha: "2025-10-09" },
-  { nombre: "Castro Carla", carrera: "Gestión de la Información Gerencial", fecha: "2002-12-07" },
-  { nombre: "Navarrete Avelino Jose Luis", carrera: "Finanzas", fecha: "2025-09-07" },
-  { nombre: "Ruíz Muñoz Bianca Nayeli", carrera: "Ingeniería en alimentos", fecha: "2025-10-24" },
-  { nombre: "Salinas Guamán Francheska Marisol", carrera: "Educación Básica", fecha: "2007-10-11" },
-  { nombre: "Yerexi Ginneth Matia Ayovi", carrera: "Pedagogía idiomas extranjeros y nacionales", fecha: "2007-06-26" },
-  { nombre: "Silva Castro Rosa Nathalia", carrera: "Software", fecha: "2007-03-07" }
-
+{ nombre: "Kavier", carrera: "Fan de la UG", fecha: "31/08/2005" },
+{ nombre: "Miranda Danna", carrera: "Contabilidad y auditoría", fecha: "29/08/2005" },
+{ nombre: "Campuzano Benavides Amelia Elizabeth", carrera: "Ingeniería civil", fecha: "25/08/1996" },
+{ nombre: "Bajaña Aviles Deivid Alexander", carrera: "Comercio exterior", fecha: "29/07/2007" },
+{ nombre: "Mendoza Zambrano Thaylor Enrique", carrera: "Sociología", fecha: "30/10/2001" },
+{ nombre: "Luis Antonio Mite Contreras", carrera: "Derecho", fecha: "10/04/2006" },
+{ nombre: "AMAT BRIONES MAYKELL GONZALO", carrera: "Sistemas de Información", fecha: "10/06/2006" },
+{ nombre: "Raquel Macias", carrera: "Medicina", fecha: "04/04/2007" },
+{ nombre: "Yanez Orellana Silvia Narcisa", carrera: "Terapia Ocupacional", fecha: "13/07/2007" },
+{ nombre: "Bravo Calvas Rober Gabriel", carrera: "Agronomía", fecha: "19/08/2004" },
+{ nombre: "RAMIREZ PUCHAICELA JEREMY GABRIEL", carrera: "Pedagogía de la actividad física y deporte", fecha: "12/01/2007" },
+{ nombre: "Ortega Vera Alexander Israel", carrera: "Comunicación", fecha: "04/07/2006" },
+{ nombre: "QUIJIJE ZAMBRANO ASHLEY PAULETTE", carrera: "Economía", fecha: "21/09/2007" },
+{ nombre: "Coronado Chóez Kenya Sabrina", carrera: "Pedagogía de las ciencias experimentales", fecha: "10/02/2006" },
+{ nombre: "Molina Camba Dallyana Victoria", carrera: "Ingeniería química", fecha: "10/09/2007" },
+{ nombre: "Zharick Hernández", carrera: "Negocios Internacionales", fecha: "11/09/2005" },
+{ nombre: "Romero Pacheco Carlos Jeampierre", carrera: "Ingeniería en Ciencias de Datos e Inteligencia Artificial", fecha: "05/05/2007" },
+{ nombre: "Danny Tomalá", carrera: "Ingeniería química", fecha: "02/10/2002" },
+{ nombre: "Franco Nuñez Alinson Dominic", carrera: "Terapia respiratoria", fecha: "21/06/2007" },
+{ nombre: "LEÓN ORDÓÑEZ SAMANTHA ISABELA", carrera: "Pedagogía de la lengua y literatura", fecha: "05/11/2006" },
+{ nombre: "Luisa Chacha Melanny Akanne", carrera: "Comunicación", fecha: "20/02/2005" },
+{ nombre: "Plaza Matute Amelia Alejandra", carrera: "Educación básica", fecha: "02/09/2004" },
+{ nombre: "Medina Cordova Karla Amelia", carrera: "Derecho", fecha: "11/11/2007" },
+{ nombre: "Beatriz Vanessa Quiroga Vásquez", carrera: "Pedagogía de Historia y Ciencias Sociales", fecha: "29/08/1996" },
+{ nombre: "Oliveyra Vásquez Angel Gabriel", carrera: "Comunicación Social", fecha: "04/03/2005" },
+{ nombre: "Heydi barrera", carrera: "Comunicación", fecha: "30/07/2002" },
+{ nombre: "Pilalo Villarroel Joseline Isabel", carrera: "Enfermería", fecha: "30/05/2007" },
+{ nombre: "León Freire Crista Sharik", carrera: "Derecho", fecha: "04/12/2005" },
+{ nombre: "Palma Martinez Tylor Alberto", carrera: "Ingeniería química", fecha: "29/07/2006" },
+{ nombre: "Carvajal Acosta Ariel Alejandro", carrera: "Comunicación social", fecha: "13/02/2004" },
+{ nombre: "Lilibeth Guzmán", carrera: "Ingeniería en Sistemas", fecha: "19/10/2007" },
+{ nombre: "Barzola Torres Ingrid Del Rocío", carrera: "Ingeniería Química", fecha: "28/02/2007" },
+{ nombre: "Santos Mora Adriana Georgette", carrera: "Psicología", fecha: "13/11/2005" },
+{ nombre: "Guevara Villamar Milena Tahis", carrera: "Comunicación social", fecha: "13/06/2001" },
+{ nombre: "Mayra Navarro", carrera: "Gastronomía", fecha: "07/02/2007" },
+{ nombre: "Rodriguez Ayovi Arlette Naomi", carrera: "Mercadotecnia", fecha: "06/05/2007" },
+{ nombre: "Taday Medina María Fernanda", carrera: "Medicina", fecha: "14/05/2007" },
+{ nombre: "Vélez Zambrano María José", carrera: "Economía", fecha: "11/01/2007" },
+{ nombre: "Vargas Mesias Narcisa Paulina", carrera: "Medicina veterinaria y zootecnia", fecha: "30/05/2007" },
+{ nombre: "Moreno Beltrán Christian Sleyner", carrera: "Agronomía", fecha: "08/10/2007" },
+{ nombre: "León Alvarado Juliana Scarlett", carrera: "Educación Básica", fecha: "31/05/2007" },
+{ nombre: "AYORA ZAMBRANO FABIAN ALEJANDRO", carrera: "Pedagogía de las ciencias experimentales-Informatica", fecha: "14/08/2007" },
+{ nombre: "Yance Henrry Adrián", carrera: "Derecho", fecha: "27/02/2007" },
+{ nombre: "Palma Cornejo Elena Alejandra", carrera: "Comunicación social", fecha: "01/06/2005" },
+{ nombre: "Moreira vone Aaron Abraham", carrera: "Pedagogía de Química y Biología", fecha: "13/08/2004" },
+{ nombre: "Alonso Rodríguez María Alejandra", carrera: "Pedagogía de historia", fecha: "02/03/2002" },
+{ nombre: "Tixe Castro Brithany Gabriela", carrera: "Educación Básica", fecha: "13/01/2007" },
+{ nombre: "Muñoz Arana Anneliz Esther", carrera: "Terapia Ocupacional", fecha: "28/09/2005" },
+{ nombre: "Arias Anzoategui Keissy", carrera: "Pedagogía en la Lengua y Literatura", fecha: "08/05/2002" },
+{ nombre: "Drake Hunter Zolomon Addams", carrera: "Sistemas de formación", fecha: "15/01/1993" },
+{ nombre: "Troya Rodríguez Valeria Paulette", carrera: "Odontología", fecha: "17/09/2005" },
+{ nombre: "Medranda Merchán Wilmer Adalberto", carrera: "Educación básica", fecha: "03/08/2003" },
+{ nombre: "Triana Gamarra Rosmery Alejandra", carrera: "Ingeniería Química", fecha: "06/04/2008" },
+{ nombre: "Sasha Vinasco", carrera: "Pedagogía en las ciencias experimentales de la química y Biología", fecha: "04/02/2006" },
+{ nombre: "Cevallos Kayla", carrera: "Pedagogía en artes y humanidades", fecha: "08/11/2001" },
+{ nombre: "Isaías David Vitores", carrera: "Sistemas de Información", fecha: "12/08/2001" },
+{ nombre: "Melany Gutierrez Cajape", carrera: "Medicina Veterinaria y Zootecnia", fecha: "23/10/2006" },
+{ nombre: "CHIRIGUAYO García Bryan Alexander", carrera: "Psicológica", fecha: "25/09/2003" },
+{ nombre: "MALO SANTILLÁN LIZ ESTHELA", carrera: "Comunicación Social", fecha: "14/10/2005" },
+{ nombre: "VILLAMAR ROSALES BRYAN SAMIR", carrera: "Negocios internacionales", fecha: "05/12/2006" },
+{ nombre: "Frank Jahir Posligua Manrique", carrera: "Gastronomía", fecha: "07/07/2006" },
+{ nombre: "Carriel Lorenti Bryan Xavier", carrera: "Pedagogía de la Lengua y Literatura", fecha: "08/11/2006" },
+{ nombre: "Débora Guaigua", carrera: "Pedagogía en idiomas", fecha: "16/09/2005" },
+{ nombre: "Lamota Soriano Giuliana Scarlett", carrera: "Educación inicial", fecha: "13/02/2007" },
+{ nombre: "Crespo Chiquito Domenica Ayleen", carrera: "Telemática", fecha: "02/10/2005" },
+{ nombre: "Moncada Espinoza Adolfo Jefferson", carrera: "Educación básica", fecha: "30/09/1992" },
+{ nombre: "Romero Barahona Lía Dayana", carrera: "Pedagogía de matemáticas y física", fecha: "20/10/2007" },
+{ nombre: "Suplewiche Cedeño Noelia Dayana", carrera: "Contabilidad y auditoría", fecha: "28/10/2007" },
+{ nombre: "Lucin Alava Julián Isaac", carrera: "Telemática", fecha: "13/03/2007" },
+{ nombre: "Tenesaca Cepeda Nahin Isaias", carrera: "Comunicación Social", fecha: "02/04/2004" },
+{ nombre: "Barcos Tumbaco Aarón Alexander", carrera: "Sistemas de la Información", fecha: "20/03/2005" },
+{ nombre: "Jimenez Sanchez brithany Anailen", carrera: "Finanzas", fecha: "07/12/2006" },
+{ nombre: "Mindiolaza Canto Cristopher Stalin", carrera: "Educación Básica", fecha: "27/11/2001" },
+{ nombre: "PILAMUNGA FLORES DOMENICA MABEL", carrera: "BIOQUÍMICA Y FARMACIA", fecha: "02/04/2007" },
+{ nombre: "MEJÍA MORA JOSELYN JAMILETH", carrera: "Pedagogía de matemáticas y física", fecha: "09/10/2005" },
+{ nombre: "Castro Carla", carrera: "Gestión de la Información Gerencial", fecha: "07/12/2002" },
+{ nombre: "Navarrete Avelino Jose Luis", carrera: "Finanzas", fecha: "07/09/2005" },
+{ nombre: "Ruíz Muñoz Bianca Nayeli", carrera: "Ingeniería en alimentos", fecha: "24/10/2005" },
+{ nombre: "Salinas Guamán Francheska Marisol", carrera: "Educación Básica", fecha: "11/10/2007" },
+{ nombre: "Yerexi Ginneth Matia Ayovi", carrera: "Pedagogía idiomas extranjeros y nacionales", fecha: "26/06/2007" },
+{ nombre: "Silva Castro Rosa Nathalia", carrera: "Software", fecha: "07/03/2007" }
 ];
 
-/* utilidad: obtener día y mes de una fecha ISO */
-function dmFromIso(iso){
-  const d = new Date(iso + 'T00:00:00'); // evitar zona horaria
-  return { day: d.getDate(), month: d.getMonth()+1, year: d.getFullYear() };
+/* utilidades fecha */
+function parseFlexibleDate(s){
+  if(!s) return null;
+  s = s.toString().trim();
+  const dmY = s.match(/^(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{2,4})$/);
+  if(dmY){ let d=+dmY[1], m=+dmY[2], y=+dmY[3]; if(y<100) y+=1900; return new Date(y,m-1,d); }
+  const ymd = s.match(/^(\d{4})[\/\-](\d{1,2})[\/\-](\d{1,2})$/);
+  if(ymd) return new Date(+ymd[1],+ymd[2]-1,+ymd[3]);
+  const dd = new Date(s); return isNaN(dd.getTime())? null : dd;
+}
+function calcularEdad(fecha){
+  if(!fecha) return null;
+  const hoy = new Date();
+  let edad = hoy.getFullYear() - fecha.getFullYear();
+  const m = hoy.getMonth() - fecha.getMonth();
+  if(m < 0 || (m === 0 && hoy.getDate() < fecha.getDate())) edad--;
+  return edad >= 0 ? edad : null;
+}
+function escapeHtml(s){ return (s+'').replace(/[&<>"]/g, c=> ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])) }
+function mesNombre(m){ return ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'][m] || '' }
+
+/* preparar datos */
+const hoy = new Date();
+usuarios.forEach(u=>{
+  const p = parseFlexibleDate(u.fecha);
+  u._parsed = p;
+  if(p){ u._day = p.getDate(); u._month = p.getMonth()+1; }
+});
+
+const todayDay = hoy.getDate(), todayMonth = hoy.getMonth()+1;
+const cumpleHoy = usuarios.filter(u => u._day === todayDay && u._month === todayMonth);
+
+/* refs */
+const contentBox = document.getElementById('contentBox');
+const subBox = document.getElementById('subBox');
+const todayAvatar = document.getElementById('todayAvatar');
+const daysGrid = document.getElementById('daysGrid');
+const miniMonth = document.getElementById('miniMonth');
+const calendarArea = document.getElementById('calendarArea');
+
+/* mostrar mensaje principal */
+function showMainBirthday(list){
+  if(!list || list.length===0){
+    contentBox.innerHTML = `<div style="color:var(--muted)">Esperando los próximos cumpleaños...</div>`;
+    todayAvatar.textContent = '🎈';
+    subBox.textContent = 'Explora el calendario para ver quién cumple';
+    return;
+  }
+  const u = list[0];
+  const edad = calcularEdad(u._parsed);
+  contentBox.innerHTML = `<div style="font-weight:800">${escapeHtml(u.nombre)}</div>
+                          <div style="color:var(--muted);margin-top:6px">${escapeHtml(u.carrera)} ${edad!==null?('· '+edad+' años'):''}</div>
+                          <div style="margin-top:10px;color:var(--text)"><strong>¡Feliz cumpleaños!</strong> 🎉 Club UG te manda un abrazo</div>`;
+  todayAvatar.textContent = (u.nombre.split(' ').map(t=>t[0]).slice(0,2).join('') || 'UG').toUpperCase();
+  subBox.textContent = '¡Feliz cumpleaños! 🎈';
 }
 
-/* calendario */
-const calendarEl = document.getElementById('calendar');
-const monthLabel = document.getElementById('monthLabel');
-const modal = document.getElementById('modal');
-const modalTitle = document.getElementById('modalTitle');
-const modalDate = document.getElementById('modalDate');
-const modalList = document.getElementById('modalList');
-const notifyBtn = document.getElementById('notifyBtn');
-
-let viewDate = new Date(); // mes visible
-const today = new Date();
-let searchMap = {}; // map 'M-D' => [usuarios...]
-
-/* preparar mapa por día/mes (ignorar año para calendario anual) */
-function buildMap(){
-  searchMap = {};
-  usuarios.forEach(u=>{
-    try{
-      const {day,month} = dmFromIso(u.fecha);
-      const key = `${month}-${day}`;
-      if(!searchMap[key]) searchMap[key] = [];
-      searchMap[key].push(u);
-    }catch(e){
-      console.warn('fecha inválida:',u);
-    }
-  });
+/* confetti y popup */
+function createConfettiBurst(){
+  const colors = ['#00e6ff','#0066ff','#ffffff','#00ffd6','#ffea66'];
+  for(let i=0;i<50;i++){
+    const el = document.createElement('div');
+    el.className = 'confetti';
+    const w = Math.random()*10+6;
+    el.style.width = w+'px'; el.style.height = (w*0.55)+'px';
+    el.style.left = Math.random()*100+'vw';
+    el.style.top = (-Math.random()*18)+'vh';
+    el.style.background = colors[Math.floor(Math.random()*colors.length)];
+    el.style.transform = `rotate(${Math.random()*360}deg)`;
+    document.body.appendChild(el);
+    const t = 1500 + Math.random()*2000;
+    el.animate([{transform:el.style.transform, opacity:1},{transform:`translateY(${80+Math.random()*60}vh) rotate(${Math.random()*1440}deg)`, opacity:0.1}], { duration: t, easing: 'cubic-bezier(.2,.7,.2,1)' });
+    setTimeout(()=>el.remove(), t+60);
+  }
 }
-buildMap();
+function showBirthdayPopup(u){
+  const edad = calcularEdad(u._parsed);
+  const popup = document.createElement('div');
+  popup.className = 'birthday-popup';
+  popup.innerHTML = `<div class="popup-h1">🎉 ¡Feliz Cumpleaños ${escapeHtml(u.nombre)}! 🎉</div>
+                     <div class="popup-sub">${escapeHtml(u.carrera)} ${edad?('· '+edad+' años'):''}<br>Club UG te manda un abrazo 🤗</div>`;
+  document.body.appendChild(popup);
+  const audio = document.getElementById('applause');
+  if(audio){ audio.currentTime = 0; audio.play().catch(()=>{}) }
+  createConfettiBurst();
+  setTimeout(()=> popup.remove(), 4200);
+  if("Notification" in window && Notification.permission === "default"){
+    Notification.requestPermission().catch(()=>{});
+  } else if("Notification" in window && Notification.permission === "granted"){
+    new Notification(`🎉 ${u.nombre} cumple hoy!`, { body: `Carrera: ${u.carrera}` });
+  }
+}
 
 /* render calendario */
-function renderCalendar(){
-  // limpiar sólo los días (después de las 7 weekday headers)
-  // Remove previously generated day nodes (keep first 7 weekday elements)
-  const existing = Array.from(calendarEl.querySelectorAll('.day, .weekday-placeholder'));
-  existing.forEach(n=>n.remove());
+let calYear = hoy.getFullYear();
+let calMonth = hoy.getMonth(); // 0-based
 
-  const year = viewDate.getFullYear();
-  const month = viewDate.getMonth(); // 0-index
-  const firstOfMonth = new Date(year, month, 1);
-  const lastOfMonth = new Date(year, month+1, 0);
-  const startWeekday = (firstOfMonth.getDay() + 6) % 7; // convert Sun(0) to last: want Mon=0
-  const daysInMonth = lastOfMonth.getDate();
+function renderCalendar(year, month){
+  daysGrid.innerHTML = '';
+  miniMonth.textContent = `${mesNombre(month)} ${year}`;
+  const firstDay = new Date(year, month, 1);
+  const startWeekDay = (firstDay.getDay() + 6) % 7; // lunes=0
+  const daysInMonth = new Date(year, month+1, 0).getDate();
 
-  monthLabel.textContent = firstOfMonth.toLocaleString('es-ES',{month:'long', year:'numeric'}).replace(/\b\w/g, c=>c.toUpperCase());
-
-  // add blank placeholders for first week
-  for(let i=0;i<startWeekday;i++){
-    const ph = document.createElement('div');
-    ph.className='weekday-placeholder';
-    calendarEl.appendChild(ph);
+  for(let i=0;i<startWeekDay;i++){
+    const empty = document.createElement('div'); empty.className='day'; empty.style.opacity='0.03'; empty.style.pointerEvents='none';
+    daysGrid.appendChild(empty);
   }
 
   for(let d=1; d<=daysInMonth; d++){
-    const dayCell = document.createElement('div');
-    dayCell.className = 'day';
-    const num = document.createElement('div');
-    num.className='num';
-    num.textContent = d;
-    dayCell.appendChild(num);
+    const cell = document.createElement('div'); cell.className='day'; cell.tabIndex = 0;
+    const num = document.createElement('div'); num.className='num'; num.textContent = d;
+    cell.appendChild(num);
 
-    // check birthdays for this day/month
-    const key = `${month+1}-${d}`;
-    const bday = searchMap[key];
-    if(bday && bday.length){
-      const dot = document.createElement('span');
-      dot.className = 'birthday-dot';
-      dayCell.appendChild(dot);
-
-      // show up to 2 names in cell (keeps UI clean)
-      const list = document.createElement('div');
-      list.className='birthday-list';
-      bday.slice(0,2).forEach(person=>{
-        const item = document.createElement('div');
-        item.className='birthday-item';
-        item.innerHTML = `<div style="display:flex;flex-direction:column">
-          <span class="name">${person.nombre}</span>
-          <span class="career">${person.carrera}</span>
-        </div>
-        <div style="font-size:0.78rem;opacity:0.9">${(new Date(person.fecha)).getFullYear()}</div>`;
-        list.appendChild(item);
-      });
-      if(bday.length>2){
-        const more = document.createElement('div');
-        more.className='birthday-item';
-        more.innerHTML = `<div class="name">+${bday.length-2} más</div>`;
-        list.appendChild(more);
-      }
-      dayCell.appendChild(list);
+    const found = usuarios.filter(u => u._day === d && u._month === (month+1));
+    if(found.length){
+      const names = document.createElement('div'); names.className='names';
+      names.innerHTML = found.slice(0,4).map(x => escapeHtml(x.nombre)).join('<br>');
+      cell.appendChild(names);
+      const dot = document.createElement('div'); dot.className = 'dot'; cell.appendChild(dot);
+      cell.classList.add('has-bday');
+    } else {
+      const filler = document.createElement('div'); filler.style.flex='1'; cell.appendChild(filler);
     }
 
-    // mark today
-    if(year===today.getFullYear() && month===today.getMonth() && d===today.getDate()){
-      dayCell.classList.add('today');
-    }
+    cell.addEventListener('click', ()=> openDayList(d, month));
+    cell.addEventListener('keydown', (e)=>{ if(e.key==='Enter') openDayList(d, month) });
 
-    // click handler -> open modal with full list for that date
-    dayCell.addEventListener('click', () => openDayModal(month+1, d));
-
-    calendarEl.appendChild(dayCell);
-  }
-}
-
-/* abrir modal con lista del día */
-function openDayModal(M,D){
-  const key = `${M}-${D}`;
-  const list = searchMap[key] || [];
-  modalTitle.textContent = list.length ? `Cumpleaños el ${D}/${String(M).padStart(2,'0')}` : `Sin cumpleaños el ${D}/${String(M).padStart(2,'0')}`;
-  modalDate.textContent = '';
-  modalList.innerHTML = '';
-
-  if(list.length){
-    list.forEach(p=>{
-      const node = document.createElement('div');
-      node.className='person';
-      const age = (new Date()).getFullYear() - (new Date(p.fecha)).getFullYear();
-      node.innerHTML = `<div style="display:flex;flex-direction:column">
-        <strong style="color:var(--neon2)">${p.nombre}</strong>
-        <span style="font-size:0.9rem;opacity:0.9">${p.carrera}</span>
-      </div>
-      <div style="text-align:right;font-size:0.85rem;color:rgba(255,255,255,0.9)">${age} años</div>`;
-      modalList.appendChild(node);
-    });
-
-    modalDate.textContent = `${D}/${String(M).padStart(2,'0')}`;
-    // if today in list -> autoplay confetti + sound + browser notification
-    const isToday = (M=== (today.getMonth()+1) && D=== today.getDate());
-    if(isToday){
-      setTimeout(()=> triggerCelebration(list), 400); // small delay so modal shows
-    }
+    daysGrid.appendChild(cell);
   }
 
-  modal.classList.add('show');
+  // subtle reflow animation (bounce)
+  daysGrid.style.opacity = 0; daysGrid.style.transform = 'translateY(8px)';
+  setTimeout(()=>{ daysGrid.style.transition='all .36s ease'; daysGrid.style.opacity=1; daysGrid.style.transform='translateY(0)'; }, 10);
 }
 
-/* close modal */
-document.getElementById('closeModal').addEventListener('click', ()=> modal.classList.remove('show'));
-
-/* month navigation */
-document.getElementById('prevMonth').addEventListener('click', ()=>{
-  viewDate.setMonth(viewDate.getMonth()-1);
-  renderCalendar();
-});
-document.getElementById('nextMonth').addEventListener('click', ()=>{
-  viewDate.setMonth(viewDate.getMonth()+1);
-  renderCalendar();
-});
-document.getElementById('todayBtn').addEventListener('click', ()=>{
-  viewDate = new Date();
-  renderCalendar();
-});
-
-/* notification + confetti + sound */
-notifyBtn.addEventListener('click', ()=> {
-  const mdText = modalTitle.textContent;
-  const persons = Array.from(modalList.querySelectorAll('.person strong')).map(n=>n.textContent).join(', ');
-  if(persons.length===0) {
-    toast('No hay cumpleaños para notificar');
+/* abrir lista del día: en vez de alert, mostramos popup centrado y grande */
+function openDayList(day, monthZeroBased){
+  const list = usuarios.filter(u => u._day === day && u._month === (monthZeroBased+1));
+  if(!list.length){
+    // pequeño toast
+    const t = document.createElement('div'); t.className='birthday-popup'; t.style.top='auto'; t.style.bottom='6%';
+    t.innerHTML = `<div style="color:var(--muted)">${day} de ${mesNombre(monthZeroBased)} — No hay cumpleaños</div>`;
+    document.body.appendChild(t); setTimeout(()=> t.remove(), 1400);
     return;
   }
-  requestAndNotify(`${persons} 🎉`, `Cumpleaños ${mdText}`);
-  triggerConfetti();
-  document.getElementById('applause').play().catch(()=>{});
+
+  // construir modal content simple y limpio
+  const modal = document.createElement('div'); modal.className='birthday-popup';
+  let html = `<div class="popup-h1">Cumpleaños — ${day} ${mesNombre(monthZeroBased)}</div>`;
+  html += '<div style="text-align:left;margin-top:8px">';
+  list.forEach(u=>{
+    const edad = calcularEdad(u._parsed);
+    html += `<div style="margin-bottom:10px"><strong>${escapeHtml(u.nombre)}</strong><div style="color:var(--muted);font-size:.9rem">${escapeHtml(u.carrera)} ${edad?('· '+edad+' años'):''}</div></div>`;
+  });
+  html += `</div><div style="margin-top:10px;text-align:right"><button class="btn ghost closeModal">Cerrar</button></div>`;
+  modal.innerHTML = html;
+  document.body.appendChild(modal);
+
+  // handler cerrar
+  modal.querySelector('.closeModal').addEventListener('click', ()=> modal.remove());
+}
+
+/* controles */
+document.getElementById('prevMonth').addEventListener('click', ()=> { calMonth--; if(calMonth<0){ calMonth=11; calYear-- } renderCalendar(calYear, calMonth); });
+document.getElementById('nextMonth').addEventListener('click', ()=> { calMonth++; if(calMonth>11){ calMonth=0; calYear++ } renderCalendar(calYear, calMonth); });
+
+function expandCalendarThenScroll(){
+  calendarArea.classList.add('expanded','glow-highlight');
+  // remove highlight class after animation
+  setTimeout(()=> calendarArea.classList.remove('glow-highlight'), 900);
+  calendarArea.scrollIntoView({behavior:'smooth', block:'center'});
+}
+
+/* botones ver calendario */
+document.getElementById('openCalendar').addEventListener('click', ()=> expandCalendarThenScroll());
+document.getElementById('openCalendarTop').addEventListener('click', ()=> expandCalendarThenScroll());
+document.getElementById('goToTodayTop').addEventListener('click', ()=> {
+  calYear = hoy.getFullYear(); calMonth = hoy.getMonth(); renderCalendar(calYear, calMonth);
+  expandCalendarThenScroll();
 });
 
-/* helper: request notification permission and send */
-function requestAndNotify(title, body){
-  if(!('Notification' in window)) { toast('Notificaciones no soportadas en este navegador'); return; }
-  if(Notification.permission === 'granted'){
-    new Notification(title, { body });
-    toast('Notificación enviada');
-  } else if(Notification.permission !== 'denied') {
-    Notification.requestPermission().then(perm=>{
-      if(perm === 'granted'){ new Notification(title,{body}); toast('Notificación enviada'); }
-      else toast('Permiso de notificaciones no concedido');
-    });
-  } else {
-    toast('Notificaciones bloqueadas por el usuario');
+/* inicializar */
+renderCalendar(calYear, calMonth);
+showMainBirthday(cumpleHoy);
+
+/* si hay cumple hoy, popup y sonido */
+if(cumpleHoy && cumpleHoy.length>0){
+  setTimeout(()=> showBirthdayPopup(cumpleHoy[0]), 300);
+}
+
+/* pedir permiso notificaciones */
+if("Notification" in window && Notification.permission === "default"){
+  setTimeout(()=> Notification.requestPermission().catch(()=>{}), 1800);
+}
+
+/* cerrar popup con ESC */
+document.addEventListener('keydown', (e)=> {
+  if(e.key === 'Escape'){
+    document.querySelectorAll('.birthday-popup').forEach(p=>p.remove());
   }
-}
-
-/* small on-screen toast */
-let toastTimer;
-function toast(txt){
-  let el = document.getElementById('__toast__');
-  if(!el){
-    el = document.createElement('div'); el.id='__toast__';
-    el.style= "position:fixed;left:50%;transform:translateX(-50%);bottom:28px;background:linear-gradient(90deg,#001022,#00223a);padding:10px 16px;border-radius:10px;color:var(--neon2);box-shadow:0 8px 26px rgba(0,0,0,0.6);z-index:4000;border:1px solid rgba(0,140,255,0.08)";
-    document.body.appendChild(el);
-  }
-  el.textContent = txt;
-  el.style.opacity = 1;
-  clearTimeout(toastTimer);
-  toastTimer = setTimeout(()=> el.style.opacity = 0, 3200);
-}
-
-/* confetti generator (gentle) */
-function triggerConfetti(){
-  const colors = ['#0ff','#00f','#fff','#ffcf33','#60ff7b'];
-  const pieces = 90;
-  for(let i=0;i<pieces;i++){
-    const c = document.createElement('div');
-    c.className = 'confetti';
-    c.style.left = (Math.random()*100) + 'vw';
-    c.style.top = (-10 - Math.random()*40) + 'px';
-    c.style.background = colors[Math.floor(Math.random()*colors.length)];
-    c.style.width = (6 + Math.random()*10) + 'px';
-    c.style.height = (8 + Math.random()*18) + 'px';
-    c.style.opacity = 0.95;
-    c.style.transform = `rotate(${Math.random()*360}deg)`;
-    c.style.transition = `transform ${2+Math.random()*2}s linear, top ${2+Math.random()*2}s linear, opacity ${2+Math.random()}s`;
-    document.body.appendChild(c);
-    // animate
-    setTimeout(()=> {
-      c.style.top = (window.innerHeight + 30 + Math.random()*100) + 'px';
-      c.style.transform = `translateY(0) rotate(${Math.random()*720}deg)`;
-      c.style.opacity = 0;
-    }, 30);
-    setTimeout(()=> c.remove(), 4200);
-  }
-}
-
-/* convenience: celebration (sound + confetti + notification + toast) */
-function triggerCelebration(list){
-  document.getElementById('applause').play().catch(()=>{});
-  triggerConfetti();
-  const names = list.map(p=>p.nombre).join(', ');
-  requestAndNotify(`🎉 ${names} cumple hoy!`, `Club UG te manda un abrazo`);
-  toast(`¡Feliz cumpleaños a ${names}!`);
-}
-
-/* auto-open today if birthdays exist */
-function openTodayIfAny(){
-  const key = `${today.getMonth()+1}-${today.getDate()}`;
-  if(searchMap[key] && searchMap[key].length){
-    // open modal for today after short delay
-    setTimeout(()=> openDayModal(today.getMonth()+1, today.getDate()), 450);
-  }
-}
-
-/* init */
-renderCalendar();
-openTodayIfAny();
-
+});
 </script>
 </body>
 </html>
-
 
 
 
