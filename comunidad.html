@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -77,12 +78,35 @@
     70% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
     100% { transform: translate(-50%, -50%) scale(1) rotate(0deg); opacity: 1; }
   }
+
+  /* Botón regresar */
+  #backBtn {
+    margin-top: 30px;
+    padding: 12px 25px;
+    font-size: 18px;
+    border: none;
+    border-radius: 12px;
+    background: #00f;
+    color: #fff;
+    cursor: pointer;
+    box-shadow: 0 0 15px #0ff;
+    transition: all 0.3s ease;
+  }
+
+  #backBtn:hover {
+    background: #0ff;
+    color: #000;
+    box-shadow: 0 0 25px #00f, 0 0 35px #0ff;
+    transform: scale(1.05);
+  }
+
 </style>
 </head>
 <body>
 
 <h1>Nuestra Comunidad</h1>
 <div id="birthdayBox">Esperando los próximos cumpleaños...</div>
+<button id="backBtn" onclick="location.href='index.html'">Regresar a Principal</button>
 <audio id="audio" src="https://www.soundjay.com/human/sounds/applause-8.mp3" preload="auto"></audio>
 
 <script>
@@ -172,12 +196,12 @@ const usuarios = [
   { nombre: "Silva Castro Rosa Nathalia", carrera: "Software", fecha: "2007-03-07" }
 ];
 
-// Obtener fecha actual
+// Fecha actual
 const hoy = new Date();
 const dia = hoy.getDate();
 const mes = hoy.getMonth() + 1;
 
-// Buscar usuario que cumple hoy
+// Buscar cumpleaños de hoy
 const cumpleHoy = usuarios.find(u => {
   const f = new Date(u.fechaCumple);
   return f.getDate() === dia && (f.getMonth() + 1) === mes;
@@ -205,21 +229,15 @@ function showBirthday(usuario) {
   if (usuario) {
     box.innerHTML = `🎉 ${usuario.nombre} cumple hoy 🎉<br>Carrera: ${usuario.carrera}`;
     
-    // Confeti
     createConfetti();
-    
-    // Sonido
     document.getElementById('audio').play();
 
-    // Mensaje animado
     const msg = document.createElement('div');
     msg.className = 'birthdayMessage';
     msg.innerHTML = `🎉 ¡Feliz Cumpleaños ${usuario.nombre}! 🎉<br>Club UG te manda un abrazo`;
     document.body.appendChild(msg);
-
     setTimeout(() => { msg.remove(); }, 4000);
 
-    // Notificación del navegador
     if (Notification.permission === "granted") {
       new Notification(`🎉 ${usuario.nombre} cumple hoy! 🎉`, { body: `Carrera: ${usuario.carrera}` });
     } else if (Notification.permission !== "denied") {
@@ -237,6 +255,7 @@ showBirthday(cumpleHoy);
 
 </body>
 </html>
+
 
 
 
