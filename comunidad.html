@@ -2,136 +2,123 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Demo Comunidad - Cumpleaños</title>
+  <title>Nuestra Comunidad</title>
   <style>
-    /* --- Estilos básicos con el mismo look --- */
     body {
       font-family: Arial, sans-serif;
       margin: 0;
       padding: 0;
       background: #f4f4f9;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      flex-direction: column;
       color: #333;
     }
-    nav {
-      background: #6200ea;
-      padding: 10px;
-      display: flex;
-      gap: 15px;
-    }
-    nav a {
-      color: white;
-      text-decoration: none;
-      padding: 8px 12px;
-      border-radius: 8px;
-      transition: background 0.3s;
-    }
-    nav a.wave-effect:hover {
-      background: rgba(255, 255, 255, 0.2);
-    }
-    nav a.active {
-      background: rgba(0, 0, 0, 0.2);
-    }
-    main {
-      padding: 20px;
-    }
+
     h1 {
       color: #6200ea;
+      margin-bottom: 20px;
     }
-    ul {
-      list-style: none;
-      padding: 0;
-    }
-    li {
+
+    .card {
       background: white;
-      margin: 8px 0;
-      padding: 10px;
-      border-radius: 8px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      padding: 20px 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      max-width: 400px;
+      text-align: center;
     }
+
     .feliz {
       background: #ffeb3b;
       padding: 15px;
       border-radius: 10px;
-      margin: 15px 0;
+      margin-bottom: 15px;
       font-weight: bold;
       color: #000;
       box-shadow: 0 2px 8px rgba(0,0,0,0.2);
     }
-    footer {
-      background: #eee;
+
+    .proximos {
+      background: #e3f2fd;
       padding: 10px;
-      text-align: center;
-      margin-top: 20px;
+      border-radius: 8px;
+      margin-top: 10px;
+    }
+
+    .proximos strong {
+      display: block;
+      margin-bottom: 8px;
+      color: #1565c0;
     }
   </style>
 </head>
 <body>
-  <!-- NAVBAR -->
-  <nav>
-    <a href="#" class="wave-effect">Inicio</a>
-    <a href="#" class="wave-effect">Noticias</a>
-    <a href="#" class="wave-effect">Contacto</a>
-    <a href="#" class="wave-effect active">Nuestra Comunidad</a>
-  </nav>
+  <h1>Nuestra Comunidad</h1>
 
-  <!-- CONTENIDO -->
-  <main>
-    <h1>Nuestra Comunidad 🎉</h1>
-    <h2>Cumpleaños de los miembros</h2>
-    <ul id="listaCumples"></ul>
-    <div id="mensaje"></div>
-  </main>
-
-  <!-- FOOTER -->
-  <footer>
-    © 2025 - Demo Comunidad | <a href="#">Inicio</a> | <a href="#">Noticias</a> | <a href="#">Contacto</a>
-  </footer>
+  <div class="card" id="contenedorCumples">
+    <p>Cargando cumpleaños...</p>
+  </div>
 
   <script>
-    // Lista de miembros y fechas
+    // Lista de miembros con cumpleaños (AAAA-MM-DD)
     const miembros = [
       { nombre: "María", cumple: "2025-08-30" },
       { nombre: "José", cumple: "2025-09-02" },
-      { nombre: "Ana", cumple: "2025-09-10" }
+      { nombre: "Ana", cumple: "2025-09-15" },
+      { nombre: "Pedro", cumple: "2025-10-05" }
     ];
 
-    const lista = document.getElementById("listaCumples");
-    const mensaje = document.getElementById("mensaje");
+    const contenedor = document.getElementById("contenedorCumples");
+    contenedor.innerHTML = "";
 
-    // Hoy forzado para prueba (puedes cambiarlo a new Date())
-    const hoy = "08-30"; // formato mm-dd
-    // const hoy = new Date().toISOString().slice(5, 10); // real
+    const hoy = new Date();
+    const mmddHoy = hoy.toISOString().slice(5, 10); // mm-dd
+    const mesHoy = hoy.getMonth() + 1; // mes actual
+    const mesProximo = (mesHoy % 12) + 1; // siguiente mes (1–12)
 
-    miembros.forEach(m => {
-      const fecha = new Date(m.cumple);
-      const mmdd = m.cumple.slice(5, 10);
+    // Cumpleaños de hoy
+    const cumpleHoy = miembros.filter(m => m.cumple.slice(5, 10) === mmddHoy);
 
-      // Mostrar en la lista
-      const li = document.createElement("li");
-      li.textContent = `${m.nombre} - ${fecha.toLocaleDateString("es-ES", { day:"numeric", month:"long" })}`;
-      lista.appendChild(li);
-
-      // Chequear si hoy cumple
-      if (mmdd === hoy) {
+    if (cumpleHoy.length > 0) {
+      cumpleHoy.forEach(m => {
         const div = document.createElement("div");
         div.className = "feliz";
-        div.textContent = `🎂 ¡Feliz cumpleaños ${m.nombre}! 🎉`;
-        mensaje.appendChild(div);
+        div.textContent = `🎂 ¡Hoy es el cumpleaños de ${m.nombre}! 🎉`;
+        contenedor.appendChild(div);
 
         // Notificación del navegador
         if (Notification.permission === "granted") {
-          new Notification("🎂 Hoy es el cumpleaños de " + m.nombre + "!");
+          new Notification(`🎂 Hoy es el cumpleaños de ${m.nombre}! 🎉`);
         } else if (Notification.permission !== "denied") {
           Notification.requestPermission().then(p => {
             if (p === "granted") {
-              new Notification("🎂 Hoy es el cumpleaños de " + m.nombre + "!");
+              new Notification(`🎂 Hoy es el cumpleaños de ${m.nombre}! 🎉`);
             }
           });
         }
-      }
+      });
+    }
+
+    // Cumpleaños del próximo mes
+    const cumpleProximoMes = miembros.filter(m => {
+      const mes = parseInt(m.cumple.slice(5, 7));
+      return mes === mesProximo;
     });
+
+    if (cumpleProximoMes.length > 0) {
+      const div = document.createElement("div");
+      div.className = "proximos";
+      div.innerHTML = `<strong>🎉 Cumpleaños el próximo mes:</strong> 
+        ${cumpleProximoMes.map(m => m.nombre).join(", ")}`;
+      contenedor.appendChild(div);
+    }
+
+    if (contenedor.innerHTML.trim() === "") {
+      contenedor.innerHTML = "<p>No hay cumpleaños cercanos.</p>";
+    }
   </script>
 </body>
 </html>
-
-
