@@ -4,54 +4,94 @@
   <meta charset="UTF-8">
   <title>Nuestra Comunidad</title>
   <style>
+    /* ====== ESTILOS BASE ====== */
     body {
-      font-family: Arial, sans-serif;
+      font-family: 'Segoe UI', sans-serif;
       margin: 0;
       padding: 0;
-      background: #f4f4f9;
+      background: linear-gradient(135deg, #4a148c, #880e4f);
       display: flex;
       justify-content: center;
       align-items: center;
       height: 100vh;
       flex-direction: column;
-      color: #333;
+      color: #fff;
+      overflow: hidden;
     }
 
     h1 {
-      color: #6200ea;
+      font-size: 2.5rem;
       margin-bottom: 20px;
+      animation: wave 2s infinite;
+    }
+
+    @keyframes wave {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-5px); }
     }
 
     .card {
-      background: white;
-      padding: 20px 30px;
-      border-radius: 12px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-      max-width: 400px;
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      padding: 25px 35px;
+      border-radius: 16px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+      max-width: 420px;
       text-align: center;
+      animation: fadeIn 1s ease-in-out;
     }
 
     .feliz {
       background: #ffeb3b;
-      padding: 15px;
-      border-radius: 10px;
-      margin-bottom: 15px;
-      font-weight: bold;
       color: #000;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+      padding: 15px;
+      border-radius: 12px;
+      font-weight: bold;
+      margin-bottom: 15px;
+      animation: pulse 1.5s infinite;
     }
 
     .proximos {
-      background: #e3f2fd;
-      padding: 10px;
-      border-radius: 8px;
+      background: #2196f3;
+      color: #fff;
+      padding: 12px;
+      border-radius: 10px;
       margin-top: 10px;
+      font-size: 1rem;
+      animation: fadeInUp 1.2s ease;
     }
 
-    .proximos strong {
-      display: block;
-      margin-bottom: 8px;
-      color: #1565c0;
+    /* Animaciones */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.9); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+
+    /* Confeti animado */
+    .confetti {
+      position: fixed;
+      width: 8px;
+      height: 14px;
+      opacity: 0.9;
+      top: -10px;
+      animation: caer linear forwards;
+    }
+
+    @keyframes caer {
+      to {
+        transform: translateY(100vh) rotate(720deg);
+        opacity: 0;
+      }
     }
   </style>
 </head>
@@ -65,7 +105,7 @@
   <script>
     // Lista de miembros con cumpleaños (AAAA-MM-DD)
     const miembros = [
-      { nombre: "María", cumple: "2025-08-30" },
+      { nombre: "María", cumple: "2025-08-30" },  // 🎂 hoy de prueba
       { nombre: "José", cumple: "2025-09-02" },
       { nombre: "Ana", cumple: "2025-09-15" },
       { nombre: "Pedro", cumple: "2025-10-05" }
@@ -79,30 +119,38 @@
     const mesHoy = hoy.getMonth() + 1; // mes actual
     const mesProximo = (mesHoy % 12) + 1; // siguiente mes (1–12)
 
-    // Cumpleaños de hoy
+    // 🎂 Cumpleaños de hoy
     const cumpleHoy = miembros.filter(m => m.cumple.slice(5, 10) === mmddHoy);
 
     if (cumpleHoy.length > 0) {
       cumpleHoy.forEach(m => {
         const div = document.createElement("div");
         div.className = "feliz";
-        div.textContent = `🎂 ¡Hoy es el cumpleaños de ${m.nombre}! 🎉`;
+        div.textContent = `🎉 ¡Feliz Cumpleaños ${m.nombre}! 🎂 El Club UG te manda un abrazo 🎁`;
         contenedor.appendChild(div);
+
+        lanzarConfeti();
 
         // Notificación del navegador
         if (Notification.permission === "granted") {
-          new Notification(`🎂 Hoy es el cumpleaños de ${m.nombre}! 🎉`);
+          new Notification(`🎉 ¡Feliz Cumpleaños ${m.nombre}! 🎂`, {
+            body: "El Club UG te manda un abrazo 🎁",
+            icon: "https://cdn-icons-png.flaticon.com/512/3176/3176366.png"
+          });
         } else if (Notification.permission !== "denied") {
           Notification.requestPermission().then(p => {
             if (p === "granted") {
-              new Notification(`🎂 Hoy es el cumpleaños de ${m.nombre}! 🎉`);
+              new Notification(`🎉 ¡Feliz Cumpleaños ${m.nombre}! 🎂`, {
+                body: "El Club UG te manda un abrazo 🎁",
+                icon: "https://cdn-icons-png.flaticon.com/512/3176/3176366.png"
+              });
             }
           });
         }
       });
     }
 
-    // Cumpleaños del próximo mes
+    // 🎉 Cumpleaños del próximo mes
     const cumpleProximoMes = miembros.filter(m => {
       const mes = parseInt(m.cumple.slice(5, 7));
       return mes === mesProximo;
@@ -111,13 +159,27 @@
     if (cumpleProximoMes.length > 0) {
       const div = document.createElement("div");
       div.className = "proximos";
-      div.innerHTML = `<strong>🎉 Cumpleaños el próximo mes:</strong> 
-        ${cumpleProximoMes.map(m => m.nombre).join(", ")}`;
+      div.innerHTML = `<strong>Cumpleaños el próximo mes:</strong><br> 
+        ${cumpleProximoMes.map(m => "🎂 " + m.nombre).join("<br>")}`;
       contenedor.appendChild(div);
     }
 
     if (contenedor.innerHTML.trim() === "") {
       contenedor.innerHTML = "<p>No hay cumpleaños cercanos.</p>";
+    }
+
+    // 🎊 Confeti mejorado
+    function lanzarConfeti() {
+      for (let i = 0; i < 120; i++) {
+        const confeti = document.createElement("div");
+        confeti.className = "confetti";
+        confeti.style.left = Math.random() * 100 + "vw";
+        confeti.style.background = `hsl(${Math.random() * 360}, 100%, 50%)`;
+        confeti.style.animationDuration = (Math.random() * 3 + 2) + "s";
+        confeti.style.transform = `rotate(${Math.random() * 360}deg)`;
+        document.body.appendChild(confeti);
+        setTimeout(() => confeti.remove(), 5000);
+      }
     }
   </script>
 </body>
