@@ -63,10 +63,9 @@
     position: fixed;
     width: 10px;
     height: 10px;
-    background: #0ff;
     opacity: 0.8;
-    border-radius: 50%;
     pointer-events: none;
+    border-radius: 50%;
     animation: fall linear forwards;
   }
 
@@ -81,6 +80,7 @@
 <h1>Nuestra Comunidad</h1>
 <div id="birthdayBox">Esperando los próximos cumpleaños...</div>
 <div id="notification"></div>
+<audio id="audio" src="https://www.soundjay.com/human/sounds/applause-8.mp3" preload="auto"></audio>
 
 <script>
   // Cumpleaños falso para prueba
@@ -94,13 +94,15 @@
   }
 
   function createConfetti() {
-    for(let i=0;i<50;i++){
+    const colors = ['#0ff', '#00f', '#fff', '#0f0', '#f0f', '#ff0'];
+    for(let i=0;i<100;i++){
       const confetti = document.createElement('div');
       confetti.className = 'confetti';
       confetti.style.left = Math.random() * 100 + 'vw';
-      confetti.style.background = `hsl(${Math.random()*360}, 100%, 60%)`;
-      confetti.style.animationDuration = (Math.random()*2 + 3) + 's';
-      confetti.style.width = confetti.style.height = (Math.random()*8 + 5) + 'px';
+      confetti.style.background = colors[Math.floor(Math.random()*colors.length)];
+      confetti.style.animationDuration = (Math.random()*3 + 2) + 's';
+      confetti.style.width = confetti.style.height = (Math.random()*10 + 5) + 'px';
+      confetti.style.transform = `rotate(${Math.random()*360}deg)`;
       document.body.appendChild(confetti);
       setTimeout(()=> confetti.remove(), 5000);
     }
@@ -112,6 +114,7 @@
       box.innerHTML = `🎉 ¡Feliz Cumpleaños ${cumpleañosHoy.nombre}! 🎉<br>Carrera: ${cumpleañosHoy.carrera}`;
       showNotification(`¡Feliz Cumpleaños ${cumpleañosHoy.nombre}! Club UG te manda un abrazo`);
       createConfetti();
+      document.getElementById('audio').play();
     }
   }
 
