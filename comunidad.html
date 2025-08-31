@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Nuestra Comunidad</title>
+<title>Feliz Cumpleaños</title>
 <style>
   body {
     font-family: Arial, sans-serif;
@@ -15,41 +15,27 @@
     height: 100vh;
     margin: 0;
     flex-direction: column;
+    text-align: center;
   }
   h1 {
     color: white;
     text-shadow: 0 0 10px #00f, 0 0 20px #00f, 0 0 30px #00f;
     margin-bottom: 30px;
-    text-align: center;
   }
   .birthday-box {
     background: #111;
     border: 2px solid #00f;
     border-radius: 15px;
-    padding: 20px;
+    padding: 40px 20px;
     width: 90%;
-    max-width: 400px;
-    text-align: center;
+    max-width: 500px;
     animation: glow 2s infinite alternate;
+    font-size: 22px;
   }
   @keyframes glow {
     0% { box-shadow: 0 0 10px #00f; }
     50% { box-shadow: 0 0 20px #00f; }
     100% { box-shadow: 0 0 10px #00f; }
-  }
-  .birthday-item {
-    margin: 10px 0;
-    font-size: 18px;
-  }
-  /* Estallidos */
-  .confetti {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    z-index: 9999;
   }
   .notification {
     position: fixed;
@@ -65,23 +51,31 @@
     z-index: 10000;
     display: none;
   }
+  .confetti {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 9999;
+  }
 </style>
 </head>
 <body>
 
 <h1>Nuestra Comunidad</h1>
-
-<div class="birthday-box" id="birthday-box">
-  <div id="birthdays-list"></div>
-</div>
+<div class="birthday-box" id="birthday-box">Esperando los próximos cumpleaños...</div>
 
 <div class="notification" id="notification"></div>
 <canvas class="confetti" id="confetti-canvas"></canvas>
 
 <script>
-// Array completo con todos los datos que proporcionaste
+// Datos de prueba
 const birthdays = [
-  { nombre: "Campuzano Benavides Amelia Elizabeth", carrera: "Ingeniería civil", fecha: "1996-08-25" },
+  { nombre: "Miranda Danna", carrera: "Contabilidad y auditoría", fecha: "2025-08-29" },
+  { nombre: "Campuzano Benavides Amelia Elizabeth", carrera: "Ingeniería civil", fecha: "1996-08-25" }
+    { nombre: "Campuzano Benavides Amelia Elizabeth", carrera: "Ingeniería civil", fecha: "1996-08-25" },
   { nombre: "Bajaña Aviles Deivid Alexander", carrera: "Comercio exterior", fecha: "2007-07-29" },
   { nombre: "Mendoza Zambrano Thaylor Enrique", carrera: "Sociología", fecha: "2001-10-30" },
   { nombre: "Luis Antonio Mite Contreras", carrera: "Derecho", fecha: "2006-04-10" },
@@ -163,32 +157,25 @@ const birthdays = [
   { nombre: "Silva Castro Rosa Nathalia", carrera: "Software", fecha: "2007-03-07" }
 ];
 
-function mostrarProximosCumpleaños() {
-  const container = document.getElementById("birthdays-list");
+function checkBirthdayToday() {
   const today = new Date();
-  const currentMonth = today.getMonth() + 1;
+  const box = document.getElementById("birthday-box");
 
-  const proximos = birthdays.filter(b => {
-    const mes = new Date(b.fecha).getMonth() + 1;
-    return mes === currentMonth;
-  });
-
-  proximos.forEach(b => {
-    const div = document.createElement("div");
-    div.className = "birthday-item";
+  const cumpleHoy = birthdays.find(b => {
     const dateObj = new Date(b.fecha);
-    div.innerHTML = `${b.nombre} - ${b.carrera} - ${dateObj.getDate()}/${dateObj.getMonth()+1}`;
-    container.appendChild(div);
-
-    // Si es hoy
-    if (dateObj.getDate() === today.getDate() && dateObj.getMonth() === today.getMonth()) {
-      showNotification(`¡Feliz Cumpleaños ${b.nombre}! Club UG te manda un abrazo`);
-      launchConfetti();
-    }
+    return dateObj.getDate() === today.getDate() && dateObj.getMonth() === today.getMonth();
   });
+
+  if(cumpleHoy) {
+    box.innerHTML = `¡Feliz Cumpleaños ${cumpleHoy.nombre}! 🎉<br>Carrera: ${cumpleHoy.carrera}`;
+    showNotification(`¡Feliz Cumpleaños ${cumpleHoy.nombre}! Club UG te manda un abrazo`);
+    launchConfetti();
+  } else {
+    box.innerHTML = "Esperando los próximos cumpleaños...";
+  }
 }
 
-// Notificación
+// Notificación por 5 segundos
 function showNotification(msg) {
   const notif = document.getElementById("notification");
   notif.innerText = msg;
@@ -220,8 +207,9 @@ function launchConfetti() {
   setTimeout(() => clearInterval(interval), 5000);
 }
 
-mostrarProximosCumpleaños();
+checkBirthdayToday();
 </script>
 
 </body>
 </html>
+
