@@ -368,7 +368,8 @@ function showMainBirthday(list){
   contentBox.innerHTML = `<div style="font-weight:800">${escapeHtml(u.nombre)}</div>
                           <div style="color:var(--muted);margin-top:6px">${escapeHtml(u.carrera)} ${edad!==null?('· '+edad+' años'):''}</div>
                           <div style="margin-top:10px;color:var(--text)"><strong>¡Feliz cumpleaños!</strong> 🎉 Club UG te manda un abrazo</div>`;
-  todayAvatar.textContent = (u.nombre.split(' ').map(t=>t[0]).slice(0,2).join('') || 'UG').toUpperCase();
+  todayAvatar.textContent =  '🎈';
+
   subBox.textContent = '¡Feliz cumpleaños! 🎈';
 }
 
@@ -520,6 +521,7 @@ document.addEventListener('keydown', (e)=> {
 </script>
 </body>
 </html>
+
 
 
 
