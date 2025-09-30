@@ -512,9 +512,12 @@ function renderCalendar(year, month){
   setTimeout(()=>{ daysGrid.style.transition='all .36s ease'; daysGrid.style.opacity=1; daysGrid.style.transform='translateY(0)'; }, 10);
 }
 
-/* abrir lista del día: en vez de alert, mostramos popup centrado y grande */
 function openDayList(day, monthZeroBased){
-  const list = usuarios.filter(u => u._day === day && u._month === (monthZeroBased+1));
+  const list = usuarios.filter(u => {
+    const f = new Date(u.fecha);   // ← convertir fecha string a Date
+    return f.getDate() === day && f.getMonth() === monthZeroBased;
+  });
+
   if(!list.length){
     const t = document.createElement('div');
     t.className='birthday-popup';
@@ -532,7 +535,7 @@ function openDayList(day, monthZeroBased){
 
   popup.innerHTML = `<div class="popup-h1">🎂 Cumpleaños del ${day} de ${mesNombre(monthZeroBased)}</div>` +
     list.map(u=>{
-      const edad = calcularEdad(u._parsed);
+      const edad = calcularEdad(u.fecha);
       return `<div style="margin:6px 0">
                 <strong>${escapeHtml(u.nombre)}</strong><br>
                 <span style="color:var(--muted)">${escapeHtml(u.carrera)} ${edad!==null?`· ${edad} años`:''}</span>
@@ -542,6 +545,7 @@ function openDayList(day, monthZeroBased){
   document.body.appendChild(popup);
   setTimeout(()=> popup.remove(), 5200);
 }
+
 
 
   // construir modal content simple y limpio
@@ -602,6 +606,7 @@ document.addEventListener('keydown', (e)=> {
 </script>
 </body>
 </html>
+
 
 
 
