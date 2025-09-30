@@ -144,11 +144,35 @@
         <p>Aqui encontraras actividades de nivelacion para que te vayas preparando ! </p>
         <a href="https://drive.google.com/drive/folders/1dnLk2IQClq2zsb2CQk9sDpUP5-WS4HSy?usp=drive_link" class="btn-read">GO ! </a>
       </li>
+      <li class="news-item">
+  <div class="meta">10 de Septiembre 2025</div>
+  <h3>DOCS R NIVELACION CI 2025</h3>
+  <p>Aqui encontraras actividades de nivelacion </p>
+
+  <!-- Caja de código -->
+  <input type="password" id="codigoAcceso" placeholder="Ingresa el código">
+  <button onclick="verificarCodigo()">Acceder</button>
+</li>
+
+<script>
+  function verificarCodigo() {
+    const codigoCorrecto = "1999"; // aquí pones tu código secreto
+    const codigoIngresado = document.getElementById("codigoAcceso").value;
+
+    if (codigoIngresado === codigoCorrecto) {
+      window.location.href = "https://drive.google.com/drive/folders/1PDWJg_JPYfzQlGadi62cSxD_oQ1oIM2_?usp=drive_link";
+    } else {
+      alert("Código incorrecto. Inténtalo de nuevo.");
+    }
+  }
+</script>
+
       <!-- Agrega más ítems conforme lo necesites -->
     </ul>
   </div>
 </body>
 </html>
+
 
 
 
