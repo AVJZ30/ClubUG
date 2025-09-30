@@ -514,8 +514,8 @@ function renderCalendar(year, month){
 
 function openDayList(day, monthZeroBased){
   const list = usuarios.filter(u => {
-    const f = new Date(u.fecha);   // ← convertir fecha string a Date
-    return f.getDate() === day && f.getMonth() === monthZeroBased;
+    const f = u._parsed; // ← convertir fecha string a Date
+ return f && f.getDate() === day && f.getMonth() === monthZeroBased;
   });
 
   if(!list.length){
@@ -535,7 +535,7 @@ function openDayList(day, monthZeroBased){
 
   popup.innerHTML = `<div class="popup-h1">🎂 Cumpleaños del ${day} de ${mesNombre(monthZeroBased)}</div>` +
     list.map(u=>{
-      const edad = calcularEdad(u.fecha);
+      const edad = calcularEdad(u._parsed);
       return `<div style="margin:6px 0">
                 <strong>${escapeHtml(u.nombre)}</strong><br>
                 <span style="color:var(--muted)">${escapeHtml(u.carrera)} ${edad!==null?`· ${edad} años`:''}</span>
@@ -606,6 +606,7 @@ document.addEventListener('keydown', (e)=> {
 </script>
 </body>
 </html>
+
 
 
 
