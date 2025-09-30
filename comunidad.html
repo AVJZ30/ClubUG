@@ -423,6 +423,28 @@ function showBirthdayPopup(u){
   if(audio){ audio.currentTime = 0; audio.play().catch(()=>{}) }
   createConfettiBurst();
   setTimeout(()=> popup.remove(), 4200);
+   felicitarCumple(user.nombre);
+}
+
+// Función que habla
+function felicitarCumple(nombre) {
+  const mensaje = `Hoy está de cumpleaños ${nombre}, y Club G U G te manda un abrazo.`;
+
+  const utterance = new SpeechSynthesisUtterance(mensaje);
+  utterance.lang = "es-ES";  // puedes probar "es-MX"
+  utterance.rate = 1;
+  utterance.pitch = 1.2;
+
+  // seleccionar voz femenina si existe
+  const voces = speechSynthesis.getVoices();
+  const vozFemenina = voces.find(v => v.name.toLowerCase().includes("female") 
+                                   || v.name.toLowerCase().includes("woman") 
+                                   || v.name.toLowerCase().includes("sabina")) 
+                      || voces[0];
+  if (vozFemenina) utterance.voice = vozFemenina;
+
+  window.speechSynthesis.speak(utterance);
+}
   if("Notification" in window && Notification.permission === "default"){
     Notification.requestPermission().catch(()=>{});
   } else if("Notification" in window && Notification.permission === "granted"){
@@ -563,6 +585,7 @@ document.addEventListener('keydown', (e)=> {
 </script>
 </body>
 </html>
+
 
 
 
