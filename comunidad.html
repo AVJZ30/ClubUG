@@ -517,9 +517,6 @@ let calYear = hoy.getFullYear();
 let calMonth = hoy.getMonth(); // 0-based
 
 function renderCalendar(year, month){
-  console.log("Buscando cumpleaños para:", month+1, "día", d);
-console.log("Encontrados:", usuarios.filter(u => u._day === d && u._month === (month+1)));
-
   daysGrid.innerHTML = '';
   miniMonth.textContent = `${mesNombre(month)} ${year}`;
   const firstDay = new Date(year, month, 1);
@@ -595,20 +592,6 @@ function openDayList(day, monthZeroBased){
 
 
   // construir modal content simple y limpio
-  const modal = document.createElement('div'); modal.className='birthday-popup';
-  let html = `<div class="popup-h1">Cumpleaños — ${day} ${mesNombre(monthZeroBased)}</div>`;
-  html += '<div style="text-align:left;margin-top:8px">';
-  list.forEach(u=>{
-    const edad = calcularEdad(u._parsed);
-    html += `<div style="margin-bottom:10px"><strong>${escapeHtml(u.nombre)}</strong><div style="color:var(--muted);font-size:.9rem">${escapeHtml(u.carrera)} ${edad?('· '+edad+' años'):''}</div></div>`;
-  });
-  html += `</div><div style="margin-top:10px;text-align:right"><button class="btn ghost closeModal">Cerrar</button></div>`;
-  modal.innerHTML = html;
-  document.body.appendChild(modal);
-
-  // handler cerrar
-  modal.querySelector('.closeModal').addEventListener('click', ()=> modal.remove());
-}
 
 /* controles */
 document.getElementById('prevMonth').addEventListener('click', ()=> { calMonth--; if(calMonth<0){ calMonth=11; calYear-- } renderCalendar(calYear, calMonth); });
@@ -652,6 +635,7 @@ document.addEventListener('keydown', (e)=> {
 </script>
 </body>
 </html>
+
 
 
 
