@@ -335,6 +335,8 @@ const usuarios = [
 { nombre: "Yerexi Ginneth Matia Ayovi", carrera: "Pedagogía idiomas extranjeros y nacionales", fecha: "26/06/2007" },
 { nombre: "Silva Castro Rosa Nathalia", carrera: "Software", fecha: "07/03/2007" }
 ];
+console.log("Usuarios procesados:");
+usuarios.forEach(u => console.log(u.nombre, u._parsed, u._day, u._month));
 
 /* utilidades fecha */
 function parseFlexibleDate(s){
@@ -474,6 +476,9 @@ let calYear = hoy.getFullYear();
 let calMonth = hoy.getMonth(); // 0-based
 
 function renderCalendar(year, month){
+  console.log("Buscando cumpleaños para:", month+1, "día", d);
+console.log("Encontrados:", usuarios.filter(u => u._day === d && u._month === (month+1)));
+
   daysGrid.innerHTML = '';
   miniMonth.textContent = `${mesNombre(month)} ${year}`;
   const firstDay = new Date(year, month, 1);
@@ -606,6 +611,7 @@ document.addEventListener('keydown', (e)=> {
 </script>
 </body>
 </html>
+
 
 
 
