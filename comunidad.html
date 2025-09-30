@@ -456,12 +456,33 @@ function renderCalendar(year, month){
 function openDayList(day, monthZeroBased){
   const list = usuarios.filter(u => u._day === day && u._month === (monthZeroBased+1));
   if(!list.length){
-    // pequeño toast
-    const t = document.createElement('div'); t.className='birthday-popup'; t.style.top='auto'; t.style.bottom='6%';
-    t.innerHTML = `<div style="color:var(--muted)">${day} de ${mesNombre(monthZeroBased)} — No hay cumpleaños</div>`;
-    document.body.appendChild(t); setTimeout(()=> t.remove(), 1400);
+    const t = document.createElement('div');
+    t.className='birthday-popup';
+    t.innerHTML = `<div class="popup-h1">📅 ${day} de ${mesNombre(monthZeroBased)}</div>
+                   <div class="popup-sub">No hay cumpleaños registrados</div>`;
+    document.body.appendChild(t);
+    setTimeout(()=> t.remove(), 2500);
     return;
   }
+
+  const popup = document.createElement('div');
+  popup.className = 'birthday-popup';
+  popup.style.maxWidth = '420px';
+  popup.style.textAlign = 'left';
+
+  popup.innerHTML = `<div class="popup-h1">🎂 Cumpleaños del ${day} de ${mesNombre(monthZeroBased)}</div>` +
+    list.map(u=>{
+      const edad = calcularEdad(u._parsed);
+      return `<div style="margin:6px 0">
+                <strong>${escapeHtml(u.nombre)}</strong><br>
+                <span style="color:var(--muted)">${escapeHtml(u.carrera)} ${edad!==null?`· ${edad} años`:''}</span>
+              </div>`;
+    }).join("");
+
+  document.body.appendChild(popup);
+  setTimeout(()=> popup.remove(), 5200);
+}
+
 
   // construir modal content simple y limpio
   const modal = document.createElement('div'); modal.className='birthday-popup';
@@ -521,6 +542,7 @@ document.addEventListener('keydown', (e)=> {
 </script>
 </body>
 </html>
+
 
 
 
