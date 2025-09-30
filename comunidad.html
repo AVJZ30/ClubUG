@@ -419,23 +419,31 @@ function showBirthdayPopup(u){
   popup.innerHTML = `<div class="popup-h1">🎉 ¡Feliz Cumpleaños ${escapeHtml(u.nombre)}! 🎉</div>
                      <div class="popup-sub">${escapeHtml(u.carrera)} ${edad?('· '+edad+' años'):''}<br>Club UG te manda un abrazo 🤗</div>`;
   document.body.appendChild(popup);
+
+  // sonido
   const audio = document.getElementById('applause');
   if(audio){ audio.currentTime = 0; audio.play().catch(()=>{}) }
+
+  // confetti
   createConfettiBurst();
+
+  // popup se cierra solo
   setTimeout(()=> popup.remove(), 4200);
-   felicitarCumple(user.nombre);
+
+  // funciones nuevas (voz y notificación)
+  felicitarCumple(u.nombre);
+  mostrarNotificacion(u);
 }
 
-// Función que habla
+// === NUEVA FUNCIÓN: voz con SpeechSynthesis ===
 function felicitarCumple(nombre) {
-  const mensaje = `Hoy está de cumpleaños ${nombre}, y Club G U G te manda un abrazo.`;
-
+  const mensaje = `Hoy está de cumpleaños ${nombre}, y Club UG te manda un abrazo.`;
   const utterance = new SpeechSynthesisUtterance(mensaje);
-  utterance.lang = "es-ES";  // puedes probar "es-MX"
+  utterance.lang = "es-ES";  
   utterance.rate = 1;
-  utterance.pitch = 1.2;
+  utterance.pitch = 1.1;
 
-  // seleccionar voz femenina si existe
+  // elegir voz femenina si existe
   const voces = speechSynthesis.getVoices();
   const vozFemenina = voces.find(v => v.name.toLowerCase().includes("female") 
                                    || v.name.toLowerCase().includes("woman") 
@@ -445,10 +453,19 @@ function felicitarCumple(nombre) {
 
   window.speechSynthesis.speak(utterance);
 }
-  if("Notification" in window && Notification.permission === "default"){
-    Notification.requestPermission().catch(()=>{});
-  } else if("Notification" in window && Notification.permission === "granted"){
-    new Notification(`🎉 ${u.nombre} cumple hoy!`, { body: `Carrera: ${u.carrera}` });
+
+// === NUEVA FUNCIÓN: notificación del navegador ===
+function mostrarNotificacion(u){
+  if("Notification" in window){
+    if(Notification.permission === "default"){
+      Notification.requestPermission().then(perm => {
+        if(perm === "granted"){
+          new Notification(`🎉 ${u.nombre} cumple hoy!`, { body: `Carrera: ${u.carrera}` });
+        }
+      });
+    } else if(Notification.permission === "granted"){
+      new Notification(`🎉 ${u.nombre} cumple hoy!`, { body: `Carrera: ${u.carrera}` });
+    }
   }
 }
 
@@ -585,6 +602,7 @@ document.addEventListener('keydown', (e)=> {
 </script>
 </body>
 </html>
+
 
 
 
