@@ -335,19 +335,60 @@ const usuarios = [
 { nombre: "Yerexi Ginneth Matia Ayovi", carrera: "Pedagogía idiomas extranjeros y nacionales", fecha: "26/06/2007" },
 { nombre: "Silva Castro Rosa Nathalia", carrera: "Software", fecha: "07/03/2007" }
 ];
-console.log("Usuarios procesados:");
-usuarios.forEach(u => console.log(u.nombre, u._parsed, u._day, u._month));
+
 
 /* utilidades fecha */
+// === parseo flexible de fechas ===
 function parseFlexibleDate(s){
   if(!s) return null;
   s = s.toString().trim();
-  const dmY = s.match(/^(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{2,4})$/);
-  if(dmY){ let d=+dmY[1], m=+dmY[2], y=+dmY[3]; if(y<100) y+=1900; return new Date(y,m-1,d); }
-  const ymd = s.match(/^(\d{4})[\/\-](\d{1,2})[\/\-](\d{1,2})$/);
-  if(ymd) return new Date(+ymd[1],+ymd[2]-1,+ymd[3]);
-  const dd = new Date(s); return isNaN(dd.getTime())? null : dd;
+
+  // Formato dd/mm/yyyy o dd-mm-yyyy
+  let dmY = s.match(/^(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{2,4})$/);
+  if(dmY){
+    let d = +dmY[1], m = +dmY[2], y = +dmY[3];
+    if(y < 100) y += 1900;
+    return new Date(y, m-1, d);
+  }
+
+  // Formato yyyy/mm/dd o yyyy-mm-dd
+  let ymd = s.match(/^(\d{4})[\/\-](\d{1,2})[\/\-](\d{1,2})$/);
+  if(ymd) return new Date(+ymd[1], +ymd[2]-1, +ymd[3]);
+
+  // Intentar parseo de Date estándar
+  let dd = new Date(s);
+  if(!isNaN(dd.getTime())) return dd;
+
+  // Intentar extraer números sueltos "30 de septiembre de 2000"
+  let texto = s.toLowerCase();
+  let meses = { enero:0,febrero:1,marzo:2,abril:3,mayo:4,junio:5,julio:6,agosto:7,septiembre:8,octubre:9,noviembre:10,diciembre:11 };
+  let match = texto.match(/(\d{1,2}).*(enero|febrero|marzo|abril|mayo|junio|julio|agosto|septiembre|octubre|noviembre|diciembre).*(\d{4})/);
+  if(match){
+    let d = +match[1], m = meses[match[2]], y = +match[3];
+    return new Date(y, m, d);
+  }
+
+  // Si nada funciona
+  return null;
 }
+
+// === preparar datos de usuarios ===
+usuarios.forEach(u => {
+  const p = parseFlexibleDate(u.fecha);
+  u._parsed = p;
+  if(p){
+    u._day = p.getDate();
+    u._month = p.getMonth()+1; // 1-12
+  } else {
+    console.warn(`No se pudo parsear la fecha de ${u.nombre}: "${u.fecha}"`);
+    u._day = null;
+    u._month = null;
+  }
+});
+
+// Verificar
+console.log("Usuarios procesados:", usuarios.map(u=>({nombre:u.nombre,_parsed:u._parsed,_day:u._day,_month:u._month})));
+
 function calcularEdad(fecha){
   if(!fecha) return null;
   const hoy = new Date();
@@ -611,6 +652,7 @@ document.addEventListener('keydown', (e)=> {
 </script>
 </body>
 </html>
+
 
 
 
