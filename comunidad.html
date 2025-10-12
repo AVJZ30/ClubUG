@@ -217,7 +217,7 @@ popup.innerHTML=`<div class="popup-h1">🎉 ¡Feliz Cumpleaños ${u.nombre}! �
 document.body.appendChild(popup);
 document.getElementById('applause').play().catch(()=>{});
 createConfettiBurst();
-setTimeout(()=>popup.remove(),4200);
+setTimeout(()=>popup.remove(),7200);
 }
 
 function createConfettiBurst(){ const colors=['#00e6ff','#0066ff','#ffffff','#00ffd6','#ffea66']; for(let i=0;i<50;i++){ const el=document.createElement('div'); el.className='confetti'; const w=Math.random()*10+6; el.style.width=w+'px'; el.style.height=(w*0.55)+'px'; el.style.left=Math.random()*100+'vw'; el.style.top=(-Math.random()*18)+'vh'; el.style.background=colors[Math.floor(Math.random()*colors.length)]; document.body.appendChild(el); const t=1500+Math.random()*2000; el.animate([{opacity:1},{transform:`translateY(${80+Math.random()*60}vh)`,opacity:0.1}],{duration:t,easing:'cubic-bezier(.2,.7,.2,1)'}); setTimeout(()=>el.remove(),t+60); } }
@@ -244,7 +244,17 @@ const div=document.createElement('div'); div.className='day';
 const namesToday=usuarios.filter(u=>u._day===d && u._month===month+1).map(u=>u.nombre);
 div.innerHTML=`<div class="num">${d}</div><div class="names">${namesToday.join('<br>')}</div>`;
 if(namesToday.length>0){ const dot=document.createElement('div'); dot.className='dot'; div.appendChild(dot);}
-div.addEventListener('click',()=>{ if(namesToday.length>0){ alert(`${d}/${month+1}\n${namesToday.join(', ')}`); }});
+div.addEventListener('click',()=>{ 
+    if(namesToday.length>0){ 
+        const popup=document.createElement('div'); 
+        popup.className='birthday-popup'; 
+        popup.innerHTML=`<div class="popup-h1">🎂 Cumpleaños el ${d}/${month+1} 🎂</div>
+                         <div class="popup-sub">${namesToday.join('<br>')}</div>`; 
+        document.body.appendChild(popup); 
+        setTimeout(()=>popup.remove(),5000); // tiempo que dure visible
+    }
+});
+
 daysGrid.appendChild(div);
 }
 }
@@ -262,6 +272,7 @@ document.getElementById('goToTodayTop').addEventListener('click',()=>window.scro
 </script>
 </body>
 </html>
+
 
 
 
