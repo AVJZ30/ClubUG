@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <html lang="es">
 <head>
 <meta charset="utf-8" />
@@ -25,38 +25,21 @@
   html,body{height:100%;margin:0}
   body{
     font-family:'Poppins',system-ui,-apple-system,'Segoe UI',Roboto,Arial;
-    background:
-      radial-gradient(900px 400px at 10% 10%, rgba(0,110,255,0.06), transparent 8%),
-      linear-gradient(180deg,var(--bg-1) 0%, var(--bg-2) 65%);
+    background: linear-gradient(to bottom, #0a1525 0%, #101d35 100%);
     color:var(--text);
     display:flex;
     align-items:flex-start;
     justify-content:center;
     padding:28px;
   }
-/* Fondo completo uniforme */
-body {
-  background: #0a1525; /* un azul oscuro sólido */
-  margin: 0;
-  padding: 0;
-}
 
-/* Fondo degradado bonito */
-body {
-  background: linear-gradient(to bottom, #0a1525 0%, #101d35 100%);
-  margin: 0;
-  padding: 0;
-}
+  .calendar-container {
+    background: rgba(15, 25, 45, 0.9);
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+  }
 
-/* Calendario */
-.calendar-container {
-  background: rgba(15, 25, 45, 0.9); /* un azul oscuro semitransparente */
-  border-radius: 12px;
-  padding: 20px;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.4);
-}
-
-  /* Layout: stacked (message arriba, calendario abajo) */
   .container {
     width:100%;
     max-width:1100px;
@@ -76,7 +59,6 @@ body {
   .title h1 { font-size:1.05rem; margin:0 }
   .title p { margin:2px 0 0; color:var(--muted); font-size:0.86rem }
 
-  /* Message box (arriba) */
   .today-card {
     background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
     padding:18px;
@@ -88,9 +70,7 @@ body {
     align-items:center;
     justify-content:space-between;
   }
-  .left {
-    min-width:0;
-  }
+  .left { min-width:0; }
   .label { color:var(--neon-a); font-weight:700; margin-bottom:8px }
   .main-text { font-size:1.05rem; font-weight:700; margin-bottom:6px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis }
   .desc { color:var(--muted) }
@@ -109,7 +89,6 @@ body {
   }
   .btn.ghost { background:transparent; color:var(--muted); border:1px solid rgba(255,255,255,0.03) }
 
-  /* Calendar area (debajo) */
   .calendar-wrapper {
     background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.01));
     padding:16px;
@@ -119,37 +98,16 @@ body {
     transition: transform .36s cubic-bezier(.2,.9,.2,1), box-shadow .36s;
     overflow: hidden;
   }
-
-  /* When expanded (clicked) increase padding and shadow */
-  .calendar-wrapper.expanded {
-    transform: translateY(-6px) scale(1.01);
-    box-shadow: 0 28px 90px rgba(0,0,0,0.72);
-  }
-
   .calendar-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; gap:12px }
   .month-title { font-weight:800; color:var(--neon-a); font-size:1.02rem }
   .navs { display:flex; gap:8px; align-items:center }
-
   .weeknames { display:grid; grid-template-columns:repeat(7,1fr); gap:8px; color:var(--muted); font-size:0.78rem; text-align:center; margin-bottom:10px }
-  .days {
-    display:grid;
-    grid-template-columns:repeat(7,1fr);
-    gap:12px;
-    transition: all .28s ease;
-  }
-
-  /* each day tile */
+  .days { display:grid; grid-template-columns:repeat(7,1fr); gap:12px; transition: all .28s ease; }
   .day {
-    min-height:92px;
-    border-radius:12px;
-    padding:10px;
+    min-height:92px; border-radius:12px; padding:10px;
     background: rgba(255,255,255,0.012);
-    color:var(--text);
-    position:relative;
-    font-size:0.92rem;
-    display:flex;
-    flex-direction:column;
-    gap:8px;
+    color:var(--text); position:relative; font-size:0.92rem;
+    display:flex; flex-direction:column; gap:8px;
     transition: transform .18s cubic-bezier(.2,.9,.2,1), box-shadow .18s, background .18s;
     cursor:pointer;
   }
@@ -158,29 +116,18 @@ body {
   .names { font-size:0.78rem; color:var(--muted); line-height:1.05; max-height:3.6em; overflow:hidden; white-space:normal }
   .dot { position:absolute; left:10px; bottom:10px; width:12px;height:12px;border-radius:50%; background:linear-gradient(90deg,var(--neon-a),var(--neon-b)); box-shadow:0 12px 30px rgba(0,120,255,0.12) }
 
-  /* better spacing on mobile (stack days into fewer rows visually by increasing gap) */
-  @media (max-width:900px){
-    .day{ min-height:78px; padding:8px }
-    .days{ gap:10px }
-  }
-  @media (max-width:640px){
-    .days{ gap:8px }
-    .day{ min-height:64px; border-radius:10px }
-    .avatar{ width:72px; height:72px }
-  }
-
-  /* small helper highlight for quick view */
   .glow-highlight { animation: highlightIn .9s cubic-bezier(.2,.9,.2,1) both; }
   @keyframes highlightIn {
     0%{ box-shadow:0 0 0 rgba(0,0,0,0); border-color: rgba(0,230,255,0); }
     100%{ box-shadow:0 18px 60px rgba(0,110,255,0.06); border-color: rgba(0,230,255,0.08); }
   }
 
-  /* popup & confetti similar to previous */
   .birthday-popup {
     position:fixed; left:50%; top:14%; transform:translateX(-50%); z-index:1001;
-    background:linear-gradient(180deg, rgba(0,18,40,0.98), rgba(0,0,0,0.92)); border-radius:12px; padding:16px 20px;
-    border:1px solid rgba(0,230,255,0.08); box-shadow:0 30px 100px rgba(0,0,0,0.75); width:fit-content; max-width:92%; text-align:center; color:var(--text);
+    background:linear-gradient(180deg, rgba(0,18,40,0.98), rgba(0,0,0,0.92));
+    border-radius:12px; padding:16px 20px;
+    border:1px solid rgba(0,230,255,0.08); box-shadow:0 30px 100px rgba(0,0,0,0.75);
+    width:fit-content; max-width:92%; text-align:center; color:var(--text);
     animation: popupIn .7s cubic-bezier(.2,.9,.2,1) both;
   }
   .popup-h1 { font-weight:900; color:var(--neon-a); margin-bottom:6px; font-size:1.15rem }
@@ -206,7 +153,6 @@ body {
       </div>
     </div>
 
-    <!-- Mensaje principal arriba -->
     <div class="today-card" role="region" aria-label="Hoy">
       <div class="left">
         <div class="label">Hoy</div>
@@ -225,7 +171,6 @@ body {
       </div>
     </div>
 
-    <!-- Calendario (ABAJO, ancho completo) -->
     <div id="calendarArea" class="calendar-wrapper" aria-live="polite">
       <div class="calendar-header">
         <div>
@@ -237,12 +182,10 @@ body {
           <button class="btn ghost" id="nextMonth"><i class="fas fa-chevron-right"></i></button>
         </div>
       </div>
-
       <div class="weeknames">
         <div>Lun</div><div>Mar</div><div>Mié</div><div>Jue</div><div>Vie</div><div>Sáb</div><div>Dom</div>
       </div>
-
-      <div class="days" id="daysGrid" role="grid" aria-label="dias del mes"></div>
+      <div class="days" id="daysGrid"></div>
     </div>
 
   </div>
@@ -251,8 +194,9 @@ body {
   <div id="modalRoot" style="display:none"></div>
 
 <script>
-/* Datos (igual que antes) */
 const usuarios = [
+
+
 { nombre: "Leython Arana Jeremy Josue", carrera: "Tecnología de la Información", fecha: "19/10/2004" },
 { nombre: "Miranda Danna", carrera: "Contabilidad y auditoría", fecha: "29/08/2005" },
 { nombre: "Campuzano Benavides Amelia Elizabeth", carrera: "Ingeniería civil", fecha: "25/08/1996" },
@@ -336,90 +280,31 @@ const usuarios = [
 { nombre: "Silva Castro Rosa Nathalia", carrera: "Software", fecha: "07/03/2007" }
 ];
 
-
-/* utilidades fecha */
-// === parseo flexible de fechas ===
 function parseFlexibleDate(s){
   if(!s) return null;
   s = s.toString().trim();
-
-  // Formato dd/mm/yyyy o dd-mm-yyyy
   let dmY = s.match(/^(\d{1,2})[\/\-](\d{1,2})[\/\-](\d{2,4})$/);
   if(dmY){
     let d = +dmY[1], m = +dmY[2], y = +dmY[3];
     if(y < 100) y += 1900;
     return new Date(y, m-1, d);
   }
-
-  // Formato yyyy/mm/dd o yyyy-mm-dd
-  let ymd = s.match(/^(\d{4})[\/\-](\d{1,2})[\/\-](\d{1,2})$/);
-  if(ymd) return new Date(+ymd[1], +ymd[2]-1, +ymd[3]);
-
-  // Intentar parseo de Date estándar
-  let dd = new Date(s);
-  if(!isNaN(dd.getTime())) return dd;
-
-  // Intentar extraer números sueltos "30 de septiembre de 2000"
-  let texto = s.toLowerCase();
-  let meses = { enero:0,febrero:1,marzo:2,abril:3,mayo:4,junio:5,julio:6,agosto:7,septiembre:8,octubre:9,noviembre:10,diciembre:11 };
-  let match = texto.match(/(\d{1,2}).*(enero|febrero|marzo|abril|mayo|junio|julio|agosto|septiembre|octubre|noviembre|diciembre).*(\d{4})/);
-  if(match){
-    let d = +match[1], m = meses[match[2]], y = +match[3];
-    return new Date(y, m, d);
-  }
-
-  // Si nada funciona
   return null;
 }
 
-// === preparar datos de usuarios ===
 usuarios.forEach(u => {
   const p = parseFlexibleDate(u.fecha);
-  u._parsed = p;
-  if(p){
-    u._day = p.getDate();
-    u._month = p.getMonth()+1; // 1-12
-  } else {
-    console.warn(`No se pudo parsear la fecha de ${u.nombre}: "${u.fecha}"`);
-    u._day = null;
-    u._month = null;
-  }
-});
-
-// Verificar
-console.log("Usuarios procesados:", usuarios.map(u=>({nombre:u.nombre,_parsed:u._parsed,_day:u._day,_month:u._month})));
-
-function calcularEdad(fecha){
-  if(!fecha) return null;
-  const hoy = new Date();
-  let edad = hoy.getFullYear() - fecha.getFullYear();
-  const m = hoy.getMonth() - fecha.getMonth();
-  if(m < 0 || (m === 0 && hoy.getDate() < fecha.getDate())) edad--;
-  return edad >= 0 ? edad : null;
-}
-function escapeHtml(s){ return (s+'').replace(/[&<>"]/g, c=> ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])) }
-function mesNombre(m){ return ['Enero','Febrero','Marzo','Abril','Mayo','Junio','Julio','Agosto','Septiembre','Octubre','Noviembre','Diciembre'][m] || '' }
-
-/* preparar datos */
-const hoy = new Date();
-usuarios.forEach(u=>{
-  const p = parseFlexibleDate(u.fecha);
-  u._parsed = p;
   if(p){ u._day = p.getDate(); u._month = p.getMonth()+1; }
 });
 
+const hoy = new Date();
 const todayDay = hoy.getDate(), todayMonth = hoy.getMonth()+1;
 const cumpleHoy = usuarios.filter(u => u._day === todayDay && u._month === todayMonth);
 
-/* refs */
 const contentBox = document.getElementById('contentBox');
 const subBox = document.getElementById('subBox');
 const todayAvatar = document.getElementById('todayAvatar');
-const daysGrid = document.getElementById('daysGrid');
-const miniMonth = document.getElementById('miniMonth');
-const calendarArea = document.getElementById('calendarArea');
 
-/* mostrar mensaje principal */
 function showMainBirthday(list){
   if(!list || list.length===0){
     contentBox.innerHTML = `<div style="color:var(--muted)">Esperando los próximos cumpleaños...</div>`;
@@ -428,15 +313,12 @@ function showMainBirthday(list){
     return;
   }
   const u = list[0];
-  const edad = calcularEdad(u._parsed);
-  contentBox.innerHTML = `<div style="font-weight:800">${escapeHtml(u.nombre)}</div>
-                          <div style="color:var(--muted);margin-top:6px">${escapeHtml(u.carrera)} ${edad!==null?('· '+edad+' años'):''}</div>
+  contentBox.innerHTML = `<div style="font-weight:800">${u.nombre}</div>
+                          <div style="color:var(--muted);margin-top:6px">${u.carrera}</div>
                           <div style="margin-top:10px;color:var(--text)"><strong>¡Feliz cumpleaños!</strong> 🎉 Club UG te manda un abrazo</div>`;
-  todayAvatar.textContent =  '🎈';
-
+  todayAvatar.textContent = '🎈';
 }
 
-/* confetti y popup */
 function createConfettiBurst(){
   const colors = ['#00e6ff','#0066ff','#ffffff','#00ffd6','#ffea66'];
   for(let i=0;i<50;i++){
@@ -447,201 +329,29 @@ function createConfettiBurst(){
     el.style.left = Math.random()*100+'vw';
     el.style.top = (-Math.random()*18)+'vh';
     el.style.background = colors[Math.floor(Math.random()*colors.length)];
-    el.style.transform = `rotate(${Math.random()*360}deg)`;
     document.body.appendChild(el);
     const t = 1500 + Math.random()*2000;
-    el.animate([{transform:el.style.transform, opacity:1},{transform:`translateY(${80+Math.random()*60}vh) rotate(${Math.random()*1440}deg)`, opacity:0.1}], { duration: t, easing: 'cubic-bezier(.2,.7,.2,1)' });
+    el.animate([{opacity:1},{transform:`translateY(${80+Math.random()*60}vh)`,opacity:0.1}],{duration:t,easing:'cubic-bezier(.2,.7,.2,1)'});
     setTimeout(()=>el.remove(), t+60);
   }
 }
+
 function showBirthdayPopup(u){
-  const edad = calcularEdad(u._parsed);
   const popup = document.createElement('div');
   popup.className = 'birthday-popup';
-  popup.innerHTML = `<div class="popup-h1">🎉 ¡Feliz Cumpleaños ${escapeHtml(u.nombre)}! 🎉</div>
-                     <div class="popup-sub">${escapeHtml(u.carrera)} ${edad?('· '+edad+' años'):''}<br>Club UG te manda un abrazo 🤗</div>`;
+  popup.innerHTML = `<div class="popup-h1">🎉 ¡Feliz Cumpleaños ${u.nombre}! 🎉</div>
+                     <div class="popup-sub">${u.carrera}<br>Club UG te manda un abrazo 🤗</div>`;
   document.body.appendChild(popup);
-
-  // sonido
   const audio = document.getElementById('applause');
   if(audio){ audio.currentTime = 0; audio.play().catch(()=>{}) }
-
-  // confetti
   createConfettiBurst();
-
-  // popup se cierra solo
   setTimeout(()=> popup.remove(), 4200);
-
-  // funciones nuevas (voz y notificación)
-  felicitarCumple(u.nombre);
-  mostrarNotificacion(u);
 }
 
-// === NUEVA FUNCIÓN: voz con SpeechSynthesis ===
-function felicitarCumple(nombre) {
-  const mensaje = `Hoy está de cumpleaños ${nombre}, y Club UG te manda un abrazo.`;
-  const utterance = new SpeechSynthesisUtterance(mensaje);
-  utterance.lang = "es-ES";  
-  utterance.rate = 1;
-  utterance.pitch = 1.1;
-
-  // elegir voz femenina si existe
-  const voces = speechSynthesis.getVoices();
-  const vozFemenina = voces.find(v => v.name.toLowerCase().includes("female") 
-                                   || v.name.toLowerCase().includes("woman") 
-                                   || v.name.toLowerCase().includes("sabina")) 
-                      || voces[0];
-  if (vozFemenina) utterance.voice = vozFemenina;
-
-  window.speechSynthesis.speak(utterance);
-}
-
-// === NUEVA FUNCIÓN: notificación del navegador ===
-function mostrarNotificacion(u){
-  if("Notification" in window){
-    if(Notification.permission === "default"){
-      Notification.requestPermission().then(perm => {
-        if(perm === "granted"){
-          new Notification(`🎉 ${u.nombre} cumple hoy!`, { body: `Carrera: ${u.carrera}` });
-        }
-      });
-    } else if(Notification.permission === "granted"){
-      new Notification(`🎉 ${u.nombre} cumple hoy!`, { body: `Carrera: ${u.carrera}` });
-    }
-  }
-}
-
-/* render calendario */
-let calYear = hoy.getFullYear();
-let calMonth = hoy.getMonth(); // 0-based
-
-function renderCalendar(year, month){
-  daysGrid.innerHTML = '';
-  miniMonth.textContent = `${mesNombre(month)} ${year}`;
-  const firstDay = new Date(year, month, 1);
-  const startWeekDay = (firstDay.getDay() + 6) % 7; // lunes=0
-  const daysInMonth = new Date(year, month+1, 0).getDate();
-
-  for(let i=0;i<startWeekDay;i++){
-    const empty = document.createElement('div'); empty.className='day'; empty.style.opacity='0.03'; empty.style.pointerEvents='none';
-    daysGrid.appendChild(empty);
-  }
-
-  for(let d=1; d<=daysInMonth; d++){
-    const cell = document.createElement('div'); cell.className='day'; cell.tabIndex = 0;
-    const num = document.createElement('div'); num.className='num'; num.textContent = d;
-    cell.appendChild(num);
-
-    const found = usuarios.filter(u => u._day === d && u._month === (month+1));
-    if(found.length){
-      const names = document.createElement('div'); names.className='names';
-      names.innerHTML = found.slice(0,4).map(x => escapeHtml(x.nombre)).join('<br>');
-      cell.appendChild(names);
-      const dot = document.createElement('div'); dot.className = 'dot'; cell.appendChild(dot);
-      cell.classList.add('has-bday');
-    } else {
-      const filler = document.createElement('div'); filler.style.flex='1'; cell.appendChild(filler);
-    }
-
-    cell.addEventListener('click', ()=> openDayList(d, month));
-    cell.addEventListener('keydown', (e)=>{ if(e.key==='Enter') openDayList(d, month) });
-
-    daysGrid.appendChild(cell);
-  }
-
-  // subtle reflow animation (bounce)
-  daysGrid.style.opacity = 0; daysGrid.style.transform = 'translateY(8px)';
-  setTimeout(()=>{ daysGrid.style.transition='all .36s ease'; daysGrid.style.opacity=1; daysGrid.style.transform='translateY(0)'; }, 10);
-}
-
-function openDayList(day, monthZeroBased){
-  const list = usuarios.filter(u => {
-    const f = u._parsed; // ← convertir fecha string a Date
- return f && f.getDate() === day && f.getMonth() === monthZeroBased;
-  });
-
-  if(!list.length){
-    const t = document.createElement('div');
-    t.className='birthday-popup';
-    t.innerHTML = `<div class="popup-h1">📅 ${day} de ${mesNombre(monthZeroBased)}</div>
-                   <div class="popup-sub">No hay cumpleaños registrados</div>`;
-    document.body.appendChild(t);
-    setTimeout(()=> t.remove(), 2500);
-    return;
-  }
-
-  const popup = document.createElement('div');
-  popup.className = 'birthday-popup';
-  popup.style.maxWidth = '420px';
-  popup.style.textAlign = 'left';
-
-  popup.innerHTML = `<div class="popup-h1">🎂 Cumpleaños del ${day} de ${mesNombre(monthZeroBased)}</div>` +
-    list.map(u=>{
-      const edad = calcularEdad(u._parsed);
-      return `<div style="margin:6px 0">
-                <strong>${escapeHtml(u.nombre)}</strong><br>
-                <span style="color:var(--muted)">${escapeHtml(u.carrera)} ${edad!==null?`· ${edad} años`:''}</span>
-              </div>`;
-    }).join("");
-
-  document.body.appendChild(popup);
-  setTimeout(()=> popup.remove(), 5200);
-}
-
-
-
-  // construir modal content simple y limpio
-
-/* controles */
-document.getElementById('prevMonth').addEventListener('click', ()=> { calMonth--; if(calMonth<0){ calMonth=11; calYear-- } renderCalendar(calYear, calMonth); });
-document.getElementById('nextMonth').addEventListener('click', ()=> { calMonth++; if(calMonth>11){ calMonth=0; calYear++ } renderCalendar(calYear, calMonth); });
-
-function expandCalendarThenScroll(){
-  calendarArea.classList.add('expanded','glow-highlight');
-  // remove highlight class after animation
-  setTimeout(()=> calendarArea.classList.remove('glow-highlight'), 900);
-  calendarArea.scrollIntoView({behavior:'smooth', block:'center'});
-}
-
-/* botones ver calendario */
-document.getElementById('openCalendar').addEventListener('click', ()=> expandCalendarThenScroll());
-document.getElementById('openCalendarTop').addEventListener('click', ()=> expandCalendarThenScroll());
-document.getElementById('goToTodayTop').addEventListener('click', ()=> {
-  calYear = hoy.getFullYear(); calMonth = hoy.getMonth(); renderCalendar(calYear, calMonth);
-  expandCalendarThenScroll();
-});
-
-/* inicializar */
-renderCalendar(calYear, calMonth);
 showMainBirthday(cumpleHoy);
-
-/* si hay cumple hoy, popup y sonido */
-if(cumpleHoy && cumpleHoy.length>0){
-  setTimeout(()=> showBirthdayPopup(cumpleHoy[0]), 300);
-}
-
-/* pedir permiso notificaciones */
-if("Notification" in window && Notification.permission === "default"){
-  setTimeout(()=> Notification.requestPermission().catch(()=>{}), 1800);
-}
-
-/* cerrar popup con ESC */
-document.addEventListener('keydown', (e)=> {
-  if(e.key === 'Escape'){
-    document.querySelectorAll('.birthday-popup').forEach(p=>p.remove());
-  }
-});
 </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
 
 
 
