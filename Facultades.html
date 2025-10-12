@@ -3,117 +3,446 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Explora las facultades de la Universidad de Guayaquil - Club UG">
   <title>Facultades - Club UG</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
-    /* Estilo general */
-    body {
-      margin: 0;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background-color: #121212;
-      color: #fff;
+    /* Variables CSS para mantener consistencia */
+    :root {
+      --primary-blue: #1a4b8c;
+      --secondary-blue: #2a6fc8;
+      --light-blue: #4a9fff;
+      --accent-blue: #87ceeb;
+      --white: #ffffff;
+      --light-gray: #f5f7fa;
+      --text-dark: #333333;
+      --text-light: #666666;
+      --border-radius: 16px;
+      --transition: all 0.3s ease;
+      --shadow: 0 8px 20px rgba(26, 75, 140, 0.15);
+      --shadow-hover: 0 12px 30px rgba(26, 75, 140, 0.25);
     }
 
-    h1 {
+    /* Reset y estilos base */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: var(--light-gray);
+      color: var(--text-dark);
+      line-height: 1.6;
+    }
+
+    /* Encabezado */
+    .header {
+      background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue));
+      color: var(--white);
+      padding: 3rem 1rem;
       text-align: center;
-      margin: 30px 0;
-      font-size: 2.2em;
-      letter-spacing: 1px;
-      color: #00bfff;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .header::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"><path d="M0,0 L100,0 L100,100 Z" fill="rgba(255,255,255,0.1)"/></svg>');
+      background-size: cover;
+    }
+
+    .title {
+      font-size: clamp(2rem, 5vw, 3rem);
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      position: relative;
+    }
+
+    .subtitle {
+      font-size: 1.1rem;
+      font-weight: 300;
+      max-width: 600px;
+      margin: 0 auto;
+      opacity: 0.9;
+      position: relative;
     }
 
     /* Rejilla de facultades */
     .grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 15px;
-      padding: 0 20px 40px 20px;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 2rem;
+      padding: 3rem 1.5rem;
+      max-width: 1400px;
+      margin: 0 auto;
     }
 
     .card {
-      background: #1f1f1f;
-      border-radius: 12px;
-      padding: 20px 15px;
-      text-align: center;
+      background: var(--white);
+      border-radius: var(--border-radius);
+      overflow: hidden;
       cursor: pointer;
-      transition: transform 0.3s, box-shadow 0.3s;
+      transition: var(--transition);
+      box-shadow: var(--shadow);
+      position: relative;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
     }
 
     .card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 8px 20px rgba(0,191,255,0.6);
+      transform: translateY(-10px);
+      box-shadow: var(--shadow-hover);
+    }
+
+    .card-image {
+      height: 180px;
+      width: 100%;
+      object-fit: cover;
+      transition: var(--transition);
+    }
+
+    .card:hover .card-image {
+      transform: scale(1.05);
+    }
+
+    .card-content {
+      padding: 1.5rem;
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
     }
 
     .card h2 {
-      margin: 0;
-      font-size: 1em;
-      color: #00bfff;
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--primary-blue);
+      margin-bottom: 0.75rem;
+    }
+
+    .card p {
+      color: var(--text-light);
+      font-size: 0.9rem;
+      margin-bottom: 1rem;
+      flex-grow: 1;
+    }
+
+    .card-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: auto;
+    }
+
+    .card-icon {
+      width: 40px;
+      height: 40px;
+      background: var(--light-blue);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--white);
+      font-weight: bold;
+    }
+
+    .card-link {
+      color: var(--secondary-blue);
+      font-weight: 500;
+      font-size: 0.9rem;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      transition: var(--transition);
+    }
+
+    .card-link:hover {
+      color: var(--primary-blue);
     }
 
     /* Modal */
     .modal {
       display: none;
       position: fixed;
-      z-index: 100;
+      z-index: 1000;
       left: 0;
       top: 0;
       width: 100%;
       height: 100%;
       overflow: auto;
-      background-color: rgba(0,0,0,0.85);
+      background-color: rgba(0,0,0,0.7);
       animation: fadeIn 0.3s;
     }
 
     .modal-content {
-      background-color: #1f1f1f;
+      background-color: var(--white);
       margin: 5% auto;
-      padding: 20px;
-      border-radius: 12px;
+      padding: 0;
+      border-radius: var(--border-radius);
       width: 90%;
-      max-width: 700px;
-      text-align: center;
+      max-width: 800px;
       position: relative;
       animation: slideIn 0.3s;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+      overflow: hidden;
     }
 
-    .modal-content h2 {
-      color: #00bfff;
-      margin-bottom: 20px;
-      font-size: 1.5em;
+    .modal-header {
+      background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue));
+      color: var(--white);
+      padding: 2rem;
+      position: relative;
     }
 
-    .modal-content img {
+    .modal-header h2 {
+      font-size: 1.8rem;
+      font-weight: 600;
+      margin: 0;
+    }
+
+    .modal-body {
+      padding: 2rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+    }
+
+    .modal-image {
       width: 100%;
-      max-height: 300px;
+      height: 250px;
       object-fit: cover;
-      border-radius: 10px;
-      margin-bottom: 15px;
+      border-radius: 12px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
     }
 
-    .modal-content a {
-      display: inline-block;
-      margin-top: 10px;
-      color: #fff;
-      background-color: #00bfff;
-      padding: 10px 20px;
-      border-radius: 8px;
+    .modal-info {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .modal-description {
+      color: var(--text-light);
+      line-height: 1.7;
+    }
+
+    .modal-features {
+      list-style: none;
+    }
+
+    .modal-features li {
+      margin-bottom: 0.75rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .modal-features li::before {
+      content: "✓";
+      color: var(--secondary-blue);
+      font-weight: bold;
+    }
+
+    .modal-actions {
+      display: flex;
+      gap: 1rem;
+      margin-top: auto;
+    }
+
+    .btn {
+      padding: 0.75rem 1.5rem;
+      border-radius: 50px;
+      font-weight: 500;
       text-decoration: none;
-      transition: background 0.3s;
+      transition: var(--transition);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      border: none;
+      cursor: pointer;
+      font-family: 'Poppins', sans-serif;
     }
 
-    .modal-content a:hover {
-      background-color: #0095cc;
+    .btn-primary {
+      background: var(--secondary-blue);
+      color: var(--white);
+    }
+
+    .btn-primary:hover {
+      background: var(--primary-blue);
+      transform: translateY(-2px);
+    }
+
+    .btn-secondary {
+      background: var(--light-gray);
+      color: var(--text-dark);
+    }
+
+    .btn-secondary:hover {
+      background: #e0e6ed;
     }
 
     .close {
       position: absolute;
-      top: 15px;
-      right: 20px;
-      font-size: 28px;
+      top: 1.5rem;
+      right: 1.5rem;
+      font-size: 1.75rem;
       font-weight: bold;
-      color: #fff;
+      color: var(--white);
       cursor: pointer;
+      background: rgba(255,255,255,0.2);
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: var(--transition);
+      z-index: 10;
     }
 
+    .close:hover {
+      background: rgba(255,255,255,0.3);
+      transform: rotate(90deg);
+    }
+
+    /* Galería */
+    .gallery-section {
+      margin-top: 2rem;
+      border-top: 1px solid #eee;
+      padding-top: 1.5rem;
+    }
+
+    .gallery-title {
+      font-size: 1.2rem;
+      color: var(--primary-blue);
+      margin-bottom: 1rem;
+    }
+
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.75rem;
+    }
+
+    .gallery-item {
+      border-radius: 8px;
+      overflow: hidden;
+      height: 100px;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .gallery-item:hover {
+      transform: scale(1.05);
+    }
+
+    .gallery-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* Modal de galería */
+    .gallery-modal {
+      display: none;
+      position: fixed;
+      z-index: 2000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.9);
+      animation: fadeIn 0.3s;
+    }
+
+    .gallery-modal-content {
+      position: relative;
+      margin: auto;
+      width: 90%;
+      max-width: 1000px;
+      height: 90vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      animation: slideIn 0.3s;
+    }
+
+    .gallery-modal-image {
+      max-width: 100%;
+      max-height: 80vh;
+      object-fit: contain;
+      margin: 0 auto;
+    }
+
+    .gallery-modal-close {
+      position: absolute;
+      top: 20px;
+      right: 30px;
+      color: white;
+      font-size: 35px;
+      font-weight: bold;
+      cursor: pointer;
+      background: rgba(255,255,255,0.2);
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: var(--transition);
+    }
+
+    .gallery-modal-close:hover {
+      background: rgba(255,255,255,0.3);
+    }
+
+    .gallery-modal-nav {
+      position: absolute;
+      top: 50%;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      padding: 0 20px;
+      transform: translateY(-50%);
+    }
+
+    .gallery-nav-btn {
+      background: rgba(255,255,255,0.2);
+      color: white;
+      border: none;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      font-size: 24px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: var(--transition);
+    }
+
+    .gallery-nav-btn:hover {
+      background: rgba(255,255,255,0.3);
+    }
+
+    .gallery-caption {
+      text-align: center;
+      color: white;
+      padding: 10px;
+      font-size: 1.1rem;
+    }
+
+    /* Animaciones */
     @keyframes fadeIn {
       from {opacity: 0;}
       to {opacity: 1;}
@@ -125,115 +454,592 @@
     }
 
     /* Responsivo */
-    @media(max-width: 600px){
-      .card {
-        padding: 15px 10px;
+    @media (max-width: 768px) {
+      .grid {
+        grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+        gap: 1.5rem;
+        padding: 2rem 1rem;
       }
-      .card h2 {
-        font-size: 0.9em;
+      
+      .modal-body {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
       }
-      .modal-content img {
-        max-height: 200px;
+      
+      .modal-content {
+        margin: 10% auto;
+        width: 95%;
       }
-      .modal-content h2 {
-        font-size: 1.2em;
+      
+      .modal-header {
+        padding: 1.5rem;
       }
+      
+      .modal-body {
+        padding: 1.5rem;
+      }
+      
+      .modal-actions {
+        flex-direction: column;
+      }
+      
+      .gallery-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 480px) {
+      .grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .header {
+        padding: 2rem 1rem;
+      }
+      
+      .gallery-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Mejoras de accesibilidad */
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
     }
   </style>
 </head>
 <body>
 
-  <h1>Explora las Facultades</h1>
+  <header class="header">
+    <h1 class="title">Explora las Facultades</h1>
+    <p class="subtitle">Descubre las diferentes facultades de la Universidad de Guayaquil y sus programas académicos</p>
+  </header>
 
-  <div class="grid">
-    <div class="card" data-title="Ciencias Médicas" data-img="placeholder.jpg" data-map="https://goo.gl/maps/example1">
-      <h2>Ciencias Médicas</h2>
+  <main>
+    <div class="grid" id="faculties-grid">
+      <!-- Las tarjetas se generarán dinámicamente con JavaScript -->
     </div>
-    <div class="card" data-title="Ciencias Químicas" data-img="placeholder.jpg" data-map="https://goo.gl/maps/example2">
-      <h2>Ciencias Químicas</h2>
-    </div>
-    <div class="card" data-title="Ciencias Naturales" data-img="placeholder.jpg" data-map="https://goo.gl/maps/example3">
-      <h2>Ciencias Naturales</h2>
-    </div>
-    <div class="card" data-title="Ciencias Administrativas" data-img="placeholder.jpg" data-map="https://goo.gl/maps/example4">
-      <h2>Ciencias Administrativas</h2>
-    </div>
-    <div class="card" data-title="Ciencias Económicas" data-img="placeholder.jpg" data-map="https://goo.gl/maps/example5">
-      <h2>Ciencias Económicas</h2>
-    </div>
-    <div class="card" data-title="Matemáticas y Físicas" data-img="placeholder.jpg" data-map="https://goo.gl/maps/example6">
-      <h2>Matemáticas y Físicas</h2>
-    </div>
-    <div class="card" data-title="Arquitectura y Urbanismo" data-img="placeholder.jpg" data-map="https://goo.gl/maps/example7">
-      <h2>Arquitectura y Urbanismo</h2>
-    </div>
-    <div class="card" data-title="Filosofía, Letras y Educación" data-img="placeholder.jpg" data-map="https://goo.gl/maps/example8">
-      <h2>Filosofía, Letras y Educación</h2>
-    </div>
-    <div class="card" data-title="Jurisprudencia y Ciencias Sociales" data-img="placeholder.jpg" data-map="https://goo.gl/maps/example9">
-      <h2>Jurisprudencia y Ciencias Sociales</h2>
-    </div>
-    <div class="card" data-title="Ingeniería Industrial" data-img="placeholder.jpg" data-map="https://goo.gl/maps/example10">
-      <h2>Ingeniería Industrial</h2>
-    </div>
-    <div class="card" data-title="Ingeniería Química" data-img="placeholder.jpg" data-map="https://goo.gl/maps/example11">
-      <h2>Ingeniería Química</h2>
-    </div>
-    <div class="card" data-title="Odontología" data-img="placeholder.jpg" data-map="https://goo.gl/maps/example12">
-      <h2>Odontología</h2>
-    </div>
-    <div class="card" data-title="Comunicación Social" data-img="placeholder.jpg" data-map="https://goo.gl/maps/example13">
-      <h2>Comunicación Social</h2>
-    </div>
-    <div class="card" data-title="Educación Física y Deportes" data-img="placeholder.jpg" data-map="https://goo.gl/maps/example14">
-      <h2>Educación Física y Deportes</h2>
-    </div>
-    <div class="card" data-title="Psicología" data-img="placeholder.jpg" data-map="https://goo.gl/maps/example15">
-      <h2>Psicología</h2>
-    </div>
-    <div class="card" data-title="Educación Técnica" data-img="placeholder.jpg" data-map="https://goo.gl/maps/example16">
-      <h2>Educación Técnica</h2>
-    </div>
-    <div class="card" data-title="Odontología Piloto" data-img="placeholder.jpg" data-map="https://goo.gl/maps/example17">
-      <h2>Odontología Piloto</h2>
+  </main>
+
+  <!-- Modal de facultad -->
+  <div class="modal" id="modal" role="dialog" aria-labelledby="modal-title" aria-modal="true">
+    <div class="modal-content">
+      <button class="close" id="close" aria-label="Cerrar modal">&times;</button>
+      <div class="modal-header">
+        <h2 id="modal-title">Título Facultad</h2>
+      </div>
+      <div class="modal-body">
+        <img id="modal-img" src="" alt="Imagen de la facultad" class="modal-image">
+        <div class="modal-info">
+          <p id="modal-description" class="modal-description">Descripción de la facultad.</p>
+          <ul class="modal-features" id="modal-features">
+            <!-- Características se llenarán con JS -->
+          </ul>
+          <div class="modal-actions">
+            <a href="#" id="modal-map" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 2C8.13 2 5 5.13 5 9C5 14.25 12 22 12 22C12 22 19 14.25 19 9C19 5.13 15.87 2 12 2ZM12 11.5C10.62 11.5 9.5 10.38 9.5 9C9.5 7.62 10.62 6.5 12 6.5C13.38 6.5 14.5 7.62 14.5 9C14.5 10.38 13.38 11.5 12 11.5Z" fill="white"/>
+              </svg>
+              Ver en Mapa
+            </a>
+            <button id="modal-gallery" class="btn btn-secondary">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M21 19V5C21 3.9 20.1 3 19 3H5C3.9 3 3 3.9 3 5V19C3 20.1 3.9 21 5 21H19C20.1 21 21 20.1 21 19ZM8.5 13.5L11 16.51L14.5 12L19 18H5L8.5 13.5Z" fill="#333"/>
+              </svg>
+              Ver Galería
+            </button>
+          </div>
+          
+          <!-- Sección de galería en miniatura -->
+          <div class="gallery-section">
+            <h3 class="gallery-title">Galería de Imágenes</h3>
+            <div class="gallery-grid" id="modal-gallery-grid">
+              <!-- Miniaturas de la galería se llenarán con JS -->
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 
-  <!-- Modal -->
-  <div class="modal" id="modal">
-    <div class="modal-content">
-      <span class="close" id="close">&times;</span>
-      <h2 id="modal-title">Título Facultad</h2>
-      <img id="modal-img" src="placeholder.jpg" alt="Imagen Facultad">
-      <br>
-      <a href="#" id="modal-map" target="_blank">Ver en Google Maps</a>
+  <!-- Modal de galería completa -->
+  <div class="gallery-modal" id="gallery-modal">
+    <div class="gallery-modal-content">
+      <span class="gallery-modal-close" id="gallery-close">&times;</span>
+      <div class="gallery-modal-nav">
+        <button class="gallery-nav-btn" id="gallery-prev">&#10094;</button>
+        <button class="gallery-nav-btn" id="gallery-next">&#10095;</button>
+      </div>
+      <img class="gallery-modal-image" id="gallery-modal-image" src="" alt="">
+      <div class="gallery-caption" id="gallery-caption"></div>
     </div>
   </div>
 
   <script>
+    // Datos de las facultades con imágenes representativas
+    const facultiesData = [
+      {
+        title: "Ciencias Médicas",
+        img: "https://images.unsplash.com/photo-1551076805-e1869033e561?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+        map: "https://goo.gl/maps/example1",
+        description: "Formamos profesionales de la salud con excelencia académica y humana, comprometidos con el bienestar de la sociedad.",
+        features: [
+          "Medicina General",
+          "Especialidades Médicas",
+          "Enfermería",
+          "Laboratorio Clínico"
+        ],
+        gallery: [
+          "https://images.unsplash.com/photo-1551076805-e1869033e561?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+          "https://images.unsplash.com/photo-1582750433449-648ed127bb54?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+          "https://images.unsplash.com/photo-1576091160399-112ba8d25d1f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+          "https://images.unsplash.com/photo-1559757148-5c350d0d3c56?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
+        ]
+      },
+      {
+        title: "Ciencias Químicas",
+        img: "https://images.unsplash.com/photo-1532187863485-5a96ce6b0913?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+        map: "https://goo.gl/maps/example2",
+        description: "Desarrollamos científicos e investigadores en el campo químico y farmacéutico para impulsar la innovación.",
+        features: [
+          "Química Farmacéutica",
+          "Bioquímica",
+          "Química Industrial",
+          "Investigación Aplicada"
+        ],
+        gallery: [
+          "https://images.unsplash.com/photo-1532187863485-5a96ce6b0913?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+          "https://images.unsplash.com/photo-1603126857599-f6e157fa2fe6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+          "https://images.unsplash.com/photo-1581094794329-c8112a89af12?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
+        ]
+      },
+      {
+        title: "Ciencias Naturales",
+        img: "https://images.unsplash.com/photo-1418065460487-3e41a6c84dc5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+        map: "https://goo.gl/maps/example3",
+        description: "Estudiamos y conservamos la biodiversidad y los recursos naturales para un desarrollo sostenible.",
+        features: [
+          "Biología",
+          "Ecología",
+          "Geología",
+          "Conservación Ambiental"
+        ],
+        gallery: [
+          "https://images.unsplash.com/photo-1418065460487-3e41a6c84dc5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+          "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+          "https://images.unsplash.com/photo-1501854140801-50d01698950b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
+        ]
+      },
+      {
+        title: "Ciencias Administrativas",
+        img: "https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+        map: "https://goo.gl/maps/example4",
+        description: "Formamos líderes empresariales con visión estratégica y ética profesional para el desarrollo económico.",
+        features: [
+          "Administración de Empresas",
+          "Marketing",
+          "Recursos Humanos",
+          "Finanzas Corporativas"
+        ],
+        gallery: [
+          "https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+          "https://images.unsplash.com/photo-1560472354-b33ff0c44a43?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
+        ]
+      },
+      {
+        title: "Ciencias Económicas",
+        img: "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+        map: "https://goo.gl/maps/example5",
+        description: "Analizamos y proponemos soluciones a los desafíos económicos actuales para un desarrollo sostenible.",
+        features: [
+          "Economía",
+          "Comercio Internacional",
+          "Políticas Públicas",
+          "Análisis de Mercados"
+        ],
+        gallery: [
+          "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+          "https://images.unsplash.com/photo-1554224155-6726b3ff858f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
+        ]
+      },
+      {
+        title: "Matemáticas y Físicas",
+        img: "https://images.unsplash.com/photo-1635070041078-e363dbe005cb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+        map: "https://goo.gl/maps/example6",
+        description: "Desarrollamos el pensamiento lógico y científico a través de las ciencias exactas para resolver problemas complejos.",
+        features: [
+          "Matemáticas Puras",
+          "Física Teórica",
+          "Matemáticas Aplicadas",
+          "Investigación Científica"
+        ],
+        gallery: [
+          "https://images.unsplash.com/photo-1635070041078-e363dbe005cb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+          "https://images.unsplash.com/photo-1509228468518-180dd4864904?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
+        ]
+      },
+      {
+        title: "Arquitectura y Urbanismo",
+        img: "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+        map: "https://goo.gl/maps/example7",
+        description: "Creamos espacios sostenibles que mejoran la calidad de vida urbana y respetan el medio ambiente.",
+        features: [
+          "Diseño Arquitectónico",
+          "Urbanismo Sostenible",
+          "Paisajismo",
+          "Restauración Patrimonial"
+        ],
+        gallery: [
+          "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+          "https://images.unsplash.com/photo-1513584684374-8bab748fbf90?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+          "https://images.unsplash.com/photo-1487958449943-2429e8be8625?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
+        ]
+      },
+      {
+        title: "Filosofía, Letras y Educación",
+        img: "https://images.unsplash.com/photo-1481627834876-b7833e8f5570?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+        map: "https://goo.gl/maps/example8",
+        description: "Formamos educadores y humanistas comprometidos con la sociedad y la transformación cultural.",
+        features: [
+          "Filosofía",
+          "Literatura",
+          "Pedagogía",
+          "Lingüística"
+        ],
+        gallery: [
+          "https://images.unsplash.com/photo-1481627834876-b7833e8f5570?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+          "https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
+        ]
+      },
+      {
+        title: "Jurisprudencia y Ciencias Sociales",
+        img: "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+        map: "https://goo.gl/maps/example9",
+        description: "Preparamos profesionales del derecho con sólidos principios éticos y compromiso social.",
+        features: [
+          "Derecho Civil",
+          "Derecho Penal",
+          "Derecho Laboral",
+          "Ciencias Políticas"
+        ],
+        gallery: [
+          "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+          "https://images.unsplash.com/photo-1590086782957-93c06ef21604?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
+        ]
+      },
+      {
+        title: "Ingeniería Industrial",
+        img: "https://images.unsplash.com/photo-1581094794329-c8112a89af12?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+        map: "https://goo.gl/maps/example10",
+        description: "Optimizamos procesos productivos para el desarrollo industrial del país con enfoque sostenible.",
+        features: [
+          "Gestión de Operaciones",
+          "Logística",
+          "Calidad y Productividad",
+          "Ergonomía"
+        ],
+        gallery: [
+          "https://images.unsplash.com/photo-1581094794329-c8112a89af12?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+          "https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
+        ]
+      },
+      {
+        title: "Ingeniería Química",
+        img: "https://images.unsplash.com/photo-1581093458791-8a74ffe985a8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+        map: "https://goo.gl/maps/example11",
+        description: "Transformamos materias primas en productos de valor para la sociedad mediante procesos eficientes.",
+        features: [
+          "Procesos Químicos",
+          "Ingeniería de Reactores",
+          "Operaciones Unitarias",
+          "Control de Procesos"
+        ],
+        gallery: [
+          "https://images.unsplash.com/photo-1581093458791-8a74ffe985a8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+          "https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
+        ]
+      },
+      {
+        title: "Odontología",
+        img: "https://images.unsplash.com/photo-1588776814546-1ffcf47267a5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+        map: "https://goo.gl/maps/example12",
+        description: "Cuidamos la salud bucal con técnicas avanzadas y atención humanizada para el bienestar integral.",
+        features: [
+          "Odontología General",
+          "Ortodoncia",
+          "Endodoncia",
+          "Cirugía Bucal"
+        ],
+        gallery: [
+          "https://images.unsplash.com/photo-1588776814546-1ffcf47267a5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+          "https://images.unsplash.com/photo-1606813908968-c932b3720ba1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
+        ]
+      },
+      {
+        title: "Comunicación Social",
+        img: "https://images.unsplash.com/photo-1551836026-d5c8f2b5a5c5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+        map: "https://goo.gl/maps/example13",
+        description: "Formamos comunicadores estratégicos para los medios y las organizaciones con responsabilidad social.",
+        features: [
+          "Periodismo",
+          "Relaciones Públicas",
+          "Producción Audiovisual",
+          "Comunicación Organizacional"
+        ],
+        gallery: [
+          "https://images.unsplash.com/photo-1551836026-d5c8f2b5a5c5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+          "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
+        ]
+      },
+      {
+        title: "Educación Física y Deportes",
+        img: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+        map: "https://goo.gl/maps/example14",
+        description: "Promovemos la salud y el bienestar a través de la actividad física, el deporte y la recreación.",
+        features: [
+          "Entrenamiento Deportivo",
+          "Educación Física",
+          "Fisiología del Ejercicio",
+          "Gestión Deportiva"
+        ],
+        gallery: [
+          "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+          "https://images.unsplash.com/photo-1536922246289-88c42f957773?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
+        ]
+      },
+      {
+        title: "Psicología",
+        img: "https://images.unsplash.com/photo-1559757175-0eb30cd8c063?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+        map: "https://goo.gl/maps/example15",
+        description: "Estudiamos la conducta humana para mejorar la calidad de vida y promover el bienestar mental.",
+        features: [
+          "Psicología Clínica",
+          "Psicología Educativa",
+          "Psicología Organizacional",
+          "Neuropsicología"
+        ],
+        gallery: [
+          "https://images.unsplash.com/photo-1559757175-0eb30cd8c063?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+          "https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
+        ]
+      },
+      {
+        title: "Educación Técnica",
+        img: "https://images.unsplash.com/photo-1581093458791-8a74ffe985a8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+        map: "https://goo.gl/maps/example16",
+        description: "Formamos técnicos especializados para el desarrollo productivo con habilidades prácticas avanzadas.",
+        features: [
+          "Tecnologías de la Información",
+          "Electrónica",
+          "Mecánica Industrial",
+          "Automatización"
+        ],
+        gallery: [
+          "https://images.unsplash.com/photo-1581093458791-8a74ffe985a8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+          "https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
+        ]
+      },
+      {
+        title: "Odontología Piloto",
+        img: "https://images.unsplash.com/photo-1606813908968-c932b3720ba1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+        map: "https://goo.gl/maps/example17",
+        description: "Programa innovador de odontología con enfoque en investigación y tecnología de vanguardia.",
+        features: [
+          "Odontología Digital",
+          "Investigación Clínica",
+          "Tecnología Odontológica",
+          "Práctica Avanzada"
+        ],
+        gallery: [
+          "https://images.unsplash.com/photo-1606813908968-c932b3720ba1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
+          "https://images.unsplash.com/photo-1588776814546-1ffcf47267a5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
+        ]
+      }
+    ];
+
+    // Elementos DOM
     const modal = document.getElementById('modal');
     const modalTitle = document.getElementById('modal-title');
     const modalImg = document.getElementById('modal-img');
+    const modalDescription = document.getElementById('modal-description');
+    const modalFeatures = document.getElementById('modal-features');
     const modalMap = document.getElementById('modal-map');
+    const modalGalleryBtn = document.getElementById('modal-gallery');
+    const modalGalleryGrid = document.getElementById('modal-gallery-grid');
     const closeBtn = document.getElementById('close');
+    const facultiesGrid = document.getElementById('faculties-grid');
 
-    document.querySelectorAll('.card').forEach(card => {
-      card.addEventListener('click', () => {
-        modal.style.display = 'block';
-        modalTitle.textContent = card.dataset.title;
-        modalImg.src = card.dataset.img;
-        modalMap.href = card.dataset.map;
+    // Elementos de la galería
+    const galleryModal = document.getElementById('gallery-modal');
+    const galleryModalImage = document.getElementById('gallery-modal-image');
+    const galleryCaption = document.getElementById('gallery-caption');
+    const galleryClose = document.getElementById('gallery-close');
+    const galleryPrev = document.getElementById('gallery-prev');
+    const galleryNext = document.getElementById('gallery-next');
+
+    // Variables para controlar la galería
+    let currentFaculty = null;
+    let currentGalleryIndex = 0;
+
+    // Generar tarjetas de facultades dinámicamente
+    function renderFaculties() {
+      facultiesGrid.innerHTML = '';
+      
+      facultiesData.forEach((faculty, index) => {
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.tabIndex = 0;
+        card.setAttribute('role', 'button');
+        card.setAttribute('aria-label', `Ver información de ${faculty.title}`);
+        
+        card.innerHTML = `
+          <img src="${faculty.img}" alt="${faculty.title}" class="card-image">
+          <div class="card-content">
+            <h2>${faculty.title}</h2>
+            <p>${faculty.description.substring(0, 100)}...</p>
+            <div class="card-footer">
+              <div class="card-icon">${index + 1}</div>
+              <a href="#" class="card-link">Ver más</a>
+            </div>
+          </div>
+        `;
+        
+        facultiesGrid.appendChild(card);
+        
+        // Evento para abrir modal
+        card.addEventListener('click', () => openModal(faculty));
+        card.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            openModal(faculty);
+          }
+        });
       });
+    }
+
+    // Abrir modal con información de la facultad
+    function openModal(faculty) {
+      currentFaculty = faculty;
+      modalTitle.textContent = faculty.title;
+      modalImg.src = faculty.img;
+      modalImg.alt = `Imagen de la facultad de ${faculty.title}`;
+      modalDescription.textContent = faculty.description;
+      modalMap.href = faculty.map;
+      
+      // Limpiar y llenar características
+      modalFeatures.innerHTML = '';
+      faculty.features.forEach(feature => {
+        const li = document.createElement('li');
+        li.textContent = feature;
+        modalFeatures.appendChild(li);
+      });
+      
+      // Limpiar y llenar galería en miniatura
+      modalGalleryGrid.innerHTML = '';
+      faculty.gallery.forEach((img, index) => {
+        const galleryItem = document.createElement('div');
+        galleryItem.className = 'gallery-item';
+        galleryItem.innerHTML = `<img src="${img}" alt="Imagen ${index + 1} de ${faculty.title}">`;
+        galleryItem.addEventListener('click', () => openGallery(faculty, index));
+        modalGalleryGrid.appendChild(galleryItem);
+      });
+      
+      modal.style.display = 'block';
+      document.body.style.overflow = 'hidden';
+      
+      // Enfocar el botón de cerrar para accesibilidad
+      setTimeout(() => closeBtn.focus(), 100);
+    }
+
+    // Abrir galería completa
+    function openGallery(faculty, index = 0) {
+      currentFaculty = faculty;
+      currentGalleryIndex = index;
+      updateGalleryImage();
+      galleryModal.style.display = 'block';
+      document.body.style.overflow = 'hidden';
+    }
+
+    // Actualizar imagen de la galería
+    function updateGalleryImage() {
+      if (!currentFaculty) return;
+      
+      galleryModalImage.src = currentFaculty.gallery[currentGalleryIndex];
+      galleryCaption.textContent = `${currentFaculty.title} - Imagen ${currentGalleryIndex + 1} de ${currentFaculty.gallery.length}`;
+    }
+
+    // Navegar en la galería
+    galleryPrev.addEventListener('click', () => {
+      if (!currentFaculty) return;
+      
+      currentGalleryIndex = (currentGalleryIndex - 1 + currentFaculty.gallery.length) % currentFaculty.gallery.length;
+      updateGalleryImage();
     });
 
-    closeBtn.addEventListener('click', () => {
+    galleryNext.addEventListener('click', () => {
+      if (!currentFaculty) return;
+      
+      currentGalleryIndex = (currentGalleryIndex + 1) % currentFaculty.gallery.length;
+      updateGalleryImage();
+    });
+
+    // Cerrar modales
+    function closeModal() {
       modal.style.display = 'none';
+      document.body.style.overflow = 'auto';
+      
+      // Enfocar la tarjeta que abrió el modal
+      const focusedCard = document.querySelector('.card:focus');
+      if (focusedCard) focusedCard.focus();
+    }
+
+    function closeGalleryModal() {
+      galleryModal.style.display = 'none';
+      document.body.style.overflow = 'auto';
+    }
+
+    // Event listeners
+    closeBtn.addEventListener('click', closeModal);
+    galleryClose.addEventListener('click', closeGalleryModal);
+    modalGalleryBtn.addEventListener('click', () => {
+      if (currentFaculty) {
+        openGallery(currentFaculty, 0);
+      }
+    });
+    
+    // Cerrar modales con tecla Escape
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        if (modal.style.display === 'block') {
+          closeModal();
+        }
+        if (galleryModal.style.display === 'block') {
+          closeGalleryModal();
+        }
+      }
+    });
+    
+    // Cerrar modales al hacer clic fuera del contenido
+    window.addEventListener('click', (e) => {
+      if (e.target === modal) {
+        closeModal();
+      }
+      if (e.target === galleryModal) {
+        closeGalleryModal();
+      }
     });
 
-    window.addEventListener('click', (e) => {
-      if(e.target === modal){
-        modal.style.display = 'none';
-      }
+    // Inicializar la página
+    document.addEventListener('DOMContentLoaded', () => {
+      renderFaculties();
     });
   </script>
 </body>
