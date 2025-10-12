@@ -316,6 +316,77 @@ function showMainBirthday(list){
                           <div style="margin-top:10px;color:var(--text)"><strong>¡Feliz cumpleaños!</strong> 🎉 Club UG te manda un abrazo</div>`;
   todayAvatar.textContent = '🎈';
 }
+// === GENERAR CALENDARIO ===
+const daysGrid = document.getElementById('daysGrid');
+const miniMonth = document.getElementById('miniMonth');
+let current = new Date(hoy.getFullYear(), hoy.getMonth(), 1);
+
+function renderCalendar(date) {
+  const year = date.getFullYear();
+  const month = date.getMonth();
+  const firstDay = new Date(year, month, 1);
+  const lastDay = new Date(year, month + 1, 0);
+  const firstWeekDay = (firstDay.getDay() + 6) % 7; // lunes=0
+  const totalDays = lastDay.getDate();
+
+  miniMonth.textContent = date.toLocaleString('es-ES', { month: 'long', year: 'numeric' });
+
+  daysGrid.innerHTML = '';
+
+  // Días vacíos antes del 1
+  for (let i = 0; i < firstWeekDay; i++) {
+    const empty = document.createElement('div');
+    daysGrid.appendChild(empty);
+  }
+
+  // Días del mes
+  for (let d = 1; d <= totalDays; d++) {
+    const dayEl = document.createElement('div');
+    dayEl.className = 'day';
+    const num = document.createElement('div');
+    num.className = 'num';
+    num.textContent = d;
+    dayEl.appendChild(num);
+
+    // Buscar si alguien cumple ese día
+    const cumple = usuarios.filter(u => u._day === d && u._month === (month + 1));
+    if (cumple.length > 0) {
+      const names = cumple.map(u => u.nombre.split(' ')[0]).join(', ');
+      const namesDiv = document.createElement('div');
+      namesDiv.className = 'names';
+      namesDiv.textContent = names;
+      dayEl.appendChild(namesDiv);
+      const dot = document.createElement('div');
+      dot.className = 'dot';
+      dayEl.appendChild(dot);
+
+      // Click: mostrar popup de cumpleaños
+      dayEl.addEventListener('click', () => {
+        cumple.forEach(u => showBirthdayPopup(u));
+      });
+    }
+
+    // Resaltar hoy
+    if (d === hoy.getDate() && (month + 1) === (hoy.getMonth() + 1)) {
+      dayEl.classList.add('glow-highlight');
+    }
+
+    daysGrid.appendChild(dayEl);
+  }
+}
+
+// Navegación
+document.getElementById('prevMonth').onclick = () => {
+  current.setMonth(current.getMonth() - 1);
+  renderCalendar(current);
+};
+document.getElementById('nextMonth').onclick = () => {
+  current.setMonth(current.getMonth() + 1);
+  renderCalendar(current);
+};
+
+// Mostrar el mes actual al cargar
+renderCalendar(current);
 
 function createConfettiBurst(){
   const colors = ['#00e6ff','#0066ff','#ffffff','#00ffd6','#ffea66'];
@@ -350,6 +421,7 @@ showMainBirthday(cumpleHoy);
 </script>
 </body>
 </html>
+
 
 
 
