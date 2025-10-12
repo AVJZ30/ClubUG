@@ -1,15 +1,14 @@
-<!-- procesos-semestre.html -->
 <!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Procesos Semestres</title>
+  <title>Procesos Nivelación</title>
   <link rel="stylesheet" href="styles.css" />
   <style>
     /* Variables y estilos generales */
     :root {
-      --primary: #3498db;   /* Azul moderno */
+      --primary: #3498db;   /* Azul bonito */
       --primary-dark: #2c80b4;
       --secondary: #f4f8fb;
       --white: #ffffff;
@@ -57,6 +56,40 @@
       margin: 40px auto;
       padding: 0 20px;
     }
+    
+    /* Estilos para la barra de búsqueda */
+    .search-container {
+      margin: 30px 0;
+      position: relative;
+    }
+    .search-box {
+      width: 100%;
+      padding: 12px 20px;
+      border: 2px solid #ddd;
+      border-radius: 30px;
+      font-size: 16px;
+      outline: none;
+      transition: all 0.3s ease;
+      box-sizing: border-box;
+    }
+    .search-box:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
+    }
+    .search-icon {
+      position: absolute;
+      right: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #777;
+    }
+    .no-results {
+      text-align: center;
+      padding: 30px;
+      color: #777;
+      display: none;
+    }
+    
     .news-list {
       list-style: none;
       padding: 0;
@@ -115,24 +148,6 @@
       from { transform: translateY(20px); opacity: 0; }
       to { transform: translateY(0); opacity: 1; }
     }
-
-    /* Responsivo para móviles */
-    @media (max-width: 600px) {
-      header {
-        padding: 15px 10px;
-      }
-      header a {
-        display: block;
-        margin: 10px 0;
-      }
-      .container {
-        padding: 0 10px;
-      }
-      .btn-read {
-        width: 100%;
-        text-align: center;
-      }
-    }
   </style>
 </head>
 <body>
@@ -140,11 +155,74 @@
     <a href="index.html">Inicio</a>
     <a href="procesos-semestre.html">Semestre</a>
   </header>
-más ítems conforme lo necesites -->
+  <div class="container">
+    <h2>Procesos de Semestre</h2>
+    
+    <!-- Barra de búsqueda agregada -->
+    <div class="search-container">
+      <input type="text" id="searchInput" class="search-box" placeholder="Buscar en procesos de semestre...">
+      <div class="search-icon">🔍</div>
+    </div>
+    
+    <div class="no-results" id="noResults">
+      No se encontraron resultados para tu búsqueda.
+    </div>
+    
+    <ul class="news-list" id="newsList">
+      <li class="news-item">
+        <div class="meta">...</div>
+        <h3>....</h3>
+        <p>Proximamente</p>
+        <a href="a" class="btn-read">Leer más</a>
+      </li>
+      <!-- Puedes agregar más elementos aquí -->
     </ul>
   </div>
+
+  <script>
+    // Función para la barra de búsqueda
+    document.addEventListener('DOMContentLoaded', function() {
+      const searchInput = document.getElementById('searchInput');
+      const newsItems = document.querySelectorAll('.news-item');
+      const noResults = document.getElementById('noResults');
+      
+      searchInput.addEventListener('input', function() {
+        const searchTerm = this.value.toLowerCase().trim();
+        let hasVisibleItems = false;
+        
+        newsItems.forEach(item => {
+          const title = item.querySelector('h3').textContent.toLowerCase();
+          const content = item.querySelector('p').textContent.toLowerCase();
+          const meta = item.querySelector('.meta').textContent.toLowerCase();
+          
+          // Mostrar u ocultar elementos según la búsqueda
+          if (title.includes(searchTerm) || content.includes(searchTerm) || meta.includes(searchTerm)) {
+            item.style.display = 'block';
+            hasVisibleItems = true;
+          } else {
+            item.style.display = 'none';
+          }
+        });
+        
+        // Mostrar mensaje si no hay resultados
+        noResults.style.display = hasVisibleItems ? 'none' : 'block';
+      });
+    });
+
+    // Función existente para verificar código
+    function verificarCodigo() {
+      const codigoCorrecto = "1999"; // aquí pones tu código secreto
+      const codigoIngresado = document.getElementById("codigoAcceso").value;
+
+      if (codigoIngresado === codigoCorrecto) {
+        window.location.href = "https://drive.google.com/drive/folders/1PDWJg_JPYfzQlGadi62cSxD_oQ1oIM2_?usp=drive_link";
+      } else {
+        alert("Código incorrecto. Inténtalo de nuevo.");
+      }
+    }
+  </script>
 </body>
 </html>
->
+
 
 
