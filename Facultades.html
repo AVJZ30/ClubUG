@@ -73,7 +73,36 @@
       opacity: 0.9;
       position: relative;
     }
+.header-buttons {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 1.5rem 0;
+  position: relative;
+  z-index: 2;
+}
 
+.btn-back {
+  background: rgba(255,255,255,0.2);
+  color: var(--white);
+  border: 1px solid rgba(255,255,255,0.3);
+}
+
+.btn-back:hover {
+  background: rgba(255,255,255,0.3);
+  transform: translateY(-2px);
+}
+
+.btn-blocks {
+  background: var(--accent-blue);
+  color: var(--primary-blue);
+  font-weight: 600;
+}
+
+.btn-blocks:hover {
+  background: var(--white);
+  transform: translateY(-2px);
+}
     /* Rejilla de facultades */
     .grid {
       display: grid;
@@ -520,6 +549,20 @@
 
   <header class="header">
     <h1 class="title">Explora las Facultades</h1>
+    <div class="header-buttons">
+  <a href="index.html" class="btn btn-back">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M19 12H5M12 19l-7-7 7-7" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    Volver al Inicio
+  </a>
+  <a href="https://admision.ug.edu.ec/" class="btn btn-blocks">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M3 3h7v7H3zM14 3h7v7h-7zM3 14h7v7H3zM14 14h7v7h-7z" stroke="white" stroke-width="2"/>
+    </svg>
+    Ver por Bloques
+  </a>
+</div>
     <p class="subtitle">Descubre las diferentes facultades de la Universidad de Guayaquil y sus programas académicos</p>
   </header>
 
@@ -1019,6 +1062,7 @@
   </script>
 </body>
 </html>
+
 
 
 
