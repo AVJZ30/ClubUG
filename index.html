@@ -58,29 +58,7 @@
       transition: var(--transition);
       box-shadow: 0 2px 10px rgba(0,0,0,0.1);
     }
-    /* Efecto Neon */
-
-
-
-
-@keyframes flicker {
-  0% { opacity: 1; }
-  50% { opacity: 0.95; }
-  100% { opacity: 1; }
-}
-
-/* Neon para enlaces del menú */
-nav a {
-  color: #fff;
-  text-shadow: 0 0 8px #0ff, 0 0 16px #00f;
-}
-
-nav a:hover {
-  background: rgba(0, 114, 198, 0.2);
-  color: #0ff;
-  text-shadow: 0 0 10px #00f, 0 0 20px #0ff;
-}
-
+    
     header.scrolled { 
       background: rgba(255,255,255,0.98); 
       padding: 10px 20px;
@@ -181,22 +159,20 @@ nav a:hover {
     main { 
       margin-top: 160px; 
       padding: 0 20px; 
-      animation: fadeIn 0.8s ease forwards;
     }
     
     section { 
       padding: 80px 0; 
-      opacity: 0; 
-      animation: fadeInUp 0.8s ease forwards;
       border-bottom: 1px solid rgba(0,0,0,0.05);
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
     }
     
-    section:nth-child(1) { animation-delay: 0.2s; }
-    section:nth-child(2) { animation-delay: 0.4s; }
-    section:nth-child(3) { animation-delay: 0.6s; }
-    section:nth-child(4) { animation-delay: 0.8s; }
-    section:nth-child(5) { animation-delay: 1s; }
-    section:nth-child(6) { animation-delay: 1.2s; }
+    section.reveal {
+      opacity: 1;
+      transform: translateY(0);
+    }
     
     section h2 { 
       font-size: 2.2rem; 
@@ -229,6 +205,25 @@ nav a:hover {
       margin: 0 auto;
       padding: 0 20px;
     }
+
+    /* Elementos con animación individual */
+    .reveal-item {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    
+    .reveal-item.reveal {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    
+    /* Delay para elementos individuales */
+    .reveal-item.delay-1 { transition-delay: 0.1s; }
+    .reveal-item.delay-2 { transition-delay: 0.2s; }
+    .reveal-item.delay-3 { transition-delay: 0.3s; }
+    .reveal-item.delay-4 { transition-delay: 0.4s; }
+    .reveal-item.delay-5 { transition-delay: 0.5s; }
 
     /* Search Bar en Procesos */
     #procesos .search-container { 
@@ -714,6 +709,45 @@ nav a:hover {
       opacity: 1;
     }
 
+    /* Cards para procesos */
+    .cards-container {
+      display: flex;
+      gap: 20px;
+      margin-top: 30px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    
+    .process-box {
+      flex: 1;
+      min-width: 250px;
+      max-width: 350px;
+      background: var(--white);
+      border: 2px solid var(--primary);
+      border-radius: 8px;
+      padding: 20px;
+      text-align: center;
+      text-decoration: none;
+      color: inherit;
+      transition: transform 0.2s, box-shadow 0.2s;
+      box-shadow: var(--shadow);
+    }
+    
+    .process-box:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    }
+    
+    .process-box h3 {
+      color: var(--primary);
+      margin-bottom: 10px;
+    }
+    
+    .process-box p {
+      color: var(--text);
+      font-size: 0.9rem;
+    }
+
     /* Responsive */
     @media (max-width: 992px) {
       html {
@@ -784,6 +818,16 @@ nav a:hover {
       .social-links a {
         justify-content: center;
       }
+      
+      .cards-container {
+        flex-direction: column;
+        align-items: center;
+      }
+      
+      .process-box {
+        width: 100%;
+        max-width: 400px;
+      }
     }
     
     @media (max-width: 576px) {
@@ -829,11 +873,12 @@ nav a:hover {
     <div class="logo-container">
       <img src="https://i.imgur.com/JR20VXe.jpeg" alt="Logo UG" class="wave-effect" />
     </div>
-   <h1 class="neon-text">Club UG - Comunidad Estudiantil</h1>
+    <h1>Club UG - Comunidad Estudiantil</h1>
     <button class="mobile-menu-btn" id="mobileMenuBtn">
       <i class="fas fa-bars"></i>
     </button>
   </header>
+  
   <nav id="nav">
     <div class="container" id="navContainer">
       <a href="#inicio" class="wave-effect">Inicio</a>
@@ -842,28 +887,27 @@ nav a:hover {
       <a href="#noticias" class="wave-effect">Noticias</a>
       <a href="#contacto" class="wave-effect">Contacto</a>
       <a href="#redes" class="wave-effect">Redes</a>
-       <a href="Facultades.html" class="wave-effect">Facultades</a>
- <a href="comunidad.html" class="wave-effect">Nuestra Comunidad</a>
+      <a href="Facultades.html" class="wave-effect">Facultades</a>
+      <a href="comunidad.html" class="wave-effect">Nuestra Comunidad</a>
       <a href="https://www.mediafire.com/file/h6qccp908o4xndp/Clubug.apk/file" 
-   class="wave-effect" 
-   target="_blank"
-   onclick="alert('Esta aplicación no tiene virus, aunque Google Play lo detecte.');">
-   📲 Descargar App
-</a>
-
+         class="wave-effect" 
+         target="_blank"
+         onclick="alert('Esta aplicación no tiene virus, aunque Google Play lo detecte.');">
+         📲 Descargar App
+      </a>
     </div>
   </nav>
+  
   <main>
     <section id="inicio">
       <div class="section-container">
-     <h2 class="neon-text">Bienvenido a Club UG</h2>
-        <p>Bienvenido a la comunidad estudiantil <strong>"Club UG"</strong>. Esta plataforma centraliza toda la información y procesos que necesitas para tu vida académica en la Universidad de Guayaquil.</p>
+        <h2 class="reveal-item">Bienvenido a Club UG</h2>
+        <p class="reveal-item delay-1">Bienvenido a la comunidad estudiantil <strong>"Club UG"</strong>. Esta plataforma centraliza toda la información y procesos que necesitas para tu vida académica en la Universidad de Guayaquil.</p>
         
-        <div class="toggle-container">
-         <div class="toggle-title" id="termsToggle">
-  <span class="neon-text">Términos y Condiciones <i class="fas fa-chevron-down"></i></span>
-</div>
-
+        <div class="toggle-container reveal-item delay-2">
+          <div class="toggle-title" id="termsToggle">
+            <span>Términos y Condiciones <i class="fas fa-chevron-down"></i></span>
+          </div>
           <div class="toggle-content" id="termsContent">
             <ul>
               <li>Leer detenidamente para prevenir <strong>"Posibles problemas"</strong>.</li>
@@ -879,37 +923,37 @@ nav a:hover {
     
     <section id="registro">
       <div class="section-container">
-       <h2 class="neon-text">Proceso de Registro Único</h2>
+        <h2 class="reveal-item">Proceso de Registro Único</h2>
         <ul>
-          <li>Accede a la plataforma <a href="https://app.registrounicoedusup.gob.ec/#/login" target="_blank" class="tooltip">Registro Unico 2025<span class="tooltiptext">Abrir enlace externo</span></a>.</li>
-          <li>Haz clic en el botón «Regístrate Aquí» para crear una nueva cuenta (si ya se tiene un usuario, no es necesario crear uno nuevo).</li>
-          <li>En el menú principal, selecciona «Proceso» y luego «Registro Nacional».</li>
-          <li>Lee y acepta el Acuerdo de responsabilidad y los términos y condiciones del proceso.</li>
-          <li>Completa el formulario con la información requerida.</li>
-          <li>Descarga e imprime la confirmación del registro como comprobante.</li>
-          <li>Si quieres ver más detalles: <a href="https://youtu.be/5_Q3wbGN4Kc?si=NKWuehOakNdrlEG9" target="_blank" class="tooltip">Video Explicativo<span class="tooltiptext">Ver video tutorial en YouTube</span></a>.</li>
+          <li class="reveal-item delay-1">Accede a la plataforma <a href="https://app.registrounicoedusup.gob.ec/#/login" target="_blank" class="tooltip">Registro Unico 2025<span class="tooltiptext">Abrir enlace externo</span></a>.</li>
+          <li class="reveal-item delay-2">Haz clic en el botón «Regístrate Aquí» para crear una nueva cuenta (si ya se tiene un usuario, no es necesario crear uno nuevo).</li>
+          <li class="reveal-item delay-3">En el menú principal, selecciona «Proceso» y luego «Registro Nacional».</li>
+          <li class="reveal-item delay-4">Lee y acepta el Acuerdo de responsabilidad y los términos y condiciones del proceso.</li>
+          <li class="reveal-item delay-5">Completa el formulario con la información requerida.</li>
+          <li class="reveal-item">Descarga e imprime la confirmación del registro como comprobante.</li>
+          <li class="reveal-item delay-1">Si quieres ver más detalles: <a href="https://youtu.be/5_Q3wbGN4Kc?si=NKWuehOakNdrlEG9" target="_blank" class="tooltip">Video Explicativo<span class="tooltiptext">Ver video tutorial en YouTube</span></a>.</li>
         </ul>
       </div>
     </section>
     
     <section id="procesos">
       <div class="section-container">
-      <h2 class="neon-text">Preguntas Frecuentes UG</h2>
-        <div class="search-container">
+        <h2 class="reveal-item">Preguntas Frecuentes UG</h2>
+        <div class="search-container reveal-item delay-1">
           <input type="text" placeholder="Buscar proceso..." id="searchInput" />
           <i class="fas fa-search"></i>
         </div>
         
-        <div class="toggle-container">
+        <div class="toggle-container reveal-item delay-2">
           <div class="toggle-title">
             <span>¿Cómo me matriculo? <i class="fas fa-chevron-down"></i></span>
           </div>
           <div class="toggle-content">
-            <p>Cuando ya tengas todos tus datos actualizados y estén abiertas las matrículas debes ir a Académico > Estudiante > Matriculación > Curso de nivelación > eliges carrera (curso de nivelación). Debajo aparecen dos opciones: prerequisitos y horarios; das click en horarios > seleccionas tu horario > generas y descargas tu comprobante de matrícula en PDF o lo imprimes. ¡Y listo!</p>
+            <p>Cuando ya tengas todos tus datos actualizados y estén abiertas las matrículas debes ir a Académico > Estudiante > Matriculación > Curso de nivelación > eliges carrera (curso de nivelación). Debado aparecen dos opciones: prerequisitos y horarios; das click en horarios > seleccionas tu horario > generas y descargas tu comprobante de matrícula en PDF o lo imprimes. ¡Y listo!</p>
           </div>
         </div>
         
-        <div class="toggle-container">
+        <div class="toggle-container reveal-item delay-3">
           <div class="toggle-title">
             <span>¿Por qué las encuestas no me permiten hacerlas? <i class="fas fa-chevron-down"></i></span>
           </div>
@@ -918,7 +962,7 @@ nav a:hover {
           </div>
         </div>
         
-        <div class="toggle-container">
+        <div class="toggle-container reveal-item delay-4">
           <div class="toggle-title">
             <span>¿Qué documentos subo? <i class="fas fa-chevron-down"></i></span>
           </div>
@@ -927,7 +971,7 @@ nav a:hover {
           </div>
         </div>
         
-        <div class="toggle-container">
+        <div class="toggle-container reveal-item delay-5">
           <div class="toggle-title">
             <span>¿Dónde veo mi horario? <i class="fas fa-chevron-down"></i></span>
           </div>
@@ -936,7 +980,7 @@ nav a:hover {
           </div>
         </div>
         
-        <div class="toggle-container">
+        <div class="toggle-container reveal-item">
           <div class="toggle-title">
             <span>¿Cómo crear mi cuenta SIUG? <i class="fas fa-chevron-down"></i></span>
           </div>
@@ -950,7 +994,7 @@ nav a:hover {
           </div>
         </div>
         
-        <div class="toggle-container">
+        <div class="toggle-container reveal-item delay-1">
           <div class="toggle-title">
             <span>¿Qué hacer una vez creada mi cuenta SIUG? <i class="fas fa-chevron-down"></i></span>
           </div>
@@ -958,50 +1002,30 @@ nav a:hover {
             <p>Una vez tengas tu cuenta SIUG, actualiza tus datos en Académico > Estudiante > Datos Personales (completa sección: personales, estudios secundarios, documentos y encuestas).</p>
           </div>
         </div>
-      </div>
+        
         <!-- NUEVOS CUADROS DE PROCESOS -->
-        <style>
-    .cards-container {
-      display: flex;
-      gap: 20px;
-      margin-top: 30px;
-    }
-    .process-box {
-      flex: 1;
-      background: var(--white);
-      border: 2px solid var(--primary);
-      border-radius: 8px;
-      padding: 20px;
-      text-align: center;
-      text-decoration: none;
-      color: inherit;
-      transition: transform 0.2s, box-shadow 0.2s;
-    }
-    .process-box:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    }
-  </style>
- <div class="cards-container">
-      <a href="procesos-nivelacion.html" class="process-box">
-        <h3>Procesos Nivelación</h3>
-      </a>
-      <a href="procesos-semestre.html" class="process-box">
-        <h3>Procesos Semestre</h3>
-      </a>
-    </div>
-  </div>
+        <div class="cards-container">
+          <a href="procesos-nivelacion.html" class="process-box reveal-item delay-2">
+            <h3>Procesos Nivelación</h3>
+            <p>Toda la información sobre procesos de nivelación y cursos introductorios</p>
+          </a>
+          <a href="procesos-semestre.html" class="process-box reveal-item delay-3">
+            <h3>Procesos Semestre</h3>
+            <p>Información sobre procesos regulares de cada semestre académico</p>
+          </a>
+        </div>
+      </div>
     </section>
     
     <!-- Nueva Sección de Noticias -->
     <section id="noticias">
       <div class="section-container">
-      <h2 class="neon-text">Últimas Noticias</h2>
-        <p>Mantente informado con las últimas novedades y anuncios importantes de la Universidad de Guayaquil.</p>
+        <h2 class="reveal-item">Últimas Noticias</h2>
+        <p class="reveal-item delay-1">Mantente informado con las últimas novedades y anuncios importantes de la Universidad de Guayaquil.</p>
         
         <div class="news-grid">
           <!-- Noticia 1 -->
-          <div class="news-card">
+          <div class="news-card reveal-item delay-2">
             <div class="news-content">
               <span class="news-date">06 Agosto 2025</span>
               <h3 class="news-title">Ya están disponibles las fechas oficiales del proceso de admisión CII 2025.</h3>
@@ -1010,22 +1034,28 @@ nav a:hover {
             </div>
           </div>
           
-      
-  
+          <!-- Noticia 2 -->
+          <div class="news-card reveal-item delay-3">
+            <div class="news-content">
+              <span class="news-date">15 Julio 2025</span>
+              <h3 class="news-title">Nuevos horarios de atención en secretarías</h3>
+              <p class="news-excerpt">Consulta los nuevos horarios de atención en las diferentes facultades y secretarías.</p>
+              <a href="#" class="read-more">Leer más →</a>
+            </div>
+          </div>
         </div>
       </div>
     </section>
     
     <section id="contacto">
       <div class="section-container">
-  <h2 class="neon-text">Contacto</h2>
-
+        <h2 class="reveal-item">Contacto</h2>
         <div class="contact-info">
-          <a href="https://wa.me/593986863068" target="_blank" class="contact-item wave-effect">
+          <a href="https://wa.me/593986863068" target="_blank" class="contact-item wave-effect reveal-item delay-1">
             <i class="fab fa-whatsapp pulse"></i>
             <span>+593 98 686 3068</span>
           </a>
-          <a href="mailto:michaelk02t@gmail.com" class="contact-item wave-effect">
+          <a href="mailto:michaelk02t@gmail.com" class="contact-item wave-effect reveal-item delay-2">
             <i class="fas fa-envelope"></i>
             <span>michaelk02t@gmail.com</span>
           </a>
@@ -1035,14 +1065,14 @@ nav a:hover {
     
     <section id="redes">
       <div class="section-container">
-<h2 class="neon-text">Redes Sociales</h2>
-        <p>Síguenos en nuestras redes sociales para mantenerte actualizado con toda la información importante:</p>
+        <h2 class="reveal-item">Redes Sociales</h2>
+        <p class="reveal-item delay-1">Síguenos en nuestras redes sociales para mantenerte actualizado con toda la información importante:</p>
         <div class="social-links">
-          <a href="https://www.instagram.com/club_ug_/" target="_blank" class="wave-effect">
+          <a href="https://www.instagram.com/club_ug_/" target="_blank" class="wave-effect reveal-item delay-2">
             <i class="fab fa-instagram"></i>
             Instagram
           </a>
-          <a href="https://www.tiktok.com/@club_ug_" target="_blank" class="wave-effect">
+          <a href="https://www.tiktok.com/@club_ug_" target="_blank" class="wave-effect reveal-item delay-3">
             <i class="fab fa-tiktok"></i>
             TikTok
           </a>
@@ -1183,19 +1213,38 @@ nav a:hover {
         });
       });
       
-      // Mostrar todos los elementos con animación
-      const sections = document.querySelectorAll('section');
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            entry.target.style.opacity = '1';
+      // Efecto de aparición al hacer scroll
+      function revealOnScroll() {
+        const sections = document.querySelectorAll('section');
+        const revealItems = document.querySelectorAll('.reveal-item');
+        
+        // Para las secciones
+        sections.forEach(section => {
+          const sectionTop = section.getBoundingClientRect().top;
+          const windowHeight = window.innerHeight;
+          
+          if (sectionTop < windowHeight - 100) {
+            section.classList.add('reveal');
           }
         });
-      }, { threshold: 0.1 });
+        
+        // Para elementos individuales
+        revealItems.forEach(item => {
+          const itemTop = item.getBoundingClientRect().top;
+          const windowHeight = window.innerHeight;
+          
+          if (itemTop < windowHeight - 50) {
+            item.classList.add('reveal');
+          }
+        });
+      }
       
-      sections.forEach(section => {
-        observer.observe(section);
-      });
+      // Ejecutar al cargar y al hacer scroll
+      window.addEventListener('scroll', revealOnScroll);
+      window.addEventListener('load', revealOnScroll);
+      
+      // Ejecutar una vez al cargar la página para elementos que ya están en vista
+      setTimeout(revealOnScroll, 100);
     });
     
     // Funciones para el modal de imágenes
@@ -1221,21 +1270,3 @@ nav a:hover {
   </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
