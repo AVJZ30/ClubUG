@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GaleryUG ✦ Galería Moderna</title>
+<style>
+:root {
+  --primary: #3b82f6;
+  --primary-dark: #2563eb;
+  --bg-gradient: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+  --card-bg: rgba(30, 41, 59, 0.8);
+  --glass-effect: rgba(255, 255, 255, 0.05);
+  --text-primary: #f8fafc;
+  --text-secondary: #cbd5e1;
+  --shadow-lg: 0 20px 40px -10px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 10px 20px -5px rgba(0, 0, 0, 0.3);
+  --border-radius: 20px;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+  background: var(--bg-gradient);
+  color: var(--text-primary);
+  min-height: 100vh;
+  line-height: 1.6;
+}
+
+/* Header con efecto glassmorphism */
+header {
+  text-align: center;
+  padding: 30px 20px;
+  font-size: 3rem;
+  font-weight: 800;
+  letter-spacing: 2px;
+  background: linear-gradient(135deg, #60a5fa, #a78bfa);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 0 30px rgba(59, 130, 246, 0.3);
+  position: relative;
+}
+
+header::after {
+  content: '✦';
+  font-size: 1.5rem;
+  margin-left: 10px;
+  opacity: 0.7;
+}
+
+/* Contenedor de subida con glass effect */
+.upload-container {
+  max-width: 600px;
+  margin: 0 auto 30px;
+  padding: 30px;
+  background: var(--card-bg);
+  backdrop-filter: blur(10px);
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow-lg);
+  border: 1px solid var(--glass-effect);
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+input, textarea {
+  width: 100%;
+  padding: 14px 18px;
+  border-radius: 12px;
+  border: 2px solid transparent;
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--text-primary);
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  font-family: inherit;
+}
+
+input:hover, textarea:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+input:focus, textarea:focus {
+  outline: none;
+  border-color: var(--primary);
+  background: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.2);
+}
+
+textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+/* Botón con efecto moderno */
+button {
+  padding: 14px 28px;
+  border-radius: 12px;
+  border: none;
+  background: linear-gradient(135deg, var(--primary), #4f46e5);
+  color: white;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  position: relative;
+  overflow: hidden;
+}
+
+button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s ease;
+}
+
+button:hover::before {
+  left: 100%;
+}
+
+button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px -5px rgba(59, 130, 246, 0.5);
+}
+
+button:active {
+  transform: translateY(0);
+}
+
+/* Galería con grid mejorado */
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 25px;
+  padding: 30px;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* Tarjetas con diseño premium */
+.card {
+  background: var(--card-bg);
+  backdrop-filter: blur(10px);
+  border-radius: var(--border-radius);
+  overflow: hidden;
+  box-shadow: var(--shadow-md);
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  border: 1px solid var(--glass-effect);
+  display: flex;
+  flex-direction: column;
+  height: fit-content;
+}
+
+.card:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: var(--shadow-lg);
+  border-color: rgba(59, 130, 246, 0.3);
+}
+
+.card img {
+  width: 100%;
+  height: 250px;
+  object-fit: cover;
+  cursor: pointer;
+  transition: transform 0.5s ease;
+  border-bottom: 3px solid transparent;
+}
+
+.card:hover img {
+  transform: scale(1.05);
+}
+
+.card-content {
+  padding: 20px;
+  background: linear-gradient(to top, rgba(0,0,0,0.3), transparent);
+  flex: 1;
+}
+
+.card-content p {
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  margin-bottom: 15px;
+  line-height: 1.6;
+  word-break: break-word;
+}
+
+/* Botón de like interactivo */
+.like {
+  margin-top: 10px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 1.1rem;
+  padding: 8px 12px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 30px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: all 0.3s ease;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.like:hover {
+  background: rgba(239, 68, 68, 0.2);
+  border-color: #ef4444;
+  transform: scale(1.05);
+}
+
+.like:active {
+  transform: scale(0.95);
+}
+
+/* Modal mejorado */
+.modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.95);
+  backdrop-filter: blur(10px);
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  cursor: zoom-out;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.modal img {
+  max-width: 90vw;
+  max-height: 90vh;
+  border-radius: 20px;
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5);
+  border: 3px solid var(--glass-effect);
+  animation: scaleIn 0.3s ease;
+}
+
+@keyframes scaleIn {
+  from { transform: scale(0.9); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+/* Mensaje cuando no hay imágenes */
+.gallery:empty::before {
+  content: '✨ No hay imágenes aún. ¡Sube la primera!';
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 60px 20px;
+  background: var(--card-bg);
+  border-radius: var(--border-radius);
+  color: var(--text-secondary);
+  font-size: 1.2rem;
+  border: 2px dashed var(--glass-effect);
+}
+
+/* Scrollbar personalizada */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-gradient);
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, var(--primary), #4f46e5);
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(135deg, #2563eb, #4338ca);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  header {
+    font-size: 2.5rem;
+  }
+  
+  .upload-container {
+    margin: 20px;
+    padding: 20px;
+  }
+  
+  .gallery {
+    grid-template-columns: 1fr;
+    padding: 20px;
+  }
+  
+  .card img {
+    height: 200px;
+  }
+}
+
+/* Animación de carga para imágenes */
+@keyframes shimmer {
+  0% { background-position: -1000px 0; }
+  100% { background-position: 1000px 0; }
+}
+
+.card img:not([loaded]) {
+  background: linear-gradient(90deg, #1e293b 25%, #334155 50%, #1e293b 75%);
+  background-size: 1000px 100%;
+  animation: shimmer 2s infinite;
+}
+</style>
+</head>
+<body>
+
+<header>GaleryUG</header>
+
+<div class="upload-container">
+  <input type="file" id="fileInput" accept="image/*">
+  <textarea id="textInput" placeholder="Escribe una descripción para tu imagen..."></textarea>
+  <button id="uploadBtn">Subir Imagen</button>
+</div>
+
+<div class="gallery" id="gallery"></div>
+
+<div class="modal" id="modal">
+  <img id="modalImg">
+</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+import { getFirestore, collection, addDoc, query, orderBy, onSnapshot, serverTimestamp, updateDoc, doc, increment } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyBZVTnXvuuaatVhj_b6kMcga2dCOSa5HnA",
+  authDomain: "galeryug.firebaseapp.com",
+  projectId: "galeryug",
+  storageBucket: "galeryug.firebasestorage.app",
+  messagingSenderId: "872643888932",
+  appId: "1:872643888932:web:f20bbad4b910f004b795b1"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+const storage = getStorage(app);
+
+await signInAnonymously(auth);
+
+const gallery = document.getElementById("gallery");
+const modal = document.getElementById("modal");
+const modalImg = document.getElementById("modalImg");
+
+document.getElementById("uploadBtn").onclick = async () => {
+  const file = document.getElementById("fileInput").files[0];
+  const text = document.getElementById("textInput").value;
+
+  if(!file){
+    alert("Por favor, selecciona una imagen");
+    return;
+  }
+
+  const button = document.getElementById("uploadBtn");
+  const originalText = button.innerText;
+  button.innerText = "Subiendo...";
+  button.disabled = true;
+
+  try {
+    const storageRef = ref(storage, "images/" + Date.now() + "_" + file.name);
+    await uploadBytes(storageRef, file);
+    const url = await getDownloadURL(storageRef);
+
+    await addDoc(collection(db,"photos"),{
+      imageUrl:url,
+      text:text || "Sin descripción",
+      likes:0,
+      createdAt:serverTimestamp(),
+      userId:auth.currentUser.uid
+    });
+
+    document.getElementById("textInput").value="";
+    document.getElementById("fileInput").value="";
+  } catch (error) {
+    alert("Error al subir la imagen: " + error.message);
+  } finally {
+    button.innerText = originalText;
+    button.disabled = false;
+  }
+};
+
+const q = query(collection(db,"photos"), orderBy("createdAt","desc"));
+
+onSnapshot(q,(snapshot)=>{
+  gallery.innerHTML="";
+  snapshot.forEach(docSnap=>{
+    const data = docSnap.data();
+
+    const card = document.createElement("div");
+    card.className="card";
+
+    const img = document.createElement("img");
+    img.src=data.imageUrl;
+    img.onload = () => img.setAttribute('loaded', 'true');
+    img.onclick=()=>{
+      modal.style.display="flex";
+      modalImg.src=data.imageUrl;
+    };
+
+    const content = document.createElement("div");
+    content.className="card-content";
+
+    const text = document.createElement("p");
+    text.innerText = data.text || "Sin descripción";
+
+    const like = document.createElement("div");
+    like.className="like";
+    like.innerHTML = `<span>❤️</span> ${data.likes}`;
+
+    like.onclick = async (e)=>{
+      e.stopPropagation();
+      like.style.pointerEvents = 'none';
+      await updateDoc(doc(db,"photos",docSnap.id),{
+        likes: increment(1)
+      });
+      like.style.pointerEvents = 'auto';
+    };
+
+    content.appendChild(text);
+    content.appendChild(like);
+    card.appendChild(img);
+    card.appendChild(content);
+    gallery.appendChild(card);
+  });
+});
+
+modal.onclick = ()=>{
+  modal.style.display="none";
+};
+
+// Cerrar modal con tecla ESC
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && modal.style.display === 'flex') {
+    modal.style.display = 'none';
+  }
+});
+</script>
+
+</body>
+</html>
