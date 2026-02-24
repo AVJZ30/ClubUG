@@ -10,7 +10,7 @@
     box-sizing:border-box;
     margin:0;
     padding:0;
-    font-family: 'Segoe UI', sans-serif;
+    font-family:'Segoe UI',sans-serif;
 }
 
 body{
@@ -18,18 +18,17 @@ body{
     display:flex;
     justify-content:center;
     align-items:center;
-    background: linear-gradient(135deg,#003366,#0055aa);
+    background:linear-gradient(135deg,#003366,#0055aa);
     padding:20px;
 }
 
 .container{
     width:100%;
-    max-width:420px;
+    max-width:450px;
     background:white;
     padding:30px;
     border-radius:20px;
     box-shadow:0 15px 35px rgba(0,0,0,0.2);
-    animation:fadeIn 0.5s ease;
 }
 
 h1{
@@ -38,31 +37,24 @@ h1{
     color:#003366;
 }
 
-label{
-    font-weight:600;
-    margin-top:15px;
-    display:block;
-}
-
-input{
+select, input{
     width:100%;
     padding:12px;
-    margin-top:6px;
+    margin-top:10px;
     border-radius:10px;
     border:1px solid #ccc;
     font-size:16px;
-    transition:0.3s;
 }
 
-input:focus{
-    border-color:#0055aa;
-    outline:none;
-    box-shadow:0 0 5px rgba(0,85,170,0.4);
+label{
+    margin-top:15px;
+    font-weight:600;
+    display:block;
 }
 
 button{
     width:100%;
-    margin-top:25px;
+    margin-top:20px;
     padding:14px;
     border:none;
     border-radius:12px;
@@ -71,7 +63,6 @@ button{
     font-size:16px;
     font-weight:bold;
     cursor:pointer;
-    transition:0.3s;
 }
 
 button:hover{
@@ -85,19 +76,7 @@ button:hover{
     text-align:center;
     font-size:18px;
     font-weight:bold;
-    transition:0.4s;
     display:none;
-}
-
-@keyframes fadeIn{
-    from{opacity:0; transform:translateY(15px);}
-    to{opacity:1; transform:translateY(0);}
-}
-
-@media(max-width:480px){
-    .container{
-        padding:20px;
-    }
 }
 </style>
 </head>
@@ -105,68 +84,115 @@ button:hover{
 <body>
 
 <div class="container">
-    <h1>📊 Calculadora Club UG</h1>
+<h1>📊 Calculadora Club UG</h1>
 
-    <label>Evaluación Formativa </label>
-    <input type="number" id="formativa" step="0.01" min="0" max="10">
+<label>Tipo de cálculo</label>
+<select id="tipo" onchange="mostrarCampos()">
+    <option value="parcial">Promedio Parcial</option>
+    <option value="final">Promedio Final</option>
+</select>
 
-    <label>Gestión Práctica </label>
-    <input type="number" id="practica" step="0.01" min="0" max="10">
+<div id="parcialCampos">
+    <label>Formativa (33%)</label>
+    <input type="number" class="nota" step="0.01">
 
-    <label>Acreditación y Validación </label>
-    <input type="number" id="acreditacion" step="0.01" min="0" max="10">
+    <label>Práctica (33%)</label>
+    <input type="number" class="nota" step="0.01">
 
-    <button onclick="calcular()">Calcular Promedio</button>
+    <label>Acreditación (34%)</label>
+    <input type="number" class="nota" step="0.01">
+</div>
 
-    <div class="resultado" id="resultado"></div>
+<div id="finalCampos" style="display:none;">
+    <label>Promedio Parcial 1</label>
+    <input type="number" class="nota" step="0.01">
+
+    <label>Promedio Parcial 2</label>
+    <input type="number" class="nota" step="0.01">
+</div>
+
+<button onclick="calcular()">Calcular</button>
+
+<div class="resultado" id="resultado"></div>
 </div>
 
 <script>
+
+// 🔥 Limitar automáticamente entre 0 y 10
+document.addEventListener("input", function(e){
+    if(e.target.classList.contains("nota")){
+        let valor = parseFloat(e.target.value);
+        if(valor > 10) e.target.value = 10;
+        if(valor < 0) e.target.value = 0;
+    }
+});
+
+function mostrarCampos(){
+    let tipo = document.getElementById("tipo").value;
+    document.getElementById("parcialCampos").style.display =
+        tipo==="parcial" ? "block" : "none";
+    document.getElementById("finalCampos").style.display =
+        tipo==="final" ? "block" : "none";
+}
+
+function mensajeSegunNota(promedio){
+    if(promedio <= 6.99){
+        return {texto:"Ya valiste vr.... 💀", color:"#ff4d4d"};
+    }
+    else if(promedio <= 7.99){
+        return {texto:"Pasaste raspando mijo 😅", color:"#ff9800"};
+    }
+    else if(promedio <= 8.99){
+        return {texto:"Bien hecho, hachale mas ganas pal proximo parcial 💪", color:"#4caf50"};
+    }
+    else{
+        return {texto:"Que estudioso, que inteligente, sigue asi 🤓🔥", color:"#2196f3"};
+    }
+}
+
 function calcular(){
+    let tipo = document.getElementById("tipo").value;
+    let notas = document.querySelectorAll(".nota");
+    let promedio = 0;
 
-    let f = Number(document.getElementById("formativa").value);
-    let p = Number(document.getElementById("practica").value);
-    let a = Number(document.getElementById("acreditacion").value);
+    if(tipo==="parcial"){
+        let f = Number(notas[0].value);
+        let p = Number(notas[1].value);
+        let a = Number(notas[2].value);
 
-    if(isNaN(f)||isNaN(p)||isNaN(a)){
-        alert("Ingresa todas las notas");
-        return;
+        if(isNaN(f)||isNaN(p)||isNaN(a)){
+            alert("Ingresa todas las notas");
+            return;
+        }
+
+        promedio = (f*0.33)+(p*0.33)+(a*0.34);
+    }
+    else{
+        let p1 = Number(notas[3].value);
+        let p2 = Number(notas[4].value);
+
+        if(isNaN(p1)||isNaN(p2)){
+            alert("Ingresa ambos parciales");
+            return;
+        }
+
+        promedio = (p1 + p2) / 2;
     }
 
-    let promedio = (f*0.33)+(p*0.33)+(a*0.34);
     promedio = Math.round(promedio*100)/100;
 
-    let mensaje = "";
-    let color = "";
-
-    if(promedio <= 6.99){
-        mensaje = "Ya valiste vr.... 💀";
-        color = "#ff4d4d";
-    }
-    else if(promedio >= 7 && promedio <= 7.99){
-        mensaje = "Pasaste raspando mijo 😅";
-        color = "#ff9800";
-    }
-    else if(promedio >= 8 && promedio <= 8.99){
-        mensaje = "Bien hecho, hachale mas ganas pal proximo parcial 💪";
-        color = "#4caf50";
-    }
-    else if(promedio >= 9 && promedio <= 10){
-        mensaje = "Que estudioso, que inteligente, sigue asi 🤓🔥";
-        color = "#2196f3";
-    }
+    let info = mensajeSegunNota(promedio);
 
     let resultadoDiv = document.getElementById("resultado");
     resultadoDiv.style.display="block";
-    resultadoDiv.style.background=color;
+    resultadoDiv.style.background=info.color;
     resultadoDiv.style.color="white";
     resultadoDiv.innerHTML = `
-        Promedio Final: ${promedio.toFixed(2)} <br><br>
-        ${mensaje}
+        Resultado: ${promedio.toFixed(2)} <br><br>
+        ${info.texto}
     `;
 }
 </script>
 
 </body>
-
 </html>
