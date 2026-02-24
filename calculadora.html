@@ -68,7 +68,13 @@ button{
 button:hover{
     background:#0055aa;
 }
+.btn-regresar{
+    background:#777;
+}
 
+.btn-regresar:hover{
+    background:#555;
+}
 .resultado{
     margin-top:25px;
     padding:18px;
@@ -115,7 +121,12 @@ button:hover{
 
 <div class="resultado" id="resultado"></div>
 </div>
+<button onclick="calcular()">Calcular</button>
 
+<a href="index.html">
+    <button type="button" class="btn-regresar">⬅ Volver al Inicio</button>
+</a>
+    
 <script>
 
 // 🔥 Limitar automáticamente entre 0 y 10
@@ -196,4 +207,5 @@ function calcular(){
 
 </body>
 </html>
+
 
