@@ -86,108 +86,81 @@
 
 <div class="gallery" id="gallery"></div>
 
-<script>
-  const supabase = window.supabase.createClient(
-    "https://jvmawoseemqpwovpcgtm.supabase.co",
-    "sb_publishable_wzwq3MNWKg7tUnIzroy5HQ_6ntxrbi3"
-  );
+<script type="module">
+  import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
 
-  let currentUser = null;
+  const supabase = createClient(
+    'https://jvmawoseemqpwovpcgtm.supabase.co',
+    'sb_publishable_wzwq3MNWKg7tUnIzroy5HQ_6ntxrbi3'
+  )
+
+  let currentUser = null
 
   async function loginAnon() {
-    const { data, error } = await supabase.auth.signInAnonymously();
+    const { data, error } = await supabase.auth.signInAnonymously()
     if (error) {
-      alert("Error login: " + error.message);
-      return;
+      alert("Error login: " + error.message)
+      return
     }
-    currentUser = data.user;
-    console.log("Usuario:", currentUser.id);
+    currentUser = data.user
+    console.log("Usuario:", currentUser.id)
   }
 
   async function uploadImage() {
-    const btn = document.getElementById("uploadBtn");
-    const status = document.getElementById("status");
-
     if (!currentUser) {
-      alert("Usuario no autenticado");
-      return;
+      alert("Usuario no autenticado")
+      return
     }
 
-    const file = document.getElementById("imageInput").files[0];
-    const text = document.getElementById("textInput").value;
+    const file = document.getElementById("imageInput").files[0]
+    const text = document.getElementById("textInput").value
 
     if (!file) {
-      alert("Selecciona una imagen");
-      return;
+      alert("Selecciona una imagen")
+      return
     }
 
-    btn.disabled = true;
-    status.innerText = "Subiendo...";
-
-    const fileName = Date.now() + "-" + file.name;
+    const fileName = Date.now() + "-" + file.name
 
     const { error: uploadError } = await supabase.storage
       .from("images")
-      .upload(fileName, file);
+      .upload(fileName, file)
 
     if (uploadError) {
-      alert("Error subiendo imagen: " + uploadError.message);
-      btn.disabled = false;
-      status.innerText = "";
-      return;
+      alert(uploadError.message)
+      return
     }
 
     const { data } = supabase.storage
       .from("images")
-      .getPublicUrl(fileName);
+      .getPublicUrl(fileName)
 
-    const imageUrl = data.publicUrl;
+    await supabase.from("photos").insert([
+      {
+        image_url: data.publicUrl,
+        text: text,
+        likes: 0,
+        user_id: currentUser.id
+      }
+    ])
 
-    const { error: insertError } = await supabase
-      .from("photos")
-      .insert([
-        {
-          image_url: imageUrl,
-          text: text,
-          likes: 0,
-          user_id: currentUser.id
-        }
-      ]);
+    alert("Subido correctamente ✅")
 
-    if (insertError) {
-      alert("Error guardando en BD: " + insertError.message);
-      btn.disabled = false;
-      status.innerText = "";
-      return;
-    }
-
-    status.innerText = "Subido correctamente ✅";
-
-    document.getElementById("imageInput").value = "";
-    document.getElementById("textInput").value = "";
-
-    btn.disabled = false;
-
-    loadImages();
+    loadImages()
   }
 
   async function loadImages() {
-    const { data, error } = await supabase
+    const { data } = await supabase
       .from("photos")
       .select("*")
-      .order("created_at", { ascending: false });
+      .order("created_at", { ascending: false })
 
-    if (error) {
-      console.log(error);
-      return;
-    }
-
-    const gallery = document.getElementById("gallery");
-    gallery.innerHTML = "";
+    const gallery = document.getElementById("gallery")
+    gallery.innerHTML = ""
 
     data.forEach(photo => {
-      const card = document.createElement("div");
-      card.className = "card";
+      const card = document.createElement("div")
+      card.className = "card"
 
       card.innerHTML = `
         <img src="${photo.image_url}">
@@ -195,30 +168,27 @@
         <div class="likes" onclick="likePhoto('${photo.id}', ${photo.likes})">
           ❤️ ${photo.likes}
         </div>
-      `;
+      `
 
-      gallery.appendChild(card);
-    });
+      gallery.appendChild(card)
+    })
   }
 
-  async function likePhoto(id, currentLikes) {
+  window.likePhoto = async function(id, currentLikes) {
     await supabase
       .from("photos")
       .update({ likes: currentLikes + 1 })
-      .eq("id", id);
+      .eq("id", id)
 
-    loadImages();
+    loadImages()
   }
 
-  document.getElementById("uploadBtn").addEventListener("click", uploadImage);
+  document.getElementById("uploadBtn").addEventListener("click", uploadImage)
 
-  async function init() {
-    await loginAnon();
-    await loadImages();
-  }
-
-  init();
+  await loginAnon()
+  await loadImages()
 </script>
 
 </body>
 </html>
+
