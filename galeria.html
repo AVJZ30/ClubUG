@@ -38,10 +38,10 @@
 <script type="module">
   import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
 
-  // IMPORTANTE: Reemplaza con tu anon key de Supabase (la que empieza con "eyJ...")
+  // IMPORTANTE: Reemplaza con tu anon key de Supabase (Settings → API → anon public key)
   const supabase = createClient(
     'https://jvmawoseemqpwovpcgtm.supabase.co',
-    'sb_publishable_wzwq3MNWKg7tUnIzroy5HQ_6ntxrbi3' // Ve a Settings → API → anon public key
+    'sb_publishable_wzwq3MNWKg7tUnIzroy5HQ_6ntxrbi3' // La que empieza con "eyJ..."
   )
 
   let currentUser = null;
@@ -57,11 +57,7 @@
       const { data, error } = await supabase.auth.signInAnonymously()
       
       if (error) {
-        if (error.message.includes("Signups not allowed")) {
-          statusDiv.innerText = "❌ Error: Activa 'Permitir inicios de sesión anónimos' en Supabase Authentication → Providers → Anonymous";
-        } else {
-          statusDiv.innerText = "❌ Error login: " + error.message;
-        }
+        statusDiv.innerText = "❌ Error login: " + error.message;
         uploadBtn.disabled = true;
         return false;
       }
@@ -240,4 +236,5 @@
 
 </body>
 </html>
+
 
