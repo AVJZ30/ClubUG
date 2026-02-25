@@ -26,6 +26,7 @@
     --gris-claro: #E2E8F0;
     --sombra-suave: rgba(0, 194, 255, 0.15);
     --sombra-media: rgba(0, 194, 255, 0.3);
+    --rojo-corazon: #FF3366;
   }
 
   body {
@@ -272,10 +273,6 @@
     left: 100%;
   }
 
-  .upload-btn i {
-    transition: transform 0.3s;
-  }
-
   .upload-btn:hover i {
     transform: translateY(-3px) rotate(5deg);
   }
@@ -415,7 +412,7 @@
     font-weight: 400;
   }
 
-  /* Botón de likes moderno */
+  /* Botón de likes moderno con animación mejorada */
   .likes {
     display: inline-flex;
     align-items: center;
@@ -430,25 +427,59 @@
     transition: all 0.3s;
     border: 1px solid rgba(255, 255, 255, 0.3);
     box-shadow: 0 4px 10px rgba(0, 194, 255, 0.3);
+    position: relative;
+    overflow: hidden;
   }
 
   .likes i {
     font-size: 1.1rem;
     transition: transform 0.3s;
+    position: relative;
+    z-index: 2;
   }
 
-  .likes:hover {
+  .likes.liked {
+    background: linear-gradient(135deg, var(--rojo-corazon), #FF0066);
+    box-shadow: 0 0 30px var(--rojo-corazon);
+  }
+
+  .likes.liked i {
+    animation: heartBeat 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  }
+
+  @keyframes heartBeat {
+    0%, 100% { transform: scale(1); }
+    30% { transform: scale(1.4); }
+    60% { transform: scale(1.2); }
+  }
+
+  .likes:not(.liked):hover {
     transform: scale(1.1);
     background: linear-gradient(135deg, #0099CC, var(--celeste-brillante));
     box-shadow: 0 10px 20px rgba(0, 194, 255, 0.5);
   }
 
-  .likes:hover i {
+  .likes:not(.liked):hover i {
     transform: scale(1.2) rotate(5deg);
   }
 
   .likes:active {
     transform: scale(0.95);
+  }
+
+  /* Animación de partículas al dar like */
+  .like-particle {
+    position: fixed;
+    pointer-events: none;
+    color: var(--rojo-corazon);
+    font-size: 1.2rem;
+    animation: particleFloat 1s ease-out forwards;
+    z-index: 1000;
+  }
+
+  @keyframes particleFloat {
+    0% { transform: translateY(0) scale(1); opacity: 1; }
+    100% { transform: translateY(-100px) scale(0); opacity: 0; }
   }
 
   /* Modal premium */
@@ -568,7 +599,9 @@
   .card:nth-child(6) { animation-delay: 0.3s; }
   .card:nth-child(7) { animation-delay: 0.35s; }
   .card:nth-child(8) { animation-delay: 0.4s; }
-  .card:nth-child(n+9) { animation-delay: 0.45s; }
+  .card:nth-child(9) { animation-delay: 0.45s; }
+  .card:nth-child(10) { animation-delay: 0.5s; }
+  .card:nth-child(n+11) { animation-delay: 0.55s; }
 </style>
 </head>
 <body>
@@ -632,7 +665,7 @@
 
   const supabase = createClient(
     'https://jvmawoseemqpwovpcgtm.supabase.co',
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imp2bWF3b3NlZW1xcHdvdnBjZ3RtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzE5Mzk2OTIsImV4cCI6MjA4NzUxNTY5Mn0.Rf4CDr6-jRPx9pzPqRBh71S0ei2zdbGjhECQBM68xig'
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imp2bWF3b3NlZW1xcHdvdnBjZ3RtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mzc2MDE5NTAsImV4cCI6MjA1MzE3Nzk1MH0.6FpWlNwW_z_Wq5txQkT3eL9mQnQ5kFmXxYvK7cJkYwQ'
   )
 
   let currentUser = null;
@@ -642,6 +675,48 @@
   let fileInput = document.getElementById("imageInput");
   let fileName = document.getElementById("fileName");
   let fileLabelText = document.getElementById("fileLabelText");
+
+  // Clave para localStorage (usuario anónimo)
+  const STORAGE_KEY = 'galeria_ug_likes';
+
+  // Función para obtener likes del usuario
+  function getUserLikes() {
+    const likes = localStorage.getItem(STORAGE_KEY);
+    return likes ? JSON.parse(likes) : [];
+  }
+
+  // Función para guardar like del usuario
+  function saveUserLike(photoId) {
+    const likes = getUserLikes();
+    if (!likes.includes(photoId)) {
+      likes.push(photoId);
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(likes));
+    }
+  }
+
+  // Función para verificar si el usuario ya dio like
+  function hasUserLiked(photoId) {
+    const likes = getUserLikes();
+    return likes.includes(photoId);
+  }
+
+  // Función para crear partículas de like
+  function createLikeParticles(x, y) {
+    for (let i = 0; i < 8; i++) {
+      setTimeout(() => {
+        const particle = document.createElement('div');
+        particle.className = 'like-particle';
+        particle.innerHTML = '❤️';
+        particle.style.left = (x + (Math.random() - 0.5) * 100) + 'px';
+        particle.style.top = (y + (Math.random() - 0.5) * 50) + 'px';
+        particle.style.fontSize = (Math.random() * 1 + 0.8) + 'rem';
+        particle.style.animationDuration = (Math.random() * 0.5 + 0.8) + 's';
+        document.body.appendChild(particle);
+        
+        setTimeout(() => particle.remove(), 1000);
+      }, i * 50);
+    }
+  }
 
   // Mostrar nombre del archivo seleccionado
   fileInput.addEventListener('change', function(e) {
@@ -771,7 +846,7 @@
       const { data, error } = await supabase
         .from("photos")
         .select("*")
-        .order("created_at", { ascending: false })
+        .order("created_at", { ascending: false }) // ¡NUEVAS PRIMERO!
 
       if (error) throw error;
 
@@ -788,13 +863,14 @@
       galleryDiv.innerHTML = "";
 
       data.forEach(photo => {
+        const liked = hasUserLiked(photo.id);
         const card = document.createElement("div");
         card.className = "card";
         card.innerHTML = `
           <div class="card-image" onclick="openModal('${photo.image_url}')">
             <img src="${photo.image_url}" loading="lazy" alt="Galería UG">
             <div class="card-overlay">
-              <div class="likes" data-id="${photo.id}" data-likes="${photo.likes}">
+              <div class="likes ${liked ? 'liked' : ''}" data-id="${photo.id}" data-likes="${photo.likes}">
                 <i class="fas fa-heart"></i>
                 <span>${photo.likes}</span>
               </div>
@@ -808,7 +884,22 @@
         const likesDiv = card.querySelector('.likes');
         likesDiv.addEventListener('click', (e) => {
           e.stopPropagation();
-          likePhoto(photo.id, photo.likes);
+          
+          // Verificar si ya dio like
+          if (hasUserLiked(photo.id)) {
+            // Animación de error/ya likeado
+            likesDiv.style.transform = 'scale(1.2)';
+            setTimeout(() => {
+              likesDiv.style.transform = '';
+            }, 200);
+            return;
+          }
+          
+          // Crear partículas en la posición del click
+          const rect = likesDiv.getBoundingClientRect();
+          createLikeParticles(rect.left + rect.width/2, rect.top + rect.height/2);
+          
+          likePhoto(photo.id, photo.likes, likesDiv);
         });
         
         galleryDiv.appendChild(card);
@@ -824,24 +915,32 @@
     }
   }
 
-  async function likePhoto(id, currentLikes) {
+  async function likePhoto(id, currentLikes, likesDiv) {
     try {
-      const likesDiv = event.currentTarget;
-      likesDiv.style.transform = 'scale(0.9)';
-      
-      await supabase
-        .from("photos")
-        .update({ likes: currentLikes + 1 })
-        .eq("id", id)
+      // Aplicar animación instantánea
+      likesDiv.classList.add('liked');
+      likesDiv.style.transform = 'scale(1.2)';
       
       setTimeout(() => {
         likesDiv.style.transform = '';
       }, 200);
       
+      // Guardar en localStorage
+      saveUserLike(id);
+      
+      // Actualizar en Supabase
+      await supabase
+        .from("photos")
+        .update({ likes: currentLikes + 1 })
+        .eq("id", id)
+      
+      // Recargar para mostrar el nuevo contador
       await loadImages();
       
     } catch (error) {
       console.error("Error en like:", error);
+      // Revertir UI si hay error
+      likesDiv.classList.remove('liked');
     }
   }
 
@@ -857,4 +956,3 @@
 </script>
 </body>
 </html>
-
