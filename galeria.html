@@ -15,6 +15,7 @@
   .card img { width:100%; border-radius:8px; }
   .likes { margin-top:5px; cursor:pointer; color:#ff4d6d; }
   .status { margin-top:10px; font-weight:bold; color:#4CAF50; }
+  .loading { color: #888; padding: 20px; }
 </style>
 </head>
 <body>
@@ -30,104 +31,211 @@
   <div class="status" id="status"></div>
 </div>
 
-<div class="gallery" id="gallery"></div>
+<div class="gallery" id="gallery">
+  <div class="loading">Cargando imágenes...</div>
+</div>
 
 <script type="module">
   import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
 
+  // IMPORTANTE: Reemplaza con tu anon key de Supabase (la que empieza con "eyJ...")
   const supabase = createClient(
     'https://jvmawoseemqpwovpcgtm.supabase.co',
-    'sb_publishable_wzwq3MNWKg7tUnIzroy5HQ_6ntxrbi3'
+    'poner-tu-anon-key-aqui' // Ve a Settings → API → anon public key
   )
 
   let currentUser = null;
+  let uploadBtn = document.getElementById("uploadBtn");
+  let statusDiv = document.getElementById("status");
+  let galleryDiv = document.getElementById("gallery");
 
   // Login anónimo automático
   async function loginAnon() {
-    const { data, error } = await supabase.auth.signInAnonymously()
-    if (error) { alert("Error login: " + error.message); return; }
-    currentUser = data.user
-    console.log("Usuario:", currentUser.id)
+    try {
+      statusDiv.innerText = "Iniciando sesión...";
+      
+      const { data, error } = await supabase.auth.signInAnonymously()
+      
+      if (error) {
+        if (error.message.includes("Signups not allowed")) {
+          statusDiv.innerText = "❌ Error: Activa 'Permitir inicios de sesión anónimos' en Supabase Authentication → Providers → Anonymous";
+        } else {
+          statusDiv.innerText = "❌ Error login: " + error.message;
+        }
+        uploadBtn.disabled = true;
+        return false;
+      }
+      
+      currentUser = data.user
+      console.log("Usuario anónimo:", currentUser.id)
+      statusDiv.innerText = "✅ Sesión iniciada correctamente";
+      uploadBtn.disabled = false;
+      return true;
+      
+    } catch (err) {
+      console.error("Error inesperado:", err)
+      statusDiv.innerText = "❌ Error inesperado al iniciar sesión";
+      uploadBtn.disabled = true;
+      return false;
+    }
   }
 
   // Subir imagen
   async function uploadImage() {
-    if (!currentUser) { alert("Usuario no autenticado"); return; }
+    if (!currentUser) { 
+      statusDiv.innerText = "❌ Usuario no autenticado"; 
+      return; 
+    }
 
     const file = document.getElementById("imageInput").files[0]
     const text = document.getElementById("textInput").value
 
-    if (!file) { alert("Selecciona una imagen"); return; }
+    if (!file) { 
+      statusDiv.innerText = "❌ Selecciona una imagen"; 
+      return; 
+    }
 
-    const fileName = Date.now() + "-" + file.name
-    document.getElementById("status").innerText = "Subiendo..."
+    // Validar tipo de archivo
+    if (!file.type.startsWith('image/')) {
+      statusDiv.innerText = "❌ Solo se permiten imágenes";
+      return;
+    }
 
-    const { error: uploadError } = await supabase.storage
-      .from("images")
-      .upload(fileName, file)
+    // Validar tamaño (máximo 5MB)
+    if (file.size > 5 * 1024 * 1024) {
+      statusDiv.innerText = "❌ La imagen no debe superar 5MB";
+      return;
+    }
 
-    if (uploadError) { alert("Error subida: " + uploadError.message); return; }
+    const fileName = Date.now() + "-" + file.name.replace(/[^a-zA-Z0-9.-]/g, '_')
+    
+    uploadBtn.disabled = true;
+    statusDiv.innerText = "📤 Subiendo imagen..."
 
-    const { data } = supabase.storage
-      .from("images")
-      .getPublicUrl(fileName)
+    try {
+      // Subir imagen a Storage
+      const { error: uploadError } = await supabase.storage
+        .from("images")
+        .upload(fileName, file)
 
-    const { error: insertError } = await supabase.from("photos").insert([
-      {
-        image_url: data.publicUrl,
-        text: text || "📸 Foto compartida en Galería UG",
-        likes: 0,
-        user_id: currentUser.id
+      if (uploadError) { 
+        throw new Error("Error subida: " + uploadError.message);
       }
-    ])
 
-    if (insertError) { alert("Error insertando en DB: " + insertError.message); return; }
+      // Obtener URL pública
+      const { data } = supabase.storage
+        .from("images")
+        .getPublicUrl(fileName)
 
-    document.getElementById("imageInput").value = ""
-    document.getElementById("textInput").value = ""
-    document.getElementById("status").innerText = "¡Subido correctamente ✅"
+      // Guardar en base de datos
+      const { error: insertError } = await supabase.from("photos").insert([
+        {
+          image_url: data.publicUrl,
+          text: text || "📸 Foto compartida en Galería UG",
+          likes: 0,
+          user_id: currentUser.id
+        }
+      ])
 
-    loadImages()
+      if (insertError) { 
+        throw new Error("Error insertando en DB: " + insertError.message);
+      }
+
+      // Limpiar formulario
+      document.getElementById("imageInput").value = ""
+      document.getElementById("textInput").value = ""
+      statusDiv.innerText = "✅ ¡Subido correctamente!"
+      
+      // Recargar galería
+      await loadImages()
+      
+    } catch (error) {
+      statusDiv.innerText = "❌ " + error.message;
+    } finally {
+      uploadBtn.disabled = false;
+    }
   }
 
   // Cargar imágenes
   async function loadImages() {
-    const { data, error } = await supabase
-      .from("photos")
-      .select("*")
-      .order("created_at", { ascending:false })
+    try {
+      galleryDiv.innerHTML = '<div class="loading">Cargando imágenes...</div>';
+      
+      const { data, error } = await supabase
+        .from("photos")
+        .select("*")
+        .order("created_at", { ascending: false })
 
-    if (error) { console.log(error); return; }
+      if (error) { 
+        throw new Error("Error cargando imágenes: " + error.message);
+      }
 
-    const gallery = document.getElementById("gallery")
-    gallery.innerHTML = ""
+      if (!data || data.length === 0) {
+        galleryDiv.innerHTML = '<div class="loading">No hay imágenes aún. ¡Sé el primero en subir una!</div>';
+        return;
+      }
 
-    data.forEach(photo => {
-      const card = document.createElement("div")
-      card.className = "card"
-      card.innerHTML = `
-        <img src="${photo.image_url}">
-        <p>${photo.text || ""}</p>
-        <div class="likes" onclick="likePhoto('${photo.id}', ${photo.likes})">
-          ❤️ ${photo.likes}
-        </div>
-      `
-      gallery.appendChild(card)
-    })
+      galleryDiv.innerHTML = ""
+
+      data.forEach(photo => {
+        const card = document.createElement("div")
+        card.className = "card"
+        card.innerHTML = `
+          <img src="${photo.image_url}" loading="lazy" onerror="this.src='https://via.placeholder.com/300?text=Error+cargando+imagen'">
+          <p>${photo.text || ""}</p>
+          <div class="likes" data-id="${photo.id}" data-likes="${photo.likes}">
+            ❤️ ${photo.likes}
+          </div>
+        `
+        
+        // Agregar evento de like
+        const likesDiv = card.querySelector('.likes');
+        likesDiv.addEventListener('click', () => likePhoto(photo.id, photo.likes));
+        
+        galleryDiv.appendChild(card)
+      })
+      
+    } catch (error) {
+      galleryDiv.innerHTML = '<div class="loading">Error cargando imágenes. Intenta recargar la página.</div>';
+      console.error(error);
+    }
   }
 
-  // Botón de likes
-  window.likePhoto = async function(id, currentLikes) {
-    await supabase.from("photos").update({ likes: currentLikes+1 }).eq("id", id)
-    loadImages()
+  // Función de likes
+  async function likePhoto(id, currentLikes) {
+    try {
+      const { error } = await supabase
+        .from("photos")
+        .update({ likes: currentLikes + 1 })
+        .eq("id", id)
+      
+      if (error) {
+        console.error("Error al dar like:", error);
+        return;
+      }
+      
+      await loadImages()
+      
+    } catch (error) {
+      console.error("Error en like:", error);
+    }
   }
 
   // Evento del botón subir
-  document.getElementById("uploadBtn").addEventListener("click", uploadImage)
+  uploadBtn.addEventListener("click", uploadImage)
 
-  // Login + cargar imágenes al iniciar
-  await loginAnon()
-  await loadImages()
+  // Deshabilitar botón mientras se inicia sesión
+  uploadBtn.disabled = true;
+
+  // Inicializar la aplicación
+  async function init() {
+    const loggedIn = await loginAnon();
+    if (loggedIn) {
+      await loadImages();
+    }
+  }
+
+  init();
 </script>
 
 </body>
