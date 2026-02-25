@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Galería UG | Neón</title>
+<title>Galería Club UG</title>
 <!-- Font Awesome para iconos -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 <style>
@@ -16,7 +16,7 @@
   }
 
   body {
-    background: linear-gradient(135deg, #0a1928 0%, #1a2f3f 100%);
+    background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
     min-height: 100vh;
     padding: 20px;
   }
@@ -39,14 +39,13 @@
     padding: 12px 24px;
     background: rgba(255, 255, 255, 0.1);
     backdrop-filter: blur(10px);
-    border: 2px solid #00ffff;
+    border: 2px solid rgba(255, 255, 255, 0.2);
     border-radius: 50px;
     color: white;
     font-size: 1rem;
     font-weight: 600;
     cursor: pointer;
     transition: all 0.3s;
-    box-shadow: 0 0 20px #00ffff33;
     text-decoration: none;
   }
 
@@ -58,46 +57,34 @@
 
   .back-button:hover {
     transform: translateX(-5px);
-    box-shadow: 0 0 30px #00ffff;
     background: rgba(255, 255, 255, 0.2);
+    border-color: #00ffff;
   }
 
   .back-button:hover i {
     transform: translateX(-3px);
   }
 
-  /* Header */
+  /* Header - sin neón */
   h1 {
     text-align: center;
     font-size: clamp(2.5rem, 8vw, 4rem);
     margin: 20px 0 30px;
     color: white;
-    text-shadow: 0 0 20px #00ffff, 0 0 40px #00ffff;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
     letter-spacing: 2px;
-    animation: neonPulse 2s infinite;
   }
 
-  @keyframes neonPulse {
-    0%, 100% { text-shadow: 0 0 20px #00ffff, 0 0 40px #00ffff; }
-    50% { text-shadow: 0 0 30px #00ffff, 0 0 60px #00ffff, 0 0 80px #00ffff; }
-  }
-
-  /* Caja de subida */
+  /* Caja de subida - sin neón */
   .upload-box {
     background: rgba(255, 255, 255, 0.05);
     backdrop-filter: blur(10px);
-    border: 2px solid #00ffff;
+    border: 2px solid rgba(255, 255, 255, 0.1);
     border-radius: 20px;
     padding: 30px;
     margin: 20px auto 40px;
     max-width: 600px;
-    box-shadow: 0 0 30px #00ffff33;
-    animation: borderGlow 2s infinite;
-  }
-
-  @keyframes borderGlow {
-    0%, 100% { box-shadow: 0 0 20px #00ffff; }
-    50% { box-shadow: 0 0 40px #00ffff, 0 0 60px #00ffff; }
+    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
   }
 
   .file-input-wrapper {
@@ -119,22 +106,22 @@
     justify-content: center;
     gap: 10px;
     background: white;
-    color: #0a1928;
+    color: #0f2027;
     padding: 15px 20px;
     border-radius: 50px;
     font-weight: 600;
     cursor: pointer;
     transition: 0.3s;
-    border: 2px solid #00ffff;
+    border: 2px solid rgba(255,255,255,0.5);
   }
 
   .file-label:hover {
     transform: scale(1.02);
-    box-shadow: 0 0 30px #00ffff;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
   }
 
   .file-label i {
-    color: #00ffff;
+    color: #00aaff;
     font-size: 1.2rem;
   }
 
@@ -155,7 +142,7 @@
     left: 20px;
     top: 50%;
     transform: translateY(-50%);
-    color: #00ffff;
+    color: #00aaff;
     font-size: 1.2rem;
     z-index: 1;
   }
@@ -164,7 +151,7 @@
     width: 100%;
     padding: 15px 20px 15px 50px;
     background: rgba(255, 255, 255, 0.1);
-    border: 2px solid #00ffff;
+    border: 2px solid rgba(255, 255, 255, 0.2);
     border-radius: 50px;
     color: white;
     font-size: 1rem;
@@ -173,7 +160,7 @@
 
   input[type="text"]:focus {
     outline: none;
-    box-shadow: 0 0 30px #00ffff;
+    border-color: #00aaff;
     background: rgba(255, 255, 255, 0.15);
   }
 
@@ -184,15 +171,15 @@
   button {
     width: 100%;
     padding: 15px;
-    background: linear-gradient(135deg, #00ffff, #0099ff);
+    background: linear-gradient(135deg, #00aaff, #0066cc);
     border: none;
     border-radius: 50px;
-    color: #0a1928;
+    color: white;
     font-weight: bold;
     font-size: 1.1rem;
     cursor: pointer;
     transition: 0.3s;
-    border: 2px solid white;
+    border: 2px solid rgba(255,255,255,0.3);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -201,7 +188,7 @@
 
   button:hover {
     transform: translateY(-3px);
-    box-shadow: 0 10px 30px #00ffff;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.3);
   }
 
   button:disabled {
@@ -217,8 +204,7 @@
     border-radius: 50px;
     color: white;
     text-align: center;
-    border: 1px solid #00ffff;
-    animation: glow 2s infinite;
+    border: 1px solid rgba(255,255,255,0.2);
   }
 
   /* Galería */
@@ -229,7 +215,7 @@
     padding: 20px 0;
   }
 
-  /* Tarjeta de imagen con borde neón animado */
+  /* Tarjeta de imagen */
   .card {
     background: rgba(255, 255, 255, 0.05);
     backdrop-filter: blur(10px);
@@ -257,7 +243,7 @@
   .card:nth-child(8) { animation-delay: 0.8s; }
   .card:nth-child(n+9) { animation-delay: 0.9s; }
 
-  /* Imagen con borde neón animado */
+  /* Solo las imágenes tienen borde neón animado */
   .card img {
     width: 100%;
     aspect-ratio: 1/1;
@@ -276,7 +262,7 @@
     }
     50% { 
       border-color: #0099ff;
-      box-shadow: 0 0 40px #00ffff, 0 0 60px #0099ff;
+      box-shadow: 0 0 40px #00ffff;
     }
   }
 
@@ -345,7 +331,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #0a1928;
+    color: #0f2027;
     font-size: 1.5rem;
     cursor: pointer;
     transition: 0.3s;
@@ -361,7 +347,7 @@
   .loading {
     text-align: center;
     padding: 50px;
-    color: #00ffff;
+    color: white;
     font-size: 1.2rem;
     grid-column: 1 / -1;
   }
@@ -392,7 +378,7 @@
 </a>
 
 <div class="container">
-  <h1>✨ GALERÍA NEÓN UG ✨</h1>
+  <h1> GALERÍA CLUB UG </h1>
 
   <div class="upload-box">
     <div class="file-input-wrapper">
@@ -497,7 +483,7 @@
       }
       
       currentUser = data.user;
-      statusDiv.innerHTML = `<i class="fas fa-check-circle"></i> ✨ Conectado ✨`;
+      statusDiv.innerHTML = `<i class="fas fa-check-circle"></i>  Conectado `;
       uploadBtn.disabled = false;
       return true;
       
@@ -552,7 +538,7 @@
       const { error: insertError } = await supabase.from("photos").insert([
         {
           image_url: data.publicUrl,
-          text: text || "✨ Imagen en Galería UG ✨",
+          text: text || "Imagen en Galería UG ",
           user_id: currentUser.id
         }
       ])
@@ -569,7 +555,7 @@
       await loadImages();
       
       setTimeout(() => {
-        statusDiv.innerHTML = `<i class="fas fa-check-circle"></i> ✨ Conectado ✨`;
+        statusDiv.innerHTML = `<i class="fas fa-check-circle"></i>  Conectado `;
       }, 3000);
       
     } catch (error) {
@@ -605,7 +591,7 @@
         card.className = "card";
         card.innerHTML = `
           <img src="${photo.image_url}" loading="lazy" onclick="openModal('${photo.image_url}')">
-          <p>${photo.text || "✨ Imagen en Galería UG ✨"}</p>
+          <p>${photo.text || " Imagen en Galería UG "}</p>
         `;
         galleryDiv.appendChild(card);
       });
