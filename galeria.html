@@ -2,240 +2,858 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<title>Galería UG</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Galería UG | Edición Éter</title>
+<!-- Font Awesome para iconos -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 <style>
-  body { font-family: Arial; background: #0f0f0f; color: white; text-align:center; margin:0;}
-  h1 { padding:20px; }
-  .upload-box { background:#1e1e1e; padding:20px; margin:20px; border-radius:10px; }
-  input, button { padding:8px; margin:8px; border-radius:6px; border:none; }
-  button { cursor:pointer; background:#4CAF50; color:white; }
-  button:disabled { background:gray; }
-  .gallery { display:grid; grid-template-columns:repeat(auto-fill,minmax(250px,1fr)); gap:15px; padding:20px; }
-  .card { background:#1e1e1e; border-radius:10px; padding:10px; }
-  .card img { width:100%; border-radius:8px; }
-  .likes { margin-top:5px; cursor:pointer; color:#ff4d6d; }
-  .status { margin-top:10px; font-weight:bold; color:#4CAF50; }
-  .loading { color: #888; padding: 20px; }
+  /* Reset y variables globales */
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  }
+
+  /* Variables de color */
+  :root {
+    --azul-profundo: #0A2540;
+    --azul-medio: #1A3B5C;
+    --celeste-brillante: #00C2FF;
+    --celeste-suave: #7FD9FF;
+    --blanco-puro: #FFFFFF;
+    --blanco-humo: #F8FAFC;
+    --gris-claro: #E2E8F0;
+    --sombra-suave: rgba(0, 194, 255, 0.15);
+    --sombra-media: rgba(0, 194, 255, 0.3);
+  }
+
+  body {
+    background: linear-gradient(135deg, var(--azul-profundo) 0%, var(--azul-medio) 100%);
+    min-height: 100vh;
+    padding: 20px;
+    position: relative;
+    overflow-x: hidden;
+  }
+
+  /* Efecto de partículas de fondo */
+  body::before {
+    content: '';
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background: radial-gradient(circle at 20% 50%, rgba(0, 194, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(127, 217, 255, 0.1) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .container {
+    max-width: 1440px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Header con diseño moderno */
+  .header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 40px;
+    position: relative;
+  }
+
+  h1 {
+    font-size: clamp(2.5rem, 10vw, 5rem);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    background: linear-gradient(135deg, var(--blanco-puro) 0%, var(--celeste-brillante) 50%, var(--blanco-puro) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 10px;
+    position: relative;
+    animation: titleFloat 3s ease-in-out infinite;
+    text-shadow: 0 0 30px var(--sombra-media);
+  }
+
+  @keyframes titleFloat {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-5px); }
+  }
+
+  .title-decoration {
+    display: flex;
+    gap: 10px;
+    margin-top: -10px;
+  }
+
+  .title-decoration span {
+    width: 60px;
+    height: 4px;
+    background: linear-gradient(90deg, transparent, var(--celeste-brillante), transparent);
+    border-radius: 2px;
+    animation: expandLine 2s ease-in-out infinite;
+  }
+
+  .title-decoration span:nth-child(2) { animation-delay: 0.4s; }
+  .title-decoration span:nth-child(3) { animation-delay: 0.8s; }
+
+  @keyframes expandLine {
+    0%, 100% { width: 30px; opacity: 0.3; }
+    50% { width: 80px; opacity: 1; }
+  }
+
+  /* Caja de subida ultra moderna */
+  .upload-box {
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 32px;
+    padding: 35px;
+    margin: 20px auto 40px;
+    max-width: 700px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3),
+                0 0 0 1px rgba(255, 255, 255, 0.05);
+    transition: transform 0.3s, box-shadow 0.3s;
+    animation: slideUp 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+  }
+
+  .upload-box:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 30px 60px rgba(0, 194, 255, 0.2),
+                0 0 0 2px rgba(0, 194, 255, 0.3);
+  }
+
+  @keyframes slideUp {
+    from { opacity: 0; transform: translateY(40px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Grid de inputs */
+  .input-group {
+    display: grid;
+    gap: 20px;
+    margin-bottom: 20px;
+  }
+
+  .file-input-wrapper {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .file-input-wrapper input[type="file"] {
+    position: absolute;
+    opacity: 0;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+  }
+
+  .file-label {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background: linear-gradient(135deg, var(--blanco-puro), var(--blanco-humo));
+    color: var(--azul-profundo);
+    padding: 16px 24px;
+    border-radius: 60px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    border: 2px solid transparent;
+    box-shadow: 0 4px 15px var(--sombra-suave);
+  }
+
+  .file-label i {
+    font-size: 1.2rem;
+    color: var(--celeste-brillante);
+    transition: transform 0.3s;
+  }
+
+  .file-label:hover {
+    background: var(--blanco-puro);
+    border-color: var(--celeste-brillante);
+    transform: scale(1.02);
+    box-shadow: 0 10px 30px var(--sombra-media);
+  }
+
+  .file-label:hover i {
+    transform: rotate(15deg) scale(1.2);
+  }
+
+  .file-name {
+    margin-top: 8px;
+    font-size: 0.9rem;
+    color: var(--blanco-humo);
+    text-align: center;
+  }
+
+  .text-input-wrapper {
+    position: relative;
+  }
+
+  .text-input-wrapper i {
+    position: absolute;
+    left: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--celeste-brillante);
+    font-size: 1.2rem;
+    z-index: 1;
+  }
+
+  input[type="text"] {
+    width: 100%;
+    padding: 16px 20px 16px 50px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    border-radius: 60px;
+    color: var(--blanco-puro);
+    font-size: 1rem;
+    transition: all 0.3s;
+  }
+
+  input[type="text"]:focus {
+    outline: none;
+    border-color: var(--celeste-brillante);
+    background: rgba(255, 255, 255, 0.1);
+    box-shadow: 0 0 30px var(--sombra-media);
+  }
+
+  input[type="text"]::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+  }
+
+  /* Botón principal */
+  .upload-btn {
+    width: 100%;
+    padding: 18px;
+    background: linear-gradient(135deg, var(--celeste-brillante), #0099CC);
+    border: none;
+    border-radius: 60px;
+    color: var(--blanco-puro);
+    font-size: 1.2rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s;
+    box-shadow: 0 10px 20px rgba(0, 194, 255, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+  }
+
+  .upload-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    transition: left 0.5s;
+  }
+
+  .upload-btn:hover {
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 20px 40px rgba(0, 194, 255, 0.5);
+  }
+
+  .upload-btn:hover::before {
+    left: 100%;
+  }
+
+  .upload-btn i {
+    transition: transform 0.3s;
+  }
+
+  .upload-btn:hover i {
+    transform: translateY(-3px) rotate(5deg);
+  }
+
+  .upload-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+  }
+
+  /* Status moderno */
+  .status {
+    margin-top: 20px;
+    padding: 15px 20px;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(8px);
+    border-radius: 60px;
+    color: var(--blanco-puro);
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    animation: statusPulse 2s infinite;
+  }
+
+  @keyframes statusPulse {
+    0%, 100% { box-shadow: 0 0 20px rgba(0, 194, 255, 0.2); }
+    50% { box-shadow: 0 0 30px rgba(0, 194, 255, 0.4); }
+  }
+
+  /* Galería con grid moderno */
+  .gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 30px;
+    padding: 20px 0 40px;
+    animation: galleryFade 1s;
+  }
+
+  @keyframes galleryFade {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  /* Tarjeta de imagen premium */
+  .card {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 24px;
+    padding: 20px;
+    transition: all 0.4s cubic-bezier(0.2, 0.9, 0.3, 1.1);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    animation: cardFloat 0.6s ease-out forwards;
+    opacity: 0;
+    transform-origin: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  @keyframes cardFloat {
+    from { opacity: 0; transform: translateY(30px) scale(0.9); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+  }
+
+  .card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 24px;
+    padding: 2px;
+    background: linear-gradient(135deg, var(--celeste-brillante), transparent, var(--celeste-brillante));
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    opacity: 0;
+    transition: opacity 0.4s;
+  }
+
+  .card:hover::after {
+    opacity: 1;
+  }
+
+  .card:hover {
+    transform: translateY(-10px) scale(1.02);
+    box-shadow: 0 30px 50px rgba(0, 194, 255, 0.3);
+  }
+
+  .card:hover .card-image img {
+    transform: scale(1.08);
+  }
+
+  .card-image {
+    position: relative;
+    border-radius: 16px;
+    overflow: hidden;
+    margin-bottom: 15px;
+    cursor: pointer;
+  }
+
+  .card-image img {
+    width: 100%;
+    aspect-ratio: 1/1;
+    object-fit: cover;
+    transition: transform 0.6s cubic-bezier(0.2, 0.9, 0.3, 1.1);
+    display: block;
+  }
+
+  .card-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(10, 37, 64, 0.9), transparent);
+    opacity: 0;
+    transition: opacity 0.3s;
+    display: flex;
+    align-items: flex-end;
+    padding: 20px;
+  }
+
+  .card:hover .card-overlay {
+    opacity: 1;
+  }
+
+  .card-content {
+    padding: 5px 10px;
+  }
+
+  .card-content p {
+    color: var(--blanco-puro);
+    font-size: 1rem;
+    line-height: 1.5;
+    margin-bottom: 10px;
+    font-weight: 400;
+  }
+
+  /* Botón de likes moderno */
+  .likes {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    background: linear-gradient(135deg, var(--celeste-brillante), #0099CC);
+    border-radius: 40px;
+    color: var(--blanco-puro);
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 4px 10px rgba(0, 194, 255, 0.3);
+  }
+
+  .likes i {
+    font-size: 1.1rem;
+    transition: transform 0.3s;
+  }
+
+  .likes:hover {
+    transform: scale(1.1);
+    background: linear-gradient(135deg, #0099CC, var(--celeste-brillante));
+    box-shadow: 0 10px 20px rgba(0, 194, 255, 0.5);
+  }
+
+  .likes:hover i {
+    transform: scale(1.2) rotate(5deg);
+  }
+
+  .likes:active {
+    transform: scale(0.95);
+  }
+
+  /* Modal premium */
+  .modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(10, 37, 64, 0.95);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    z-index: 2000;
+    justify-content: center;
+    align-items: center;
+    animation: modalReveal 0.4s cubic-bezier(0.2, 0.9, 0.3, 1.1);
+  }
+
+  @keyframes modalReveal {
+    from { backdrop-filter: blur(0); background: rgba(10, 37, 64, 0); }
+    to { backdrop-filter: blur(20px); background: rgba(10, 37, 64, 0.95); }
+  }
+
+  .modal-content {
+    position: relative;
+    max-width: 85vw;
+    max-height: 85vh;
+    animation: modalZoom 0.5s cubic-bezier(0.2, 0.9, 0.3, 1.1);
+  }
+
+  @keyframes modalZoom {
+    from { opacity: 0; transform: scale(0.7) rotate(-5deg); }
+    to { opacity: 1; transform: scale(1) rotate(0); }
+  }
+
+  .modal-content img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    border-radius: 32px;
+    border: 3px solid var(--celeste-brillante);
+    box-shadow: 0 30px 70px rgba(0, 194, 255, 0.5);
+  }
+
+  .close-modal {
+    position: absolute;
+    top: -50px;
+    right: 0;
+    width: 50px;
+    height: 50px;
+    background: linear-gradient(135deg, var(--celeste-brillante), #0099CC);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--blanco-puro);
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: all 0.3s;
+    border: 2px solid var(--blanco-puro);
+  }
+
+  .close-modal:hover {
+    transform: rotate(90deg) scale(1.1);
+    box-shadow: 0 0 30px var(--celeste-brillante);
+  }
+
+  /* Loading premium */
+  .loading {
+    text-align: center;
+    padding: 80px 20px;
+    color: var(--blanco-puro);
+    font-size: 1.3rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .loading-spinner {
+    width: 60px;
+    height: 60px;
+    border: 4px solid rgba(255, 255, 255, 0.1);
+    border-top-color: var(--celeste-brillante);
+    border-radius: 50%;
+    animation: spin 1s cubic-bezier(0.68, -0.55, 0.265, 1.55) infinite;
+  }
+
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+
+  /* Responsive perfecto */
+  @media (max-width: 768px) {
+    .upload-box { padding: 25px; margin: 10px; }
+    .gallery { grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 20px; }
+    .modal-content { max-width: 92vw; }
+    h1 { font-size: clamp(2rem, 8vw, 3.5rem); }
+  }
+
+  @media (max-width: 480px) {
+    body { padding: 10px; }
+    .upload-box { padding: 20px; }
+    .file-label { padding: 14px 20px; }
+    .upload-btn { padding: 15px; font-size: 1rem; }
+    .gallery { grid-template-columns: 1fr; }
+    .close-modal { top: -40px; width: 40px; height: 40px; }
+  }
+
+  /* Animaciones de entrada para las cards */
+  .card:nth-child(1) { animation-delay: 0.05s; }
+  .card:nth-child(2) { animation-delay: 0.1s; }
+  .card:nth-child(3) { animation-delay: 0.15s; }
+  .card:nth-child(4) { animation-delay: 0.2s; }
+  .card:nth-child(5) { animation-delay: 0.25s; }
+  .card:nth-child(6) { animation-delay: 0.3s; }
+  .card:nth-child(7) { animation-delay: 0.35s; }
+  .card:nth-child(8) { animation-delay: 0.4s; }
+  .card:nth-child(n+9) { animation-delay: 0.45s; }
 </style>
 </head>
 <body>
+<div class="container">
+  <div class="header">
+    <h1>GALERÍA UG</h1>
+    <div class="title-decoration">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+  </div>
 
-<h1>Galería UG</h1>
+  <div class="upload-box">
+    <div class="input-group">
+      <div class="file-input-wrapper">
+        <input type="file" id="imageInput" accept="image/*">
+        <div class="file-label">
+          <i class="fas fa-cloud-upload-alt"></i>
+          <span id="fileLabelText">Seleccionar imagen</span>
+        </div>
+        <div class="file-name" id="fileName"></div>
+      </div>
 
-<div class="upload-box">
-  <input type="file" id="imageInput" accept="image/*">
-  <br>
-  <input type="text" id="textInput" placeholder="Escribe algo...">
-  <br>
-  <button id="uploadBtn">Subir</button>
-  <div class="status" id="status"></div>
+      <div class="text-input-wrapper">
+        <i class="fas fa-pen-fancy"></i>
+        <input type="text" id="textInput" placeholder="¿Qué inspiración compartes hoy?">
+      </div>
+    </div>
+
+    <button class="upload-btn" id="uploadBtn">
+      <i class="fas fa-rocket"></i>
+      <span>SUBIR A LA GALERÍA</span>
+    </button>
+    <div class="status" id="status">
+      <i class="fas fa-sync-alt fa-spin"></i>
+      <span>Iniciando experiencia...</span>
+    </div>
+  </div>
+
+  <div class="gallery" id="gallery">
+    <div class="loading">
+      <div class="loading-spinner"></div>
+      <span>Cargando obras maestras...</span>
+    </div>
+  </div>
 </div>
 
-<div class="gallery" id="gallery">
-  <div class="loading">Cargando imágenes...</div>
+<!-- Modal Premium -->
+<div class="modal" id="imageModal" onclick="closeModal()">
+  <div class="modal-content" onclick="event.stopPropagation()">
+    <div class="close-modal" onclick="closeModal()">
+      <i class="fas fa-times"></i>
+    </div>
+    <img id="modalImage" src="" alt="Obra ampliada">
+  </div>
 </div>
 
 <script type="module">
   import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
 
-  // IMPORTANTE: Reemplaza con tu anon key de Supabase (Settings → API → anon public key)
   const supabase = createClient(
     'https://jvmawoseemqpwovpcgtm.supabase.co',
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imp2bWF3b3NlZW1xcHdvdnBjZ3RtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzE5Mzk2OTIsImV4cCI6MjA4NzUxNTY5Mn0.Rf4CDr6-jRPx9pzPqRBh71S0ei2zdbGjhECQBM68xig' // La que empieza con "eyJ..."
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imp2bWF3b3NlZW1xcHdvdnBjZ3RtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mzc2MDE5NTAsImV4cCI6MjA1MzE3Nzk1MH0.6FpWlNwW_z_Wq5txQkT3eL9mQnQ5kFmXxYvK7cJkYwQ'
   )
 
   let currentUser = null;
   let uploadBtn = document.getElementById("uploadBtn");
   let statusDiv = document.getElementById("status");
   let galleryDiv = document.getElementById("gallery");
+  let fileInput = document.getElementById("imageInput");
+  let fileName = document.getElementById("fileName");
+  let fileLabelText = document.getElementById("fileLabelText");
 
-  // Login anónimo automático
+  // Mostrar nombre del archivo seleccionado
+  fileInput.addEventListener('change', function(e) {
+    if (this.files[0]) {
+      fileName.textContent = this.files[0].name;
+      fileName.style.opacity = '1';
+      fileLabelText.textContent = 'Cambiar imagen';
+    } else {
+      fileName.textContent = '';
+      fileLabelText.textContent = 'Seleccionar imagen';
+    }
+  });
+
+  window.openModal = function(src) {
+    const modal = document.getElementById('imageModal');
+    const modalImg = document.getElementById('modalImage');
+    modal.style.display = 'flex';
+    modalImg.src = src;
+    document.body.style.overflow = 'hidden';
+  }
+
+  window.closeModal = function() {
+    const modal = document.getElementById('imageModal');
+    modal.style.display = 'none';
+    document.body.style.overflow = 'auto';
+  }
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeModal();
+  });
+
   async function loginAnon() {
     try {
-      statusDiv.innerText = "Iniciando sesión...";
-      
       const { data, error } = await supabase.auth.signInAnonymously()
       
       if (error) {
-        statusDiv.innerText = "❌ Error login: " + error.message;
+        statusDiv.innerHTML = `<i class="fas fa-exclamation-triangle"></i><span>Error: ${error.message}</span>`;
         uploadBtn.disabled = true;
         return false;
       }
       
       currentUser = data.user
-      console.log("Usuario anónimo:", currentUser.id)
-      statusDiv.innerText = "✅ Sesión iniciada correctamente";
+      statusDiv.innerHTML = `<i class="fas fa-check-circle"></i><span>✨ Conectado a la galería ✨</span>`;
       uploadBtn.disabled = false;
       return true;
       
     } catch (err) {
-      console.error("Error inesperado:", err)
-      statusDiv.innerText = "❌ Error inesperado al iniciar sesión";
+      statusDiv.innerHTML = `<i class="fas fa-exclamation-circle"></i><span>Error de conexión</span>`;
       uploadBtn.disabled = true;
       return false;
     }
   }
 
-  // Subir imagen
   async function uploadImage() {
     if (!currentUser) { 
-      statusDiv.innerText = "❌ Usuario no autenticado"; 
+      statusDiv.innerHTML = `<i class="fas fa-lock"></i><span>Conectando...</span>`;
       return; 
     }
 
-    const file = document.getElementById("imageInput").files[0]
-    const text = document.getElementById("textInput").value
+    const file = fileInput.files[0];
+    const text = document.getElementById("textInput").value;
 
     if (!file) { 
-      statusDiv.innerText = "❌ Selecciona una imagen"; 
+      statusDiv.innerHTML = `<i class="fas fa-image"></i><span>Selecciona una imagen</span>`;
       return; 
     }
 
-    // Validar tipo de archivo
     if (!file.type.startsWith('image/')) {
-      statusDiv.innerText = "❌ Solo se permiten imágenes";
+      statusDiv.innerHTML = `<i class="fas fa-ban"></i><span>Solo imágenes permitidas</span>`;
       return;
     }
 
-    // Validar tamaño (máximo 5MB)
     if (file.size > 5 * 1024 * 1024) {
-      statusDiv.innerText = "❌ La imagen no debe superar 5MB";
+      statusDiv.innerHTML = `<i class="fas fa-weight-hanging"></i><span>Máximo 5MB</span>`;
       return;
     }
 
-    const fileName = Date.now() + "-" + file.name.replace(/[^a-zA-Z0-9.-]/g, '_')
+    const fileName_ = Date.now() + "-" + file.name.replace(/[^a-zA-Z0-9.-]/g, '_');
     
     uploadBtn.disabled = true;
-    statusDiv.innerText = "📤 Subiendo imagen..."
+    statusDiv.innerHTML = `<i class="fas fa-spinner fa-spin"></i><span>Subiendo obra maestra...</span>`;
 
     try {
-      // Subir imagen a Storage
       const { error: uploadError } = await supabase.storage
         .from("images")
-        .upload(fileName, file)
+        .upload(fileName_, file)
 
-      if (uploadError) { 
-        throw new Error("Error subida: " + uploadError.message);
-      }
+      if (uploadError) throw new Error(uploadError.message);
 
-      // Obtener URL pública
       const { data } = supabase.storage
         .from("images")
-        .getPublicUrl(fileName)
+        .getPublicUrl(fileName_)
 
-      // Guardar en base de datos
       const { error: insertError } = await supabase.from("photos").insert([
         {
           image_url: data.publicUrl,
-          text: text || "📸 Foto compartida en Galería UG",
+          text: text || "✨ Nueva obra en Galería UG ✨",
           likes: 0,
           user_id: currentUser.id
         }
       ])
 
-      if (insertError) { 
-        throw new Error("Error insertando en DB: " + insertError.message);
-      }
+      if (insertError) throw new Error(insertError.message);
 
-      // Limpiar formulario
-      document.getElementById("imageInput").value = ""
-      document.getElementById("textInput").value = ""
-      statusDiv.innerText = "✅ ¡Subido correctamente!"
+      fileInput.value = "";
+      document.getElementById("textInput").value = "";
+      fileName.textContent = '';
+      fileLabelText.textContent = 'Seleccionar imagen';
       
-      // Recargar galería
-      await loadImages()
+      statusDiv.innerHTML = `<i class="fas fa-check-circle"></i><span>¡Publicado con éxito!</span>`;
+      
+      await loadImages();
+      
+      setTimeout(() => {
+        statusDiv.innerHTML = `<i class="fas fa-check-circle"></i><span>✨ Conectado a la galería ✨</span>`;
+      }, 3000);
       
     } catch (error) {
-      statusDiv.innerText = "❌ " + error.message;
+      statusDiv.innerHTML = `<i class="fas fa-exclamation-triangle"></i><span>Error: ${error.message}</span>`;
     } finally {
       uploadBtn.disabled = false;
     }
   }
 
-  // Cargar imágenes
   async function loadImages() {
     try {
-      galleryDiv.innerHTML = '<div class="loading">Cargando imágenes...</div>';
-      
       const { data, error } = await supabase
         .from("photos")
         .select("*")
         .order("created_at", { ascending: false })
 
-      if (error) { 
-        throw new Error("Error cargando imágenes: " + error.message);
-      }
+      if (error) throw error;
 
       if (!data || data.length === 0) {
-        galleryDiv.innerHTML = '<div class="loading">No hay imágenes aún. ¡Sé el primero en subir una!</div>';
+        galleryDiv.innerHTML = `
+          <div class="loading">
+            <div class="loading-spinner"></div>
+            <span>✨ No hay obras aún. ¡Sé el primer artista! ✨</span>
+          </div>
+        `;
         return;
       }
 
-      galleryDiv.innerHTML = ""
+      galleryDiv.innerHTML = "";
 
       data.forEach(photo => {
-        const card = document.createElement("div")
-        card.className = "card"
+        const card = document.createElement("div");
+        card.className = "card";
         card.innerHTML = `
-          <img src="${photo.image_url}" loading="lazy" onerror="this.src='https://via.placeholder.com/300?text=Error+cargando+imagen'">
-          <p>${photo.text || ""}</p>
-          <div class="likes" data-id="${photo.id}" data-likes="${photo.likes}">
-            ❤️ ${photo.likes}
+          <div class="card-image" onclick="openModal('${photo.image_url}')">
+            <img src="${photo.image_url}" loading="lazy" alt="Galería UG">
+            <div class="card-overlay">
+              <div class="likes" data-id="${photo.id}" data-likes="${photo.likes}">
+                <i class="fas fa-heart"></i>
+                <span>${photo.likes}</span>
+              </div>
+            </div>
           </div>
-        `
+          <div class="card-content">
+            <p>${photo.text || "✨ Obra maestra ✨"}</p>
+          </div>
+        `;
         
-        // Agregar evento de like
         const likesDiv = card.querySelector('.likes');
-        likesDiv.addEventListener('click', () => likePhoto(photo.id, photo.likes));
+        likesDiv.addEventListener('click', (e) => {
+          e.stopPropagation();
+          likePhoto(photo.id, photo.likes);
+        });
         
-        galleryDiv.appendChild(card)
-      })
+        galleryDiv.appendChild(card);
+      });
       
     } catch (error) {
-      galleryDiv.innerHTML = '<div class="loading">Error cargando imágenes. Intenta recargar la página.</div>';
-      console.error(error);
+      galleryDiv.innerHTML = `
+        <div class="loading">
+          <i class="fas fa-exclamation-triangle" style="font-size: 2rem; color: var(--celeste-brillante);"></i>
+          <span>Error al cargar la galería</span>
+        </div>
+      `;
     }
   }
 
-  // Función de likes
   async function likePhoto(id, currentLikes) {
     try {
-      const { error } = await supabase
+      const likesDiv = event.currentTarget;
+      likesDiv.style.transform = 'scale(0.9)';
+      
+      await supabase
         .from("photos")
         .update({ likes: currentLikes + 1 })
         .eq("id", id)
       
-      if (error) {
-        console.error("Error al dar like:", error);
-        return;
-      }
+      setTimeout(() => {
+        likesDiv.style.transform = '';
+      }, 200);
       
-      await loadImages()
+      await loadImages();
       
     } catch (error) {
       console.error("Error en like:", error);
     }
   }
 
-  // Evento del botón subir
-  uploadBtn.addEventListener("click", uploadImage)
-
-  // Deshabilitar botón mientras se inicia sesión
+  uploadBtn.addEventListener("click", uploadImage);
   uploadBtn.disabled = true;
 
-  // Inicializar la aplicación
   async function init() {
     const loggedIn = await loginAnon();
-    if (loggedIn) {
-      await loadImages();
-    }
+    if (loggedIn) await loadImages();
   }
 
   init();
 </script>
-
 </body>
 </html>
-
-
-
