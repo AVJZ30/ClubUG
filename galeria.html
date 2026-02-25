@@ -1,75 +1,21 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>Galería UG</title>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #0f0f0f;
-      color: white;
-      text-align: center;
-      margin: 0;
-    }
-
-    h1 { padding: 20px; }
-
-    .upload-box {
-      background: #1e1e1e;
-      padding: 20px;
-      margin: 20px;
-      border-radius: 10px;
-    }
-
-    input, button {
-      padding: 8px;
-      margin: 8px;
-      border-radius: 6px;
-      border: none;
-    }
-
-    button {
-      cursor: pointer;
-      background: #4CAF50;
-      color: white;
-    }
-
-    button:disabled {
-      background: gray;
-    }
-
-    .gallery {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-      gap: 15px;
-      padding: 20px;
-    }
-
-    .card {
-      background: #1e1e1e;
-      border-radius: 10px;
-      padding: 10px;
-    }
-
-    .card img {
-      width: 100%;
-      border-radius: 8px;
-    }
-
-    .likes {
-      margin-top: 5px;
-      cursor: pointer;
-      color: #ff4d6d;
-    }
-
-    .status {
-      margin-top: 10px;
-      font-weight: bold;
-      color: #4CAF50;
-    }
-  </style>
+<meta charset="UTF-8">
+<title>Galería UG</title>
+<style>
+  body { font-family: Arial; background: #0f0f0f; color: white; text-align:center; margin:0;}
+  h1 { padding:20px; }
+  .upload-box { background:#1e1e1e; padding:20px; margin:20px; border-radius:10px; }
+  input, button { padding:8px; margin:8px; border-radius:6px; border:none; }
+  button { cursor:pointer; background:#4CAF50; color:white; }
+  button:disabled { background:gray; }
+  .gallery { display:grid; grid-template-columns:repeat(auto-fill,minmax(250px,1fr)); gap:15px; padding:20px; }
+  .card { background:#1e1e1e; border-radius:10px; padding:10px; }
+  .card img { width:100%; border-radius:8px; }
+  .likes { margin-top:5px; cursor:pointer; color:#ff4d6d; }
+  .status { margin-top:10px; font-weight:bold; color:#4CAF50; }
+</style>
 </head>
 <body>
 
@@ -94,66 +40,64 @@
     'sb_publishable_wzwq3MNWKg7tUnIzroy5HQ_6ntxrbi3'
   )
 
-  let currentUser = null
+  let currentUser = null;
 
+  // Login anónimo automático
   async function loginAnon() {
     const { data, error } = await supabase.auth.signInAnonymously()
-    if (error) {
-      alert("Error login: " + error.message)
-      return
-    }
+    if (error) { alert("Error login: " + error.message); return; }
     currentUser = data.user
     console.log("Usuario:", currentUser.id)
   }
 
+  // Subir imagen
   async function uploadImage() {
-    if (!currentUser) {
-      alert("Usuario no autenticado")
-      return
-    }
+    if (!currentUser) { alert("Usuario no autenticado"); return; }
 
     const file = document.getElementById("imageInput").files[0]
     const text = document.getElementById("textInput").value
 
-    if (!file) {
-      alert("Selecciona una imagen")
-      return
-    }
+    if (!file) { alert("Selecciona una imagen"); return; }
 
     const fileName = Date.now() + "-" + file.name
+    document.getElementById("status").innerText = "Subiendo..."
 
     const { error: uploadError } = await supabase.storage
       .from("images")
       .upload(fileName, file)
 
-    if (uploadError) {
-      alert(uploadError.message)
-      return
-    }
+    if (uploadError) { alert("Error subida: " + uploadError.message); return; }
 
     const { data } = supabase.storage
       .from("images")
       .getPublicUrl(fileName)
 
-    await supabase.from("photos").insert([
+    const { error: insertError } = await supabase.from("photos").insert([
       {
         image_url: data.publicUrl,
-        text: text,
+        text: text || "📸 Foto compartida en Galería UG",
         likes: 0,
         user_id: currentUser.id
       }
     ])
 
-    alert("Subido correctamente ✅")
+    if (insertError) { alert("Error insertando en DB: " + insertError.message); return; }
+
+    document.getElementById("imageInput").value = ""
+    document.getElementById("textInput").value = ""
+    document.getElementById("status").innerText = "¡Subido correctamente ✅"
 
     loadImages()
   }
 
+  // Cargar imágenes
   async function loadImages() {
-    const { data } = await supabase
+    const { data, error } = await supabase
       .from("photos")
       .select("*")
-      .order("created_at", { ascending: false })
+      .order("created_at", { ascending:false })
+
+    if (error) { console.log(error); return; }
 
     const gallery = document.getElementById("gallery")
     gallery.innerHTML = ""
@@ -161,7 +105,6 @@
     data.forEach(photo => {
       const card = document.createElement("div")
       card.className = "card"
-
       card.innerHTML = `
         <img src="${photo.image_url}">
         <p>${photo.text || ""}</p>
@@ -169,26 +112,23 @@
           ❤️ ${photo.likes}
         </div>
       `
-
       gallery.appendChild(card)
     })
   }
 
+  // Botón de likes
   window.likePhoto = async function(id, currentLikes) {
-    await supabase
-      .from("photos")
-      .update({ likes: currentLikes + 1 })
-      .eq("id", id)
-
+    await supabase.from("photos").update({ likes: currentLikes+1 }).eq("id", id)
     loadImages()
   }
 
+  // Evento del botón subir
   document.getElementById("uploadBtn").addEventListener("click", uploadImage)
 
+  // Login + cargar imágenes al iniciar
   await loginAnon()
   await loadImages()
 </script>
 
 </body>
 </html>
-
