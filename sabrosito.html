@@ -21,13 +21,12 @@
 
     body {
       font-family: 'Fredoka', sans-serif;
-      background: #fef7e9; /* miga de pan */
+      background: #fef7e9;
       color: #3b2a1c;
       line-height: 1.5;
       overflow-x: hidden;
     }
 
-    /* Paleta hamburguesa premium */
     :root {
       --pan-suave: #fde3a7;
       --pan-tostado: #f8c471;
@@ -42,13 +41,69 @@
       --queso-dorado: #f39c12;
       --mayonesa-cremosa: #fdf2e4;
       --ketchup-intenso: #c0392b;
-      --calsita: #d4a373;
       --texto-principal: #2c1810;
-      --texto-claro: #fff9e6;
       --sombra-jugosa: 0 25px 35px -12px rgba(185, 78, 44, 0.4);
     }
 
-    /* HEADER - Pan superior bien tostadito */
+    /* BOTÓN PARA REGRESAR AL INICIO */
+    .back-to-home {
+      position: fixed;
+      bottom: 30px;
+      left: 30px;
+      background: linear-gradient(145deg, var(--carne-jugosa), var(--carne-gourmet));
+      color: white;
+      text-decoration: none;
+      padding: 15px 25px;
+      border-radius: 60px;
+      font-size: 1.2rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+      z-index: 1001;
+      border: 4px solid var(--queso-derretido);
+      transition: all 0.3s;
+      animation: slideInLeft 0.8s ease-out;
+    }
+
+    .back-to-home:hover {
+      transform: translateY(-5px) scale(1.05);
+      background: linear-gradient(145deg, #d45a30, #b34b26);
+      border-color: white;
+    }
+
+    .back-to-home i {
+      font-size: 1.3rem;
+    }
+
+    /* Hamburguesa flotante (ajustada para no chocar) */
+    .floating-burger-icon {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      background: linear-gradient(145deg, var(--queso-derretido), var(--pan-tostado));
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3rem;
+      box-shadow: 0 15px 25px rgba(185, 78, 44, 0.5);
+      z-index: 1000;
+      animation: float 3.5s ease-in-out infinite;
+      border: 5px solid white;
+      color: var(--carne-oscura);
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .floating-burger-icon:hover {
+      transform: scale(1.15) rotate(10deg);
+    }
+
+    /* HEADER */
     .burger-header {
       background: linear-gradient(165deg, var(--pan-suave) 0%, var(--pan-tostado) 70%, var(--pan-quemado) 100%);
       padding: 2.5rem 1rem 3rem;
@@ -99,7 +154,7 @@
       border: 3px solid white;
     }
 
-    /* SECCIÓN HISTORIA - Capa de carne principal */
+    /* HISTORIA */
     .historia-completa {
       max-width: 1000px;
       margin: 4rem auto;
@@ -189,7 +244,7 @@
       line-height: 1.6;
     }
 
-    /* PRODUCTOS - Dos cuadros suculentos */
+    /* PRODUCTOS */
     .productos-grid {
       display: flex;
       justify-content: center;
@@ -294,7 +349,7 @@
       margin: 0;
     }
 
-    /* OPINIONES - Sección con sabor */
+    /* OPINIONES */
     .opiniones-section {
       background: linear-gradient(135deg, #fdefd4, #fadcb9);
       padding: 5rem 2rem;
@@ -473,32 +528,6 @@
       border-color: var(--queso-derretido);
     }
 
-    /* Elementos flotantes divertidos */
-    .floating-burger-icon {
-      position: fixed;
-      bottom: 30px;
-      right: 30px;
-      background: linear-gradient(145deg, var(--queso-derretido), var(--pan-tostado));
-      width: 80px;
-      height: 80px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 3rem;
-      box-shadow: 0 15px 25px rgba(185, 78, 44, 0.5);
-      z-index: 1000;
-      animation: float 3.5s ease-in-out infinite;
-      border: 5px solid white;
-      color: var(--carne-oscura);
-      cursor: pointer;
-      transition: 0.3s;
-    }
-
-    .floating-burger-icon:hover {
-      transform: scale(1.15) rotate(10deg);
-    }
-
     /* ANIMACIONES */
     @keyframes slideDown {
       0% { opacity: 0; transform: translateY(-70px) rotate(-5deg); }
@@ -525,6 +554,17 @@
       to { opacity: 1; transform: translateY(0) scale(1); }
     }
 
+    @keyframes slideInLeft {
+      from {
+        opacity: 0;
+        transform: translateX(-100px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
     .loader-burger {
       text-align: center;
       font-size: 2.5rem;
@@ -540,6 +580,19 @@
       .historia-completa { padding: 2rem; }
       .vision-mision-grid { grid-template-columns: 1fr; }
       .opiniones-section h2 { font-size: 2.8rem; }
+      .back-to-home {
+        bottom: 20px;
+        left: 20px;
+        padding: 12px 20px;
+        font-size: 1rem;
+      }
+      .floating-burger-icon {
+        bottom: 20px;
+        right: 20px;
+        width: 60px;
+        height: 60px;
+        font-size: 2.2rem;
+      }
     }
 
     @media (max-width: 500px) {
@@ -549,6 +602,12 @@
   </style>
 </head>
 <body>
+
+<!-- BOTÓN PARA REGRESAR AL INICIO (INDEX.HTML) -->
+<a href="index.html" class="back-to-home">
+  <i class="fas fa-arrow-left"></i>
+  Volver al Inicio
+</a>
 
 <!-- Hamburguesa flotante -->
 <div class="floating-burger-icon" onclick="window.scrollTo({top: 0, behavior: 'smooth'})">
@@ -645,10 +704,9 @@
 </section>
 
 <script>
-  // ---------- CONFIGURACIÓN SUPABASE ----------
-  // REEMPLAZA CON TUS DATOS REALES DE SUPABASE
-  const SUPABASE_URL = 'https://ezartbcoxdxeslgeyvah.supabase.co';     // <--- CAMBIA ESTO
-  const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImV6YXJ0YmNveGR4ZXNsZ2V5dmFoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIxNTQ4MzcsImV4cCI6MjA4NzczMDgzN30.WWfOLTt5wVyPV-fOCgLYnqSR7dLWf_pOmSXlnSnYHvo';                   // <--- CAMBIA ESTO
+  // CONFIGURACIÓN SUPABASE (TUS CREDENCIALES)
+  const SUPABASE_URL = 'https://ezartbcoxdxeslgeyvah.supabase.co';
+  const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImV6YXJ0YmNveGR4ZXNsZ2V5dmFoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIxNTQ4MzcsImV4cCI6MjA4NzczMDgzN30.WWfOLTt5wVyPV-fOCgLYnqSR7dLWf_pOmSXlnSnYHvo';
 
   const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
   const TABLE_NAME = 'opiniones_sabrosito'; 
@@ -660,19 +718,43 @@
   const fotoInput = document.getElementById('fotoInput');
   const grid = document.getElementById('opinionesGrid');
 
+  // Verificar conexión con Supabase
+  async function verificarConexion() {
+    try {
+      const { error } = await supabase.from(TABLE_NAME).select('count', { count: 'exact', head: true });
+      if (error) {
+        console.error('Error de conexión con Supabase:', error.message);
+        grid.innerHTML = `<div class="loader-burger">🍔 Error de conexión. Por favor, crea la tabla en Supabase SQL Editor.</div>`;
+        return false;
+      }
+      return true;
+    } catch (err) {
+      console.error('Error:', err);
+      return false;
+    }
+  }
+
   // Subir foto a Supabase Storage
   async function subirFoto(file) {
     if (!file) return null;
-    const fileExt = file.name.split('.').pop();
-    const fileName = `opiniones/${Date.now()}_${Math.random().toString(36).substring(2)}.${fileExt}`;
     
-    const { error } = await supabase.storage.from('fotos-sabrosito').upload(fileName, file);
-    if (error) {
-      console.error('Error subiendo foto:', error);
+    try {
+      const fileExt = file.name.split('.').pop();
+      const fileName = `opiniones/${Date.now()}_${Math.random().toString(36).substring(2)}.${fileExt}`;
+      
+      const { error: uploadError } = await supabase.storage.from('fotos-sabrosito').upload(fileName, file);
+      if (uploadError) {
+        console.error('Error subiendo foto:', uploadError);
+        alert('Error al subir la foto. Asegúrate de crear el bucket "fotos-sabrosito" en Storage.');
+        return null;
+      }
+      
+      const { data: urlData } = supabase.storage.from('fotos-sabrosito').getPublicUrl(fileName);
+      return urlData.publicUrl;
+    } catch (err) {
+      console.error('Error:', err);
       return null;
     }
-    const { data: urlData } = supabase.storage.from('fotos-sabrosito').getPublicUrl(fileName);
-    return urlData.publicUrl;
   }
 
   // Publicar opinión
@@ -700,21 +782,26 @@
       fotoUrl = await subirFoto(fotoFile);
     }
 
-    const { data, error } = await supabase
-      .from(TABLE_NAME)
-      .insert([{ nombre, opinion, foto_url: fotoUrl }])
-      .select();
+    try {
+      const { data, error } = await supabase
+        .from(TABLE_NAME)
+        .insert([{ nombre, opinion, foto_url: fotoUrl }])
+        .select();
 
-    if (error) {
-      console.error(error);
-      alert('Error al publicar, intenta de nuevo');
-    } else {
-      nombreInput.value = '';
-      textoInput.value = '';
-      fotoInput.value = '';
-      if (data && data[0]) {
-        agregarOpinionAlInicio(data[0]);
+      if (error) {
+        console.error('Error al insertar:', error);
+        alert('Error al publicar. ¿Creaste la tabla "opiniones_sabrosito" en Supabase?');
+      } else {
+        nombreInput.value = '';
+        textoInput.value = '';
+        fotoInput.value = '';
+        if (data && data[0]) {
+          agregarOpinionAlInicio(data[0]);
+        }
       }
+    } catch (err) {
+      console.error('Error:', err);
+      alert('Error al conectar con Supabase');
     }
 
     btnEnviar.disabled = false;
@@ -723,25 +810,33 @@
 
   // Cargar opiniones
   async function cargarOpiniones() {
-    const { data, error } = await supabase
-      .from(TABLE_NAME)
-      .select('*')
-      .order('created_at', { ascending: false })
-      .limit(20);
+    const conectado = await verificarConexion();
+    if (!conectado) return;
 
-    if (error) {
-      console.error(error);
-      grid.innerHTML = '<div class="loader-burger">😞 Error al cargar. ¿Listos los ingredientes?</div>';
-      return;
+    try {
+      const { data, error } = await supabase
+        .from(TABLE_NAME)
+        .select('*')
+        .order('created_at', { ascending: false })
+        .limit(20);
+
+      if (error) {
+        console.error('Error cargando:', error);
+        grid.innerHTML = '<div class="loader-burger">😞 Error al cargar. Verifica la tabla en Supabase.</div>';
+        return;
+      }
+
+      if (!data || data.length === 0) {
+        grid.innerHTML = '<div class="loader-burger">🍔 Aún no hay opiniones. ¡Sé el primero en dejar la tuya!</div>';
+        return;
+      }
+
+      grid.innerHTML = '';
+      data.forEach(op => pintarOpinion(op));
+    } catch (err) {
+      console.error('Error:', err);
+      grid.innerHTML = '<div class="loader-burger">😞 Error de conexión</div>';
     }
-
-    if (!data || data.length === 0) {
-      grid.innerHTML = '<div class="loader-burger">🍔 Aún no hay opiniones. ¡Sé el primero en dejar la tuya!</div>';
-      return;
-    }
-
-    grid.innerHTML = '';
-    data.forEach(op => pintarOpinion(op));
   }
 
   // Pintar una opinión
@@ -775,15 +870,45 @@
   cargarOpiniones();
 
   // Suscripción en tiempo real (opcional)
-  supabase
-    .channel('opiniones')
-    .on('postgres_changes', { event: 'INSERT', schema: 'public', table: TABLE_NAME }, payload => {
-      agregarOpinionAlInicio(payload.new);
-    })
-    .subscribe();
+  try {
+    supabase
+      .channel('opiniones')
+      .on('postgres_changes', { event: 'INSERT', schema: 'public', table: TABLE_NAME }, payload => {
+        agregarOpinionAlInicio(payload.new);
+      })
+      .subscribe();
+  } catch (err) {
+    console.log('Suscripción en tiempo real no disponible');
+  }
 </script>
 
+<!-- INSTRUCCIONES (visibles solo para administración) -->
+<div style="max-width:800px; margin:2rem auto; background:#ffe9ce; padding:2rem; border-radius:60px; border:4px dashed var(--tomate-fresco); text-align:center;">
+  <p style="font-size:1.3rem; font-weight:bold;"><i class="fas fa-info-circle"></i> Configuración necesaria para Supabase:</p>
+  <ol style="text-align:left; max-width:550px; margin:1.5rem auto; background:white; padding:2rem; border-radius:40px;">
+    <li style="margin-bottom:10px;">1. Ve a tu proyecto en Supabase</li>
+    <li style="margin-bottom:10px;">2. En SQL Editor, ejecuta:</li>
+  </ol>
+  <pre style="background:#2c1810; color:#f9e6cf; padding:1.2rem; border-radius:25px; text-align:left;">
+CREATE TABLE opiniones_sabrosito (
+  id bigint generated by default as identity primary key,
+  nombre text not null,
+  opinion text not null,
+  foto_url text,
+  created_at timestamp with time zone default now()
+);
+
+-- Políticas de seguridad
+ALTER TABLE opiniones_sabrosito ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "Permitir inserción anónima" ON opiniones_sabrosito
+  FOR INSERT TO anon WITH CHECK (true);
+CREATE POLICY "Permitir lectura a todos" ON opiniones_sabrosito
+  FOR SELECT TO anon USING (true);
+  </pre>
+  <p style="margin-top:1rem;">3. Crea un bucket público <strong>fotos-sabrosito</strong> en Storage</p>
+  <p>4. En el bucket, agrega políticas de INSERT y SELECT para anon</p>
+  <p style="font-size:1.2rem; margin-top:1.5rem;">🍔 ¡Listo! Las opiniones funcionarán perfectamente</p>
+</div>
 
 </body>
-
 </html>
