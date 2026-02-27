@@ -704,183 +704,148 @@
 </section>
 
 <script>
-  // CONFIGURACIÓN SUPABASE (TUS CREDENCIALES)
   const SUPABASE_URL = 'https://ezartbcoxdxeslgeyvah.supabase.co';
-  const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImV6YXJ0YmNveGR4ZXNsZ2V5dmFoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIxNTQ4MzcsImV4cCI6MjA4NzczMDgzN30.WWfOLTt5wVyPV-fOCgLYnqSR7dLWf_pOmSXlnSnYHvo';
+  const SUPABASE_ANON_KEY = 'TU_ANON_KEY_AQUI';
 
   const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-  const TABLE_NAME = 'opiniones_sabrosito'; 
+  const TABLE_NAME = 'opiniones_sabrosito';
 
-  // Elementos del DOM
   const btnEnviar = document.getElementById('btnEnviarOpinion');
   const nombreInput = document.getElementById('nombreInput');
   const textoInput = document.getElementById('textoInput');
   const fotoInput = document.getElementById('fotoInput');
   const grid = document.getElementById('opinionesGrid');
 
-  // Verificar conexión con Supabase
-  async function verificarConexion() {
-    try {
-      const { error } = await supabase.from(TABLE_NAME).select('count', { count: 'exact', head: true });
+  // 🔐 LOGIN ANÓNIMO AUTOMÁTICO
+  async function loginAnonimo() {
+    const { data: session } = await supabase.auth.getSession();
+    if (!session.session) {
+      const { error } = await supabase.auth.signInAnonymously();
       if (error) {
-        console.error('Error de conexión con Supabase:', error.message);
-        grid.innerHTML = `<div class="loader-burger">🍔 Error de conexión. Por favor, verifica la configuración de Supabase.</div>`;
-        return false;
+        console.error("Error login anónimo:", error.message);
+      } else {
+        console.log("Login anónimo correcto");
       }
-      return true;
-    } catch (err) {
-      console.error('Error:', err);
-      return false;
     }
   }
 
-  // Subir foto a Supabase Storage
+  // 📷 SUBIR FOTO
   async function subirFoto(file) {
     if (!file) return null;
-    
-    try {
-      const fileExt = file.name.split('.').pop();
-      const fileName = `opiniones/${Date.now()}_${Math.random().toString(36).substring(2)}.${fileExt}`;
-      
-      const { error: uploadError } = await supabase.storage.from('fotos-sabrosito').upload(fileName, file);
-      if (uploadError) {
-        console.error('Error subiendo foto:', uploadError);
-        alert('Error al subir la foto. Verifica el bucket "fotos-sabrosito" en Storage.');
-        return null;
-      }
-      
-      const { data: urlData } = supabase.storage.from('fotos-sabrosito').getPublicUrl(fileName);
-      return urlData.publicUrl;
-    } catch (err) {
-      console.error('Error:', err);
+
+    const fileExt = file.name.split('.').pop();
+    const fileName = `opiniones/${Date.now()}.${fileExt}`;
+
+    const { error } = await supabase.storage
+      .from('fotos-sabrosito')
+      .upload(fileName, file);
+
+    if (error) {
+      console.error("Error subiendo imagen:", error.message);
+      alert("Error al subir la imagen. Revisa el bucket.");
       return null;
     }
+
+    const { data } = supabase.storage
+      .from('fotos-sabrosito')
+      .getPublicUrl(fileName);
+
+    return data.publicUrl;
   }
 
-  // Publicar opinión
+  // 📝 PUBLICAR OPINIÓN
   btnEnviar.addEventListener('click', async () => {
+
     const nombre = nombreInput.value.trim();
     const opinion = textoInput.value.trim();
     const fotoFile = fotoInput.files[0];
 
     if (!nombre || !opinion) {
-      alert('¡Pon tu nombre y tu opinión, sabros@!');
+      alert("Completa nombre y opinión 🍔");
       return;
     }
 
     btnEnviar.disabled = true;
-    btnEnviar.innerHTML = '<i class="fas fa-spinner fa-pulse"></i> Cocinando...';
+    btnEnviar.innerHTML = "Cocinando... 🍳";
 
     let fotoUrl = null;
+
     if (fotoFile) {
       if (fotoFile.size > 2 * 1024 * 1024) {
-        alert('La foto es muy grande, máximo 2MB');
+        alert("Máximo 2MB");
         btnEnviar.disabled = false;
-        btnEnviar.innerHTML = '<i class="fas fa-utensils"></i> Publicar Opinión';
+        btnEnviar.innerHTML = "Publicar Opinión";
         return;
       }
       fotoUrl = await subirFoto(fotoFile);
     }
 
-    try {
-      const { data, error } = await supabase
-        .from(TABLE_NAME)
-        .insert([{ nombre, opinion, foto_url: fotoUrl }])
-        .select();
+    const { error } = await supabase
+      .from(TABLE_NAME)
+      .insert([{ nombre, opinion, foto_url: fotoUrl }]);
 
-      if (error) {
-        console.error('Error al insertar:', error);
-        alert('Error al publicar. Verifica la tabla en Supabase.');
-      } else {
-        nombreInput.value = '';
-        textoInput.value = '';
-        fotoInput.value = '';
-        if (data && data[0]) {
-          agregarOpinionAlInicio(data[0]);
-        }
-      }
-    } catch (err) {
-      console.error('Error:', err);
-      alert('Error al conectar con Supabase');
+    if (error) {
+      console.error("Error insertando:", error.message);
+      alert("Error al guardar en la tabla.");
+    } else {
+      nombreInput.value = "";
+      textoInput.value = "";
+      fotoInput.value = "";
+      cargarOpiniones();
     }
 
     btnEnviar.disabled = false;
-    btnEnviar.innerHTML = '<i class="fas fa-utensils"></i> Publicar Opinión';
+    btnEnviar.innerHTML = "Publicar Opinión";
   });
 
-  // Cargar opiniones
+  // 📥 CARGAR OPINIONES
   async function cargarOpiniones() {
-    const conectado = await verificarConexion();
-    if (!conectado) return;
+    grid.innerHTML = "Cargando... 🍔";
 
-    try {
-      const { data, error } = await supabase
-        .from(TABLE_NAME)
-        .select('*')
-        .order('created_at', { ascending: false })
-        .limit(20);
+    const { data, error } = await supabase
+      .from(TABLE_NAME)
+      .select("*")
+      .order("created_at", { ascending: false });
 
-      if (error) {
-        console.error('Error cargando:', error);
-        grid.innerHTML = '<div class="loader-burger">😞 Error al cargar las opiniones.</div>';
-        return;
-      }
-
-      if (!data || data.length === 0) {
-        grid.innerHTML = '<div class="loader-burger">🍔 Aún no hay opiniones. ¡Sé el primero en dejar la tuya!</div>';
-        return;
-      }
-
-      grid.innerHTML = '';
-      data.forEach(op => pintarOpinion(op));
-    } catch (err) {
-      console.error('Error:', err);
-      grid.innerHTML = '<div class="loader-burger">😞 Error de conexión</div>';
+    if (error) {
+      console.error("Error cargando:", error.message);
+      grid.innerHTML = "Error cargando opiniones 😞";
+      return;
     }
-  }
 
-  // Pintar una opinión
-  function pintarOpinion(op) {
-    const card = document.createElement('div');
-    card.className = 'opinion-card';
-    
-    const inicial = op.nombre ? op.nombre.charAt(0).toUpperCase() : '?';
-    let fotoHtml = op.foto_url ? `<img src="${op.foto_url}" alt="foto" class="opinion-imagen" loading="lazy">` : '';
-
-    card.innerHTML = `
-      <div class="opinion-header">
-        <div class="opinion-avatar">${inicial}</div>
-        <div class="opinion-nombre">${op.nombre || 'Anónimo'}</div>
-      </div>
-      <div class="opinion-texto">${op.opinion || ''}</div>
-      ${fotoHtml}
-    `;
-    grid.appendChild(card);
-  }
-
-  function agregarOpinionAlInicio(op) {
-    if (!op) return;
-    if (grid.children.length === 1 && grid.children[0].classList.contains('loader-burger')) {
-      grid.innerHTML = '';
+    if (!data.length) {
+      grid.innerHTML = "Sé el primero en opinar 🍔";
+      return;
     }
-    pintarOpinion(op);
+
+    grid.innerHTML = "";
+
+    data.forEach(op => {
+      const card = document.createElement("div");
+      card.className = "opinion-card";
+
+      card.innerHTML = `
+        <div class="opinion-header">
+          <div class="opinion-avatar">${op.nombre.charAt(0).toUpperCase()}</div>
+          <div class="opinion-nombre">${op.nombre}</div>
+        </div>
+        <div class="opinion-texto">${op.opinion}</div>
+        ${op.foto_url ? `<img src="${op.foto_url}" class="opinion-imagen">` : ""}
+      `;
+
+      grid.appendChild(card);
+    });
   }
 
-  // Inicializar
-  cargarOpiniones();
-
-  // Suscripción en tiempo real (opcional)
-  try {
-    supabase
-      .channel('opiniones')
-      .on('postgres_changes', { event: 'INSERT', schema: 'public', table: TABLE_NAME }, payload => {
-        agregarOpinionAlInicio(payload.new);
-      })
-      .subscribe();
-  } catch (err) {
-    console.log('Suscripción en tiempo real no disponible');
+  // 🚀 INICIALIZAR TODO
+  async function iniciar() {
+    await loginAnonimo();
+    await cargarOpiniones();
   }
+
+  iniciar();
 </script>
 
 </body>
 </html>
+
