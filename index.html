@@ -748,122 +748,94 @@
       font-size: 0.9rem;
     }
 
-    /* Responsive */
-    @media (max-width: 992px) {
-      html {
-        font-size: 15px;
+    /* HAMBURGUESA FLOTANTE - NUEVO ESTILO */
+    .floating-burger {
+      position: fixed;
+      bottom: 30px;
+      left: 30px;
+      width: 70px;
+      height: 70px;
+      background: linear-gradient(135deg, #ff8c00, #ff6b00);
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      box-shadow: 0 6px 20px rgba(255, 107, 0, 0.4);
+      z-index: 1002;
+      transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      border: 3px solid white;
+      animation: float 3s ease-in-out infinite;
+      text-decoration: none;
+      color: white;
+      font-size: 2.2rem;
+    }
+
+    .floating-burger:hover {
+      transform: scale(1.15) rotate(5deg);
+      background: linear-gradient(135deg, #ff6b00, #ff4500);
+      box-shadow: 0 10px 30px rgba(255, 107, 0, 0.6);
+    }
+
+    .floating-burger:active {
+      transform: scale(0.95);
+    }
+
+    @keyframes float {
+      0% {
+        transform: translateY(0px);
       }
-      
-      header h1 {
+      50% {
+        transform: translateY(-15px);
+      }
+      100% {
+        transform: translateY(0px);
+      }
+    }
+
+    /* Ajuste para el botón de back-to-top para que no se superponga */
+    .back-to-top {
+      bottom: 30px;
+      right: 30px;
+    }
+
+    /* Responsive para la hamburguesa */
+    @media (max-width: 768px) {
+      .floating-burger {
+        width: 60px;
+        height: 60px;
+        font-size: 1.8rem;
+        bottom: 20px;
+        left: 20px;
+      }
+    }
+
+    @media (max-width: 576px) {
+      .floating-burger {
+        width: 50px;
+        height: 50px;
         font-size: 1.5rem;
+        bottom: 15px;
+        left: 15px;
       }
-      
-      nav a {
-        margin: 0 10px;
-        padding: 8px 12px;
+    }
+
+    @media (max-width: 768px) {
+      .news-grid {
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
       }
     }
     
     @media (max-width: 768px) {
-      .mobile-menu-btn {
-        display: block;
-      }
-      
-      nav .container {
-        flex-direction: column;
-        position: fixed;
-        top: 90px;
-        left: 0;
-        width: 100%;
-        background: var(--primary);
-        padding: 0;
-        max-height: 0;
-        overflow: hidden;
-        transition: max-height 0.4s ease;
-        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-      }
-      
-      nav .container.show {
-        max-height: 500px;
-        padding: 15px 0;
-      }
-      
-      nav a {
-        margin: 5px 20px;
-        padding: 12px 20px;
-        border-radius: 4px;
-      }
-      
-      nav a:hover {
-        background: var(--secondary);
-      }
-      
-      main {
-        margin-top: 120px;
-      }
-      
-      section {
-        padding: 60px 0;
-      }
-      
       .news-grid {
-        grid-template-columns: 1fr;
-      }
-      
-      .social-links {
-        flex-direction: column;
-        gap: 15px;
-      }
-      
-      .social-links a {
+        display: flex;
         justify-content: center;
       }
-      
-      .cards-container {
-        flex-direction: column;
-        align-items: center;
-      }
-      
-      .process-box {
-        width: 100%;
-        max-width: 400px;
-      }
     }
-       .news-grid {
-  display: flex;
-  justify-content: center;
-}
+    
     @media (max-width: 576px) {
-      html {
-        font-size: 14px;
-      }
-      
-      header {
-        padding: 10px 15px;
-      }
-      
-      header img {
-        height: 50px;
-      }
-      
-      header h1 {
-        font-size: 1.3rem;
-      }
-      
-      section h2 {
-        font-size: 1.8rem;
-      }
-      
-      .toggle-title {
-        padding: 15px 20px;
-      }
-      
-      .contact-item {
-        padding: 12px 20px;
-        font-size: 0.9rem;
-      }
-   
-
       .modal-content {
         max-width: 95%;
         max-height: 80%;
@@ -873,6 +845,11 @@
   </style>
 </head>
 <body>
+  <!-- HAMBURGUESA FLOTANTE - NUEVO ELEMENTO -->
+  <a href="sabrosito.html" class="floating-burger" title="¡Sabrosito!">
+    <i class="fas fa-hamburger"></i>
+  </a>
+
   <header id="header">
     <div class="logo-container">
       <img src="https://i.imgur.com/JR20VXe.jpeg" alt="Logo UG" class="wave-effect" />
@@ -1256,12 +1233,3 @@
   </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
