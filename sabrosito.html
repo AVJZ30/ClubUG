@@ -946,7 +946,7 @@
       .substring(2)}.${fileExt}`;
 
     const { error } = await supabaseClubUG.storage
-      .from('fotos-sabrosito')
+      .from('sabrocitos')
       .upload(fileName, file);
 
     if (error) {
@@ -955,7 +955,7 @@
     }
 
     const { data } = supabaseClubUG.storage
-      .from('fotos-sabrosito')
+      .from('sabrocitos')
       .getPublicUrl(fileName);
 
     return data.publicUrl;
@@ -1056,3 +1056,4 @@
 
 </body>
 </html>
+
