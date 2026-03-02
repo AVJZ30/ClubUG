@@ -84,6 +84,48 @@ button:hover{
     font-weight:bold;
     display:none;
 }
+
+.materias-container{
+    margin-top:15px;
+    max-height:300px;
+    overflow-y:auto;
+    padding:5px;
+}
+
+.materia-item{
+    margin-bottom:15px;
+    padding:10px;
+    background:#f5f5f5;
+    border-radius:10px;
+}
+
+.materia-item label{
+    margin-top:0;
+    margin-bottom:5px;
+    font-size:14px;
+}
+
+#numeroMaterias{
+    margin-top:10px;
+}
+
+.boton-pequeno{
+    padding:8px;
+    font-size:14px;
+    background:#28a745;
+    margin-top:5px;
+}
+
+.boton-pequeno:hover{
+    background:#218838;
+}
+
+.instruccion{
+    font-size:14px;
+    color:#666;
+    margin-top:5px;
+    text-align:center;
+}
 </style>
 </head>
 
@@ -96,6 +138,7 @@ button:hover{
 <select id="tipo" onchange="mostrarCampos()">
     <option value="parcial">Promedio Parcial</option>
     <option value="final">Promedio Final</option>
+    <option value="general">Promedio General del Semestre</option>
 </select>
 
 <div id="parcialCampos">
@@ -117,21 +160,27 @@ button:hover{
     <input type="number" class="nota" step="0.01">
 </div>
 
+<div id="generalCampos" style="display:none;">
+    <label>¿Cuántas materias cursaste?</label>
+    <input type="number" id="numeroMaterias" min="1" max="20" value="1" step="1">
+    <button class="boton-pequeno" onclick="generarCamposMaterias()">Generar espacios</button>
+    
+    <div id="materiasContainer" class="materias-container"></div>
+    <div class="instruccion" id="instruccionMaterias"></div>
+</div>
+
 <button onclick="calcular()">Calcular</button>
 <a href="index.html">
     <button type="button" class="btn-regresar">⬅ Volver al Inicio</button>
 </a>
 
 <div class="resultado" id="resultado"></div>
-<div class="resultado" id="resultado"></div>
 </div>
 
 <script>
-
-    
 // 🔥 Limitar automáticamente entre 0 y 10
 document.addEventListener("input", function(e){
-    if(e.target.classList.contains("nota")){
+    if(e.target.classList.contains("nota") || e.target.classList.contains("nota-materia")){
         let valor = parseFloat(e.target.value);
         if(valor > 10) e.target.value = 10;
         if(valor < 0) e.target.value = 0;
@@ -144,6 +193,52 @@ function mostrarCampos(){
         tipo==="parcial" ? "block" : "none";
     document.getElementById("finalCampos").style.display =
         tipo==="final" ? "block" : "none";
+    document.getElementById("generalCampos").style.display =
+        tipo==="general" ? "block" : "none";
+    
+    // Limpiar campos de materias cuando se cambie de opción
+    if(tipo !== "general") {
+        document.getElementById("materiasContainer").innerHTML = "";
+        document.getElementById("instruccionMaterias").innerHTML = "";
+    }
+}
+
+function generarCamposMaterias() {
+    let numMaterias = parseInt(document.getElementById("numeroMaterias").value);
+    
+    if(isNaN(numMaterias) || numMaterias < 1) {
+        alert("Por favor ingresa un número válido de materias (mínimo 1)");
+        return;
+    }
+    
+    if(numMaterias > 20) {
+        alert("Máximo 20 materias permitidas");
+        numMaterias = 20;
+        document.getElementById("numeroMaterias").value = 20;
+    }
+    
+    let container = document.getElementById("materiasContainer");
+    container.innerHTML = "";
+    
+    for(let i = 1; i <= numMaterias; i++) {
+        let div = document.createElement("div");
+        div.className = "materia-item";
+        
+        let label = document.createElement("label");
+        label.textContent = `Materia ${i}: Promedio Final`;
+        div.appendChild(label);
+        
+        let input = document.createElement("input");
+        input.type = "number";
+        input.className = "nota-materia";
+        input.step = "0.01";
+        input.placeholder = "0 - 10";
+        div.appendChild(input);
+        
+        container.appendChild(div);
+    }
+    
+    document.getElementById("instruccionMaterias").innerHTML = `Ingresa el promedio final de cada una de tus ${numMaterias} materias`;
 }
 
 function mensajeSegunNota(promedio){
@@ -154,10 +249,10 @@ function mensajeSegunNota(promedio){
         return {texto:"Pasaste raspando mijo 😅", color:"#ff9800"};
     }
     else if(promedio <= 8.99){
-        return {texto:"Bien hecho, hachale mas ganas pal proximo parcial 💪", color:"#4caf50"};
+        return {texto:"Bien hecho, échale más ganas pal próximo semestre 💪", color:"#4caf50"};
     }
     else{
-        return {texto:"Que buen/a Estudiante, que inteligente! Sigue así 👍🏻", color:"#2196f3"};
+        return {texto:"¡Qué buen/a estudiante, qué inteligente! Sigue así 👍🏻", color:"#2196f3"};
     }
 }
 
@@ -165,41 +260,91 @@ function calcular(){
     let tipo = document.getElementById("tipo").value;
     let notas = document.querySelectorAll(".nota");
     let promedio = 0;
+    let info;
 
-    if(tipo==="parcial"){
+    if(tipo === "parcial"){
         let f = Number(notas[0].value);
         let p = Number(notas[1].value);
         let a = Number(notas[2].value);
 
-        if(isNaN(f)||isNaN(p)||isNaN(a)){
+        if(isNaN(f)||isNaN(p)||isNaN(a) || notas[0].value === "" || notas[1].value === "" || notas[2].value === ""){
             alert("Ingresa todas las notas");
             return;
         }
 
         promedio = (f*0.33)+(p*0.33)+(a*0.34);
+        info = mensajeSegunNota(promedio);
     }
-    else{
+    else if(tipo === "final"){
         let p1 = Number(notas[3].value);
         let p2 = Number(notas[4].value);
 
-        if(isNaN(p1)||isNaN(p2)){
+        if(isNaN(p1)||isNaN(p2) || notas[3].value === "" || notas[4].value === ""){
             alert("Ingresa ambos parciales");
             return;
         }
 
         promedio = (p1 + p2) / 2;
+        info = mensajeSegunNota(promedio);
+    }
+    else if(tipo === "general"){
+        let notasMaterias = document.querySelectorAll(".nota-materia");
+        
+        if(notasMaterias.length === 0) {
+            alert("Primero genera los espacios de materias con el botón 'Generar espacios'");
+            return;
+        }
+        
+        let suma = 0;
+        let materiasValidas = 0;
+        
+        for(let i = 0; i < notasMaterias.length; i++) {
+            let valor = Number(notasMaterias[i].value);
+            
+            if(isNaN(valor) || notasMaterias[i].value === "") {
+                alert(`Por favor ingresa el promedio de la materia ${i+1}`);
+                return;
+            }
+            
+            suma += valor;
+            materiasValidas++;
+        }
+        
+        promedio = suma / materiasValidas;
+        
+        // Mensaje personalizado para promedio general
+        if(promedio <= 6.99){
+            info = {texto:"¡Ánimo! El próximo semestre puedes mejorar 💪", color:"#ff4d4d"};
+        }
+        else if(promedio <= 7.99){
+            info = {texto:"Vas bien, pero puedes dar más 💪", color:"#ff9800"};
+        }
+        else if(promedio <= 8.99){
+            info = {texto:"Buen promedio, sigue así 👍", color:"#4caf50"};
+        }
+        else{
+            info = {texto:"¡Excelente promedio! Sigue destacando 🌟", color:"#2196f3"};
+        }
     }
 
     promedio = Math.round(promedio*100)/100;
-
-    let info = mensajeSegunNota(promedio);
 
     let resultadoDiv = document.getElementById("resultado");
     resultadoDiv.style.display="block";
     resultadoDiv.style.background=info.color;
     resultadoDiv.style.color="white";
+    
+    let tipoTexto = "";
+    if(tipo === "general") {
+        tipoTexto = "Promedio General del Semestre";
+    } else if(tipo === "parcial") {
+        tipoTexto = "Promedio del Parcial";
+    } else {
+        tipoTexto = "Promedio Final";
+    }
+    
     resultadoDiv.innerHTML = `
-        Resultado: ${promedio.toFixed(2)} <br><br>
+        ${tipoTexto}: ${promedio.toFixed(2)} <br><br>
         ${info.texto}
     `;
 }
@@ -207,9 +352,3 @@ function calcular(){
 
 </body>
 </html>
-
-
-
-
-
-
