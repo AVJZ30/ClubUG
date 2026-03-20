@@ -3,223 +3,843 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Procesos Nivelación</title>
-  <link rel="stylesheet" href="styles.css" />
+  <meta name="description" content="Procesos de Nivelación Universidad de Guayaquil - Club UG" />
+  <meta name="keywords" content="Nivelación UG, Universidad de Guayaquil, certificado nivelación" />
+  <title>Nivelación UG - Club UG</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
-    /* Variables y estilos generales */
+    /* ===== VARIABLES - PALETA AZUL/CELESTE/BLANCO ===== */
     :root {
-      --primary: #3498db;   /* Azul bonito */
-      --primary-dark: #2c80b4;
-      --secondary: #f4f8fb;
+      --primary: #003366;
+      --primary-dark: #002244;
+      --primary-light: #1a4d7a;
+      --secondary: #0072c6;
+      --secondary-light: #4d9fd8;
+      --sky-light: #e0f2fe;
+      --sky: #b8e2f2;
+      --sky-medium: #9cd4e8;
+      --sky-muted: #7fc1d4;
       --white: #ffffff;
-      --text: #333333;
-    }
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: var(--secondary);
-      color: var(--text);
-      animation: fadeIn 1s ease-in;
-    }
-    header {
-      background: var(--primary);
-      padding: 20px;
-      color: var(--white);
-      text-align: center;
-      position: sticky;
-      top: 0;
-      z-index: 10;
-      animation: slideDown 0.8s ease;
-    }
-    header a {
-      color: var(--white);
-      margin: 0 15px;
-      text-decoration: none;
-      font-weight: bold;
-      position: relative;
-    }
-    header a::after {
-      content: "";
-      position: absolute;
-      bottom: -5px;
-      left: 0;
-      width: 0%;
-      height: 2px;
-      background: var(--white);
-      transition: width 0.3s;
-    }
-    header a:hover::after {
-      width: 100%;
-    }
-    .container {
-      max-width: 900px;
-      margin: 40px auto;
-      padding: 0 20px;
-    }
-    
-    /* Estilos para la barra de búsqueda */
-    .search-container {
-      margin: 30px 0;
-      position: relative;
-    }
-    .search-box {
-      width: 100%;
-      padding: 12px 20px;
-      border: 2px solid #ddd;
-      border-radius: 30px;
-      font-size: 16px;
-      outline: none;
-      transition: all 0.3s ease;
-      box-sizing: border-box;
-    }
-    .search-box:focus {
-      border-color: var(--primary);
-      box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.2);
-    }
-    .search-icon {
-      position: absolute;
-      right: 15px;
-      top: 50%;
-      transform: translateY(-50%);
-      color: #777;
-    }
-    .no-results {
-      text-align: center;
-      padding: 30px;
-      color: #777;
-      display: none;
-    }
-    
-    .news-list {
-      list-style: none;
-      padding: 0;
-    }
-    .news-item {
-      background: var(--white);
-      border: 1px solid #ddd;
-      border-radius: 10px;
-      margin-bottom: 20px;
-      padding: 20px;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-      animation: fadeUp 0.7s ease forwards;
-      opacity: 0;
-    }
-    .news-item:nth-child(1) { animation-delay: 0.2s; }
-    .news-item:nth-child(2) { animation-delay: 0.4s; }
-    .news-item:nth-child(3) { animation-delay: 0.6s; }
-    .news-item:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 6px 16px rgba(0,0,0,0.15);
-    }
-    .news-item h3 {
-      margin-top: 0;
-      color: var(--primary);
-    }
-    .news-item .meta {
-      font-size: 0.9em;
-      color: #777;
-      margin-bottom: 10px;
-    }
-    .btn-read {
-      display: inline-block;
-      margin-top: 10px;
-      padding: 10px 18px;
-      background: var(--primary);
-      color: var(--white);
-      text-decoration: none;
-      border-radius: 20px;
-      transition: background 0.3s, transform 0.2s;
-    }
-    .btn-read:hover {
-      background: var(--primary-dark);
-      transform: scale(1.05);
+      --light: #f5fafe;
+      --light-bg: #fafcff;
+      --text: #2c3e50;
+      --text-light: #5a6e7f;
+      --gray-100: #f5f7fa;
+      --gray-200: #e9edf2;
+      --gray-300: #d4dce6;
+      --shadow-sm: 0 4px 12px rgba(0,51,102,0.08);
+      --shadow-md: 0 8px 24px rgba(0,51,102,0.12);
+      --shadow-lg: 0 16px 32px rgba(0,51,102,0.16);
+      --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      --border-radius: 20px;
+      --border-radius-sm: 14px;
     }
 
-    /* Animaciones */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--light-bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    /* ===== SCROLLBAR ===== */
+    ::-webkit-scrollbar {
+      width: 10px;
+    }
+    ::-webkit-scrollbar-track {
+      background: var(--gray-200);
+      border-radius: 10px;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      border-radius: 10px;
+    }
+
+    /* ===== HEADER ===== */
+    header {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      padding: 1rem 2rem;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: var(--shadow-md);
+      animation: slideDown 0.6s ease;
+    }
+
+    .nav-container {
+      max-width: 1280px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      flex-wrap: wrap;
+    }
+
+    header a {
+      color: var(--white);
+      text-decoration: none;
+      font-weight: 600;
+      padding: 0.75rem 1.5rem;
+      border-radius: 40px;
+      transition: var(--transition);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 1rem;
+    }
+
+    header a i {
+      font-size: 1.1rem;
+      transition: var(--transition);
+    }
+
+    header a:hover {
+      background: rgba(255,255,255,0.2);
+      transform: translateY(-2px);
+    }
+
+    /* ===== HERO SECTION ===== */
+    .hero {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      color: var(--white);
+      padding: 3rem 2rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -50%;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle, rgba(184,226,242,0.2) 0%, transparent 70%);
+      border-radius: 50%;
+      animation: rotate 20s linear infinite;
+    }
+
+    @keyframes rotate {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .hero h1 {
+      font-size: clamp(2rem, 5vw, 2.8rem);
+      font-weight: 800;
+      margin-bottom: 1rem;
+      letter-spacing: -0.5px;
+    }
+
+    .hero p {
+      font-size: 1.1rem;
+      opacity: 0.9;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    /* ===== CONTAINER ===== */
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 3rem 1.5rem;
+    }
+
+    /* ===== TÍTULO SECCIÓN ===== */
+    .section-title {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--primary);
+      text-align: center;
+      margin-bottom: 0.5rem;
+      position: relative;
+      display: inline-block;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    .section-title::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80px;
+      height: 4px;
+      background: linear-gradient(90deg, var(--secondary), var(--sky-medium));
+      border-radius: 2px;
+    }
+
+    .section-subtitle {
+      text-align: center;
+      color: var(--text-light);
+      margin-bottom: 2rem;
+      font-size: 1rem;
+    }
+
+    /* ===== BÚSQUEDA ===== */
+    .search-container {
+      margin: 2rem 0 2.5rem;
+      position: relative;
+      max-width: 500px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .search-box {
+      width: 100%;
+      padding: 1rem 1rem 1rem 3rem;
+      border: 2px solid var(--gray-300);
+      border-radius: 60px;
+      font-size: 1rem;
+      font-family: 'Inter', sans-serif;
+      transition: var(--transition);
+      background: var(--white);
+      outline: none;
+    }
+
+    .search-box:focus {
+      border-color: var(--secondary);
+      box-shadow: 0 0 0 4px rgba(0,114,198,0.1);
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--secondary);
+      font-size: 1.2rem;
+    }
+
+    .search-clear {
+      position: absolute;
+      right: 1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--gray-400);
+      cursor: pointer;
+      display: none;
+      font-size: 1rem;
+    }
+
+    .search-clear:hover {
+      color: var(--secondary);
+    }
+
+    /* ===== LISTA DE PROCESOS ===== */
+    .news-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .news-item {
+      background: var(--white);
+      border-radius: var(--border-radius-sm);
+      padding: 1.5rem;
+      transition: var(--transition);
+      border: 1px solid var(--gray-200);
+      position: relative;
+      overflow: hidden;
+      animation: fadeUp 0.5s ease forwards;
+      opacity: 0;
+    }
+
+    .news-item:nth-child(1) { animation-delay: 0.1s; }
+    .news-item:nth-child(2) { animation-delay: 0.2s; }
+    .news-item:nth-child(3) { animation-delay: 0.3s; }
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .news-item::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 4px;
+      height: 100%;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      transform: scaleY(0);
+      transition: transform 0.3s ease;
+    }
+
+    .news-item:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-lg);
+      border-color: var(--sky-medium);
+    }
+
+    .news-item:hover::before {
+      transform: scaleY(1);
+    }
+
+    .news-meta {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 0.75rem;
+      flex-wrap: wrap;
+    }
+
+    .news-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--gray-100);
+      padding: 0.25rem 0.75rem;
+      border-radius: 40px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--primary);
+    }
+
+    .news-badge i {
+      color: var(--secondary);
+    }
+
+    .news-item h3 {
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 0.75rem;
+      line-height: 1.4;
+    }
+
+    .news-item p {
+      color: var(--text-light);
+      margin-bottom: 1.25rem;
+      line-height: 1.6;
+    }
+
+    .btn-group {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .btn-read {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 0.6rem 1.2rem;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: var(--white);
+      text-decoration: none;
+      border-radius: 40px;
+      font-weight: 600;
+      font-size: 0.85rem;
+      transition: var(--transition);
+      border: none;
+      cursor: pointer;
+    }
+
+    .btn-read:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .btn-outline {
+      background: transparent;
+      border: 2px solid var(--secondary);
+      color: var(--secondary);
+    }
+
+    .btn-outline:hover {
+      background: var(--secondary);
+      color: var(--white);
+    }
+
+    /* ===== MODAL PARA CÓDIGO ===== */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.8);
+      backdrop-filter: blur(5px);
+      animation: fadeIn 0.3s;
+    }
+
+    .modal-content {
+      background-color: var(--white);
+      margin: 15% auto;
+      border-radius: var(--border-radius);
+      width: 90%;
+      max-width: 400px;
+      position: relative;
+      animation: slideIn 0.3s;
+      box-shadow: var(--shadow-lg);
+      overflow: hidden;
+    }
+
+    .modal-header {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: var(--white);
+      padding: 1.5rem;
+      text-align: center;
+    }
+
+    .modal-header h3 {
+      font-size: 1.3rem;
+      font-weight: 700;
+      margin: 0;
+    }
+
+    .modal-body {
+      padding: 2rem;
+      text-align: center;
+    }
+
+    .modal-body p {
+      color: var(--text-light);
+      margin-bottom: 1.5rem;
+    }
+
+    .modal-input {
+      width: 100%;
+      padding: 0.8rem;
+      border: 2px solid var(--gray-300);
+      border-radius: 40px;
+      font-size: 1rem;
+      margin-bottom: 1.5rem;
+      text-align: center;
+      font-family: 'Inter', sans-serif;
+      outline: none;
+      transition: var(--transition);
+    }
+
+    .modal-input:focus {
+      border-color: var(--secondary);
+    }
+
+    .modal-buttons {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+    }
+
+    .modal-btn {
+      padding: 0.6rem 1.5rem;
+      border-radius: 40px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      border: none;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .modal-btn-primary {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: var(--white);
+    }
+
+    .modal-btn-primary:hover {
+      transform: translateY(-2px);
+    }
+
+    .modal-btn-secondary {
+      background: var(--gray-200);
+      color: var(--text);
+    }
+
+    .modal-btn-secondary:hover {
+      background: var(--gray-300);
+    }
+
+    .close-modal {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      color: var(--white);
+      font-size: 1.5rem;
+      cursor: pointer;
+      width: 30px;
+      height: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.2);
+      transition: var(--transition);
+    }
+
+    .close-modal:hover {
+      background: rgba(255,255,255,0.3);
+    }
+
+    @keyframes slideIn {
+      from {
+        transform: translateY(-50px);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
     @keyframes fadeIn {
       from { opacity: 0; }
       to { opacity: 1; }
     }
-    @keyframes slideDown {
-      from { transform: translateY(-100%); }
-      to { transform: translateY(0); }
+
+    /* ===== NO RESULTADOS ===== */
+    .no-results {
+      text-align: center;
+      padding: 3rem;
+      background: var(--white);
+      border-radius: var(--border-radius);
+      border: 1px solid var(--gray-200);
+      display: none;
     }
-    @keyframes fadeUp {
-      from { transform: translateY(20px); opacity: 0; }
-      to { transform: translateY(0); opacity: 1; }
+
+    .no-results i {
+      font-size: 3rem;
+      color: var(--gray-300);
+      margin-bottom: 1rem;
+    }
+
+    .no-results p {
+      color: var(--text-light);
+      font-size: 1rem;
+    }
+
+    /* ===== FOOTER ===== */
+    footer {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+      color: var(--white);
+      padding: 2rem;
+      text-align: center;
+      margin-top: 2rem;
+    }
+
+    footer p {
+      opacity: 0.8;
+      font-size: 0.9rem;
+    }
+
+    /* ===== ANIMACIONES ===== */
+    @keyframes slideDown {
+      from {
+        transform: translateY(-100%);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 768px) {
+      .nav-container {
+        gap: 0.5rem;
+      }
+      
+      header a {
+        padding: 0.5rem 1rem;
+        font-size: 0.9rem;
+      }
+      
+      .hero {
+        padding: 2rem 1rem;
+      }
+      
+      .container {
+        padding: 2rem 1rem;
+      }
+      
+      .section-title {
+        font-size: 1.6rem;
+      }
+      
+      .news-item {
+        padding: 1.25rem;
+      }
+      
+      .news-item h3 {
+        font-size: 1.1rem;
+      }
+      
+      .btn-group {
+        gap: 0.75rem;
+      }
+      
+      .btn-read {
+        padding: 0.5rem 1rem;
+        font-size: 0.8rem;
+      }
+      
+      .modal-content {
+        margin: 30% auto;
+        width: 95%;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .nav-container {
+        flex-direction: column;
+        align-items: center;
+        gap: 0.5rem;
+      }
+      
+      header a {
+        width: 100%;
+        justify-content: center;
+      }
+      
+      .news-meta {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+      }
+      
+      .btn-group {
+        flex-direction: column;
+      }
+      
+      .btn-read {
+        width: 100%;
+        justify-content: center;
+      }
+      
+      .modal-buttons {
+        flex-direction: column;
+      }
     }
   </style>
 </head>
 <body>
   <header>
-    <a href="index.html">Inicio</a>
-    <a href="procesos-nivelacion.html">Nivelación</a>
+    <div class="nav-container">
+      <a href="index.html">
+        <i class="fas fa-home"></i>
+        Inicio
+      </a>
+    </div>
   </header>
+
+  <section class="hero">
+    <div class="hero-content">
+      <h1>📘 Procesos de Nivelación UG</h1>
+      <p>Información y documentos importantes para tu proceso de nivelación en la Universidad de Guayaquil</p>
+    </div>
+  </section>
+
   <div class="container">
-    <h2>Procesos de Nivelación</h2>
+    <h2 class="section-title">Certificados y Documentación</h2>
+    <p class="section-subtitle">Accede a toda la información relacionada con tu proceso de nivelación</p>
     
-    <!-- Barra de búsqueda agregada -->
+    <!-- Barra de búsqueda -->
     <div class="search-container">
-      <input type="text" id="searchInput" class="search-box" placeholder="Buscar en procesos de nivelación...">
-      <div class="search-icon">🔍</div>
+      <i class="fas fa-search search-icon"></i>
+      <input type="text" id="searchInput" class="search-box" placeholder="Buscar por título o descripción...">
+      <i class="fas fa-times-circle search-clear" id="searchClear"></i>
     </div>
     
     <div class="no-results" id="noResults">
-      No se encontraron resultados para tu búsqueda.
+      <i class="fas fa-search"></i>
+      <p>No se encontraron resultados para tu búsqueda.</p>
+      <p style="font-size: 0.85rem; margin-top: 0.5rem;">Intenta con otras palabras clave</p>
     </div>
     
     <ul class="news-list" id="newsList">
       <li class="news-item">
-        <div class="meta">30 de Marzo, 2025</div>
-        <h3>Certificado de fin de curso de nivelación</h3>
-        <p>Aquí encontrarás cómo descargar tu certificado de nivelación</p>
-        <a href="https://drive.google.com/file/d/1JtWsPTo7x-lKO0irc2RPuAgsL9ZwTbp0/view?usp=drive_link" class="btn-read">Leer más</a>
+        <div class="news-meta">
+          <span class="news-badge"><i class="fas fa-certificate"></i> Certificado</span>
+        </div>
+        <h3>📜 Certificado de fin de curso de nivelación</h3>
+        <p>Obtén tu certificado oficial de finalización del curso de nivelación. Documento necesario para continuar con tu proceso académico en la universidad.</p>
+        <div class="btn-group">
+          <button class="btn-read" id="openModalBtn">
+            <i class="fas fa-download"></i> Descargar Certificado
+          </button>
+        </div>
       </li>
-      <!-- Puedes agregar más elementos aquí -->
     </ul>
   </div>
 
+  <!-- Modal para código de acceso -->
+  <div class="modal" id="accessModal">
+    <div class="modal-content">
+      <div class="close-modal" id="closeModalBtn">&times;</div>
+      <div class="modal-header">
+        <h3><i class="fas fa-lock"></i> Acceso Restringido</h3>
+      </div>
+      <div class="modal-body">
+        <p>Ingresa el código de acceso para descargar el certificado de nivelación.</p>
+        <input type="password" id="codigoAcceso" class="modal-input" placeholder="Código de acceso">
+        <div class="modal-buttons">
+          <button class="modal-btn modal-btn-primary" id="verificarBtn">
+            <i class="fas fa-check"></i> Verificar
+          </button>
+          <button class="modal-btn modal-btn-secondary" id="cancelarBtn">
+            <i class="fas fa-times"></i> Cancelar
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <p>&copy; 2026 Club UG - Comunidad Estudiantil. Todos los derechos reservados.</p>
+    <p style="margin-top: 0.5rem; font-size: 0.8rem;">Universidad de Guayaquil</p>
+  </footer>
+
   <script>
-    // Función para la barra de búsqueda
     document.addEventListener('DOMContentLoaded', function() {
+      // Elementos de búsqueda
       const searchInput = document.getElementById('searchInput');
+      const searchClear = document.getElementById('searchClear');
       const newsItems = document.querySelectorAll('.news-item');
       const noResults = document.getElementById('noResults');
       
-      searchInput.addEventListener('input', function() {
-        const searchTerm = this.value.toLowerCase().trim();
+      // Elementos del modal
+      const modal = document.getElementById('accessModal');
+      const openModalBtn = document.getElementById('openModalBtn');
+      const closeModalBtn = document.getElementById('closeModalBtn');
+      const cancelarBtn = document.getElementById('cancelarBtn');
+      const verificarBtn = document.getElementById('verificarBtn');
+      const codigoInput = document.getElementById('codigoAcceso');
+      
+      // Función para realizar la búsqueda
+      function performSearch() {
+        const searchTerm = searchInput.value.toLowerCase().trim();
         let hasVisibleItems = false;
         
         newsItems.forEach(item => {
           const title = item.querySelector('h3').textContent.toLowerCase();
-          const content = item.querySelector('p').textContent.toLowerCase();
-          const meta = item.querySelector('.meta').textContent.toLowerCase();
+          const description = item.querySelector('p').textContent.toLowerCase();
+          const badge = item.querySelector('.news-badge').textContent.toLowerCase();
           
-          // Mostrar u ocultar elementos según la búsqueda
-          if (title.includes(searchTerm) || content.includes(searchTerm) || meta.includes(searchTerm)) {
+          const matches = title.includes(searchTerm) || 
+                         description.includes(searchTerm) || 
+                         badge.includes(searchTerm);
+          
+          if (matches || searchTerm === '') {
             item.style.display = 'block';
-            hasVisibleItems = true;
+            if (matches) hasVisibleItems = true;
+            else if (searchTerm === '') hasVisibleItems = true;
           } else {
             item.style.display = 'none';
           }
         });
         
-        // Mostrar mensaje si no hay resultados
-        noResults.style.display = hasVisibleItems ? 'none' : 'block';
-      });
-    });
-
-    // Función existente para verificar código
-    function verificarCodigo() {
-      const codigoCorrecto = "1999"; // aquí pones tu código secreto
-      const codigoIngresado = document.getElementById("codigoAcceso").value;
-
-      if (codigoIngresado === codigoCorrecto) {
-        window.location.href = "https://drive.google.com/drive/folders/1PDWJg_JPYfzQlGadi62cSxD_oQ1oIM2_?usp=drive_link";
-      } else {
-        alert("Código incorrecto. Inténtalo de nuevo.");
+        // Verificar si hay elementos visibles después de la búsqueda
+        const visibleItems = Array.from(newsItems).some(item => item.style.display === 'block');
+        
+        if (visibleItems && searchTerm !== '') {
+          noResults.style.display = 'none';
+        } else if (!visibleItems && searchTerm !== '') {
+          noResults.style.display = 'block';
+        } else if (searchTerm === '') {
+          noResults.style.display = 'none';
+        }
+        
+        // Mostrar/ocultar botón de limpiar
+        searchClear.style.display = searchTerm !== '' ? 'flex' : 'none';
       }
-    }
+      
+      // Función para verificar código
+      function verificarCodigo() {
+        const codigoCorrecto = "1999";
+        const codigoIngresado = codigoInput.value.trim();
+        
+        if (codigoIngresado === codigoCorrecto) {
+          window.open("https://drive.google.com/file/d/1JtWsPTo7x-lKO0irc2RPuAgsL9ZwTbp0/view?usp=drive_link", "_blank");
+          modal.style.display = 'none';
+          document.body.style.overflow = 'auto';
+          codigoInput.value = '';
+        } else {
+          alert("❌ Código incorrecto. Inténtalo de nuevo.");
+          codigoInput.value = '';
+          codigoInput.focus();
+        }
+      }
+      
+      // Abrir modal
+      function openModal() {
+        modal.style.display = 'block';
+        document.body.style.overflow = 'hidden';
+        codigoInput.focus();
+      }
+      
+      // Cerrar modal
+      function closeModal() {
+        modal.style.display = 'none';
+        document.body.style.overflow = 'auto';
+        codigoInput.value = '';
+      }
+      
+      // Eventos de búsqueda
+      searchInput.addEventListener('input', performSearch);
+      searchClear.addEventListener('click', function() {
+        searchInput.value = '';
+        performSearch();
+        searchInput.focus();
+      });
+      
+      // Eventos del modal
+      openModalBtn.addEventListener('click', openModal);
+      closeModalBtn.addEventListener('click', closeModal);
+      cancelarBtn.addEventListener('click', closeModal);
+      verificarBtn.addEventListener('click', verificarCodigo);
+      
+      // Cerrar con tecla Escape
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && modal.style.display === 'block') {
+          closeModal();
+        }
+      });
+      
+      // Cerrar al hacer clic fuera del modal
+      window.addEventListener('click', function(e) {
+        if (e.target === modal) {
+          closeModal();
+        }
+      });
+      
+      // Enter en el input del código
+      codigoInput.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+          verificarCodigo();
+        }
+      });
+      
+      // Mostrar botón de limpiar si hay texto inicial
+      if (searchInput.value.trim() !== '') {
+        searchClear.style.display = 'flex';
+      }
+    });
   </script>
 </body>
 </html>
