@@ -16,7 +16,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
-    /* ===== VARIABLES - CELESTE CLARO, CELESTE APAGADO, AZUL, BLANCO, GRIS ===== */
+    /* ===== VARIABLES ===== */
     :root {
       --primary: #003366;
       --primary-dark: #002244;
@@ -28,7 +28,8 @@
       --sky: #b8e2f2;
       --sky-medium: #9cd4e8;
       --sky-muted: #7fc1d4;
-      --blue-gray: #5a7c8c;
+      --orange: #ff6b00;
+      --orange-dark: #e05e00;
       --white: #ffffff;
       --light: #f5fafe;
       --light-bg: #fafcff;
@@ -38,13 +39,17 @@
       --gray-100: #f5f7fa;
       --gray-200: #e9edf2;
       --gray-300: #d4dce6;
-      --gray-400: #bdc5d0;
       --shadow-sm: 0 4px 12px rgba(0,51,102,0.08);
       --shadow-md: 0 8px 24px rgba(0,51,102,0.12);
       --shadow-lg: 0 16px 32px rgba(0,51,102,0.16);
+      --shadow-orange: 0 4px 15px rgba(255,107,0,0.3);
       --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       --border-radius: 20px;
       --border-radius-sm: 14px;
+      /* Colores para redes sociales hover */
+      --instagram-gradient: linear-gradient(45deg, #405DE6, #5851DB, #833AB4, #C13584, #E1306C, #FD1D1D);
+      --tiktok: #000000;
+      --facebook: #1877f2;
     }
     
     * { 
@@ -85,6 +90,7 @@
       padding: 0 24px;
     }
 
+    /* ===== TÍTULOS CENTRADOS ===== */
     .section-title {
       font-size: 2.5rem;
       font-weight: 700;
@@ -93,15 +99,15 @@
       text-align: center;
       letter-spacing: -0.02em;
       position: relative;
-      display: inline-block;
-      left: 50%;
-      transform: translateX(-50%);
+      display: block;
+      width: 100%;
+      text-align: center;
     }
 
     .section-title::after {
       content: '';
       position: absolute;
-      bottom: -10px;
+      bottom: -12px;
       left: 50%;
       transform: translateX(-50%);
       width: 80px;
@@ -115,7 +121,7 @@
       color: var(--text-light);
       text-align: center;
       max-width: 700px;
-      margin: 0 auto 3rem;
+      margin: 1.5rem auto 3rem;
     }
 
     /* ===== HEADER ===== */
@@ -275,16 +281,18 @@
       color: var(--white);
       margin-bottom: 24px;
       text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+      text-align: center;
     }
     .hero-description {
       font-size: 1.2rem;
       color: rgba(255,255,255,0.9);
       max-width: 700px;
       margin: 0 auto 32px;
+      text-align: center;
     }
     @keyframes pulse { 0%,100% { transform: scale(1); } 50% { transform: scale(1.05); } }
 
-    /* ===== CARDS - SIN NARANJA EN CÍRCULOS ===== */
+    /* ===== CARDS ===== */
     .cards-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -455,12 +463,10 @@
       top: 14px;
     }
 
-    /* ===== NEWS ===== */
-    .news-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-      gap: 30px;
-      margin-top: 40px;
+    /* ===== NEWS - SOLO UNA NOTICIA ===== */
+    .news-wrapper {
+      max-width: 600px;
+      margin: 0 auto;
     }
     .news-card {
       background: var(--white);
@@ -475,31 +481,32 @@
       box-shadow: var(--shadow-lg);
       border-color: var(--sky-medium);
     }
-    .news-content { padding: 28px; }
+    .news-content { padding: 32px; text-align: center; }
     .news-badge {
       display: inline-block;
       background: linear-gradient(135deg, var(--secondary), var(--sky-muted));
       color: var(--white);
-      padding: 6px 16px;
+      padding: 8px 20px;
       border-radius: 40px;
-      font-size: 0.8rem;
+      font-size: 0.85rem;
       font-weight: 600;
-      margin-bottom: 16px;
+      margin-bottom: 20px;
     }
-    .news-title { font-size: 1.4rem; margin-bottom: 12px; color: var(--primary); font-weight: 700; }
-    .news-excerpt { color: var(--text-light); margin-bottom: 20px; font-size: 0.95rem; }
+    .news-title { font-size: 1.6rem; margin-bottom: 16px; color: var(--primary); font-weight: 700; }
+    .news-excerpt { color: var(--text-light); margin-bottom: 24px; font-size: 1rem; line-height: 1.6; }
     .news-link {
       display: inline-flex;
       align-items: center;
-      gap: 8px;
+      gap: 10px;
       color: var(--secondary);
       font-weight: 600;
       text-decoration: none;
       transition: var(--transition);
+      font-size: 1.1rem;
     }
-    .news-link:hover { color: var(--primary); gap: 12px; }
+    .news-link:hover { color: var(--primary); gap: 15px; }
 
-    /* ===== CONTACT - CÍRCULOS EN AZUL ===== */
+    /* ===== CONTACT ===== */
     .contact-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -546,7 +553,7 @@
     }
     .contact-value { font-size: 1.3rem; font-weight: 700; color: var(--primary); }
 
-    /* ===== SOCIAL ===== */
+    /* ===== SOCIAL - CON COLORES DE HOVER PERSONALIZADOS ===== */
     .social-grid {
       display: flex;
       justify-content: center;
@@ -569,13 +576,34 @@
       font-size: 1.1rem;
       border: 1px solid var(--gray-200);
     }
-    .social-btn:hover {
-      transform: translateY(-8px);
-      box-shadow: var(--shadow-lg);
-      background: var(--secondary);
+    .social-btn i { font-size: 1.4rem; transition: var(--transition); }
+    
+    /* Instagram - rosa/morado al hover */
+    .social-btn.instagram:hover {
+      background: var(--instagram-gradient);
       color: var(--white);
+      transform: translateY(-8px);
+      box-shadow: 0 10px 25px rgba(225,48,108,0.3);
+      border-color: transparent;
     }
-    .social-btn i { font-size: 1.4rem; }
+    
+    /* TikTok - negro al hover */
+    .social-btn.tiktok:hover {
+      background: var(--tiktok);
+      color: var(--white);
+      transform: translateY(-8px);
+      box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+      border-color: transparent;
+    }
+    
+    /* Facebook - celeste al hover */
+    .social-btn.facebook:hover {
+      background: var(--facebook);
+      color: var(--white);
+      transform: translateY(-8px);
+      box-shadow: 0 10px 25px rgba(24,119,242,0.3);
+      border-color: transparent;
+    }
 
     /* ===== MODAL ===== */
     .modal {
@@ -641,20 +669,20 @@
     .back-to-top:hover { transform: translateY(-8px) scale(1.1); }
     .back-to-top.visible { opacity: 1; visibility: visible; }
 
-    /* ===== FLOATING BURGER ===== */
+    /* ===== FLOATING BURGER - SOLO NARANJA AQUÍ ===== */
     .floating-burger {
       position: fixed;
       bottom: 30px;
       left: 30px;
       width: 70px;
       height: 70px;
-      background: linear-gradient(135deg, var(--secondary), var(--primary));
+      background: linear-gradient(135deg, var(--orange), var(--orange-dark));
       border-radius: 50%;
       display: flex;
       justify-content: center;
       align-items: center;
       cursor: pointer;
-      box-shadow: var(--shadow-md);
+      box-shadow: var(--shadow-orange);
       z-index: 1002;
       transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
       border: 3px solid white;
@@ -665,7 +693,8 @@
     }
     .floating-burger:hover {
       transform: scale(1.15) rotate(5deg);
-      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      background: linear-gradient(135deg, var(--orange-dark), var(--orange));
+      box-shadow: 0 10px 30px rgba(255,107,0,0.5);
     }
     @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
 
@@ -674,13 +703,14 @@
       background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
       color: var(--white); 
       margin-top: 60px;
+      position: relative;
     }
     footer::before {
       content: '';
       position: absolute;
+      top: 0;
       left: 0;
       right: 0;
-      top: 0;
       height: 4px;
       background: linear-gradient(90deg, var(--sky-light), var(--secondary), var(--sky-light));
     }
@@ -751,13 +781,17 @@
       header h1 { font-size: 1.4rem; }
       .hero-title { font-size: 2.2rem; }
       .section-title { font-size: 2rem; }
-      .cards-grid, .news-grid { grid-template-columns: 1fr; }
+      .cards-grid { grid-template-columns: 1fr; }
       .floating-burger { width: 56px; height: 56px; font-size: 1.8rem; }
       .back-to-top { width: 48px; height: 48px; }
+      .news-wrapper { padding: 0 20px; }
+      .social-grid { gap: 15px; }
+      .social-btn { padding: 12px 24px; font-size: 1rem; }
     }
   </style>
 </head>
 <body>
+  <!-- FLOATING BURGER - SOLO NARANJA AQUÍ -->
   <a href="sabrosito.html" class="floating-burger">
     <i class="fas fa-hamburger"></i>
   </a>
@@ -902,25 +936,20 @@
       </div>
     </section>
     
+    <!-- NOTICIAS - SOLO UNA -->
     <section id="noticias">
       <div class="container">
         <h2 class="section-title reveal-item">📰 Noticias</h2>
         <p class="section-subtitle reveal-item delay-1">Mantente informado con las últimas novedades</p>
-        <div class="news-grid">
+        <div class="news-wrapper">
           <div class="news-card reveal-item delay-2">
             <div class="news-content">
               <span class="news-badge">💬 COMUNIDAD</span>
               <h3 class="news-title">Únete a nuestra Comunidad de WhatsApp</h3>
-              <p class="news-excerpt">No te pierdas ninguna noticia importante. Mantente informado al instante.</p>
-              <a href="https://whatsapp.com/channel/0029Vb6L4p0HbFVFcxYOKI3A" class="news-link">Unirse ahora <i class="fas fa-arrow-right"></i></a>
-            </div>
-          </div>
-          <div class="news-card reveal-item delay-3">
-            <div class="news-content">
-              <span class="news-badge">📅 CALENDARIO</span>
-              <h3 class="news-title">Calendario Académico 2026</h3>
-              <p class="news-excerpt">Conoce las fechas importantes para inscripciones, matrículas y exámenes.</p>
-              <a href="#" class="news-link">Ver calendario <i class="fas fa-arrow-right"></i></a>
+              <p class="news-excerpt">No te pierdas ninguna noticia importante. Mantente informado al instante con alertas en tiempo real sobre procesos académicos, fechas importantes y eventos de la universidad.</p>
+              <a href="https://whatsapp.com/channel/0029Vb6L4p0HbFVFcxYOKI3A" class="news-link">
+                Unirse ahora <i class="fas fa-arrow-right"></i>
+              </a>
             </div>
           </div>
         </div>
@@ -946,16 +975,20 @@
       </div>
     </section>
     
+    <!-- REDES SOCIALES - CON INSTAGRAM ROSA, TIKTOK NEGRO, FACEBOOK CELESTE -->
     <section id="redes">
       <div class="container">
         <h2 class="section-title reveal-item">📱 Redes Sociales</h2>
         <p class="section-subtitle reveal-item delay-1">Síguenos para mantenerte actualizado</p>
         <div class="social-grid">
-          <a href="https://www.instagram.com/club_ug_/" target="_blank" class="social-btn reveal-item delay-2">
+          <a href="https://www.instagram.com/club_ug_/" target="_blank" class="social-btn instagram reveal-item delay-2">
             <i class="fab fa-instagram"></i> Instagram
           </a>
-          <a href="https://www.tiktok.com/@club_ug_" target="_blank" class="social-btn reveal-item delay-3">
+          <a href="https://www.tiktok.com/@club_ug_" target="_blank" class="social-btn tiktok reveal-item delay-3">
             <i class="fab fa-tiktok"></i> TikTok
+          </a>
+          <a href="https://www.facebook.com/profile.php?id=61579919841126" target="_blank" class="social-btn facebook reveal-item delay-4">
+            <i class="fab fa-facebook-f"></i> Facebook
           </a>
         </div>
       </div>
