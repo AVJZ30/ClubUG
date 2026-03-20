@@ -2,48 +2,72 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-   <link rel="icon" href="https://raw.githubusercontent.com/LUISPLUAAAA/Facultades.html/main/favicon-32x32.png" type="image/png" />
- 
+  <link rel="icon" href="https://raw.githubusercontent.com/LUISPLUAAAA/Facultades.html/main/favicon-32x32.png" type="image/png" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Explora las facultades de la Universidad de Guayaquil - Club UG">
+  <meta name="keywords" content="Facultades UG, Universidad de Guayaquil, carreras UG">
   <title>Facultades - Club UG</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
-    /* Variables CSS para mantener consistencia */
+    /* ===== VARIABLES - PALETA AZUL/CELESTE/BLANCO ===== */
     :root {
-      --primary-blue: #1a4b8c;
-      --secondary-blue: #2a6fc8;
-      --light-blue: #4a9fff;
-      --accent-blue: #87ceeb;
+      --primary: #003366;
+      --primary-dark: #002244;
+      --primary-light: #1a4d7a;
+      --secondary: #0072c6;
+      --secondary-light: #4d9fd8;
+      --sky-light: #e0f2fe;
+      --sky: #b8e2f2;
+      --sky-medium: #9cd4e8;
+      --sky-muted: #7fc1d4;
       --white: #ffffff;
-      --light-gray: #f5f7fa;
-      --text-dark: #333333;
-      --text-light: #666666;
-      --border-radius: 16px;
-      --transition: all 0.3s ease;
-      --shadow: 0 8px 20px rgba(26, 75, 140, 0.15);
-      --shadow-hover: 0 12px 30px rgba(26, 75, 140, 0.25);
+      --light: #f5fafe;
+      --light-bg: #fafcff;
+      --text: #2c3e50;
+      --text-light: #5a6e7f;
+      --gray-100: #f5f7fa;
+      --gray-200: #e9edf2;
+      --gray-300: #d4dce6;
+      --shadow-sm: 0 4px 12px rgba(0,51,102,0.08);
+      --shadow-md: 0 8px 24px rgba(0,51,102,0.12);
+      --shadow-lg: 0 16px 32px rgba(0,51,102,0.16);
+      --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      --border-radius: 20px;
+      --border-radius-sm: 14px;
     }
 
-    /* Reset y estilos base */
     * {
-      box-sizing: border-box;
       margin: 0;
       padding: 0;
+      box-sizing: border-box;
     }
 
     body {
-      font-family: 'Poppins', sans-serif;
-      background-color: var(--light-gray);
-      color: var(--text-dark);
+      font-family: 'Inter', sans-serif;
+      background: var(--light-bg);
+      color: var(--text);
       line-height: 1.6;
     }
 
-    /* Encabezado */
+    /* ===== SCROLLBAR ===== */
+    ::-webkit-scrollbar {
+      width: 10px;
+    }
+    ::-webkit-scrollbar-track {
+      background: var(--gray-200);
+      border-radius: 10px;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      border-radius: 10px;
+    }
+
+    /* ===== HEADER ===== */
     .header {
-      background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue));
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
       color: var(--white);
-      padding: 3rem 1rem;
+      padding: 4rem 2rem;
       text-align: center;
       position: relative;
       overflow: hidden;
@@ -52,63 +76,107 @@
     .header::before {
       content: '';
       position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"><path d="M0,0 L100,0 L100,100 Z" fill="rgba(255,255,255,0.1)"/></svg>');
-      background-size: cover;
+      top: -50%;
+      right: -50%;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle, rgba(184,226,242,0.2) 0%, transparent 70%);
+      border-radius: 50%;
+      animation: rotate 20s linear infinite;
+    }
+
+    .header::after {
+      content: '';
+      position: absolute;
+      bottom: -50%;
+      left: -50%;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+      border-radius: 50%;
+      animation: rotateReverse 25s linear infinite;
+    }
+
+    @keyframes rotate {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    @keyframes rotateReverse {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(-360deg); }
     }
 
     .title {
-      font-size: clamp(2rem, 5vw, 3rem);
-      font-weight: 700;
-      margin-bottom: 0.5rem;
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      font-weight: 800;
+      margin-bottom: 0.75rem;
       position: relative;
+      letter-spacing: -0.5px;
     }
 
     .subtitle {
       font-size: 1.1rem;
-      font-weight: 300;
+      font-weight: 400;
       max-width: 600px;
       margin: 0 auto;
       opacity: 0.9;
       position: relative;
     }
-.header-buttons {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin: 1.5rem 0;
-  position: relative;
-  z-index: 2;
-}
 
-.btn-back {
-  background: rgba(255,255,255,0.2);
-  color: var(--white);
-  border: 1px solid rgba(255,255,255,0.3);
-}
+    .header-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin: 2rem 0 0;
+      position: relative;
+      z-index: 2;
+      flex-wrap: wrap;
+    }
 
-.btn-back:hover {
-  background: rgba(255,255,255,0.3);
-  transform: translateY(-2px);
-}
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 28px;
+      border-radius: 50px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: var(--transition);
+      font-size: 0.95rem;
+      cursor: pointer;
+      border: none;
+      font-family: 'Inter', sans-serif;
+    }
 
-.btn-blocks {
-  background: var(--accent-blue);
-  color: var(--primary-blue);
-  font-weight: 600;
-}
+    .btn-back {
+      background: rgba(255,255,255,0.2);
+      color: var(--white);
+      backdrop-filter: blur(5px);
+      border: 1px solid rgba(255,255,255,0.3);
+    }
 
-.btn-blocks:hover {
-  background: var(--white);
-  transform: translateY(-2px);
-}
-    /* Rejilla de facultades */
+    .btn-back:hover {
+      background: rgba(255,255,255,0.3);
+      transform: translateY(-3px);
+    }
+
+    .btn-blocks {
+      background: var(--sky);
+      color: var(--primary);
+      border: none;
+    }
+
+    .btn-blocks:hover {
+      background: var(--white);
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-sm);
+    }
+
+    /* ===== GRID DE FACULTADES ===== */
     .grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
       gap: 2rem;
       padding: 3rem 1.5rem;
       max-width: 1400px;
@@ -121,20 +189,22 @@
       overflow: hidden;
       cursor: pointer;
       transition: var(--transition);
-      box-shadow: var(--shadow);
+      box-shadow: var(--shadow-sm);
       position: relative;
       height: 100%;
       display: flex;
       flex-direction: column;
+      border: 1px solid var(--gray-200);
     }
 
     .card:hover {
       transform: translateY(-10px);
-      box-shadow: var(--shadow-hover);
+      box-shadow: var(--shadow-lg);
+      border-color: var(--sky-medium);
     }
 
     .card-image {
-      height: 180px;
+      height: 200px;
       width: 100%;
       object-fit: cover;
       transition: var(--transition);
@@ -152,10 +222,11 @@
     }
 
     .card h2 {
-      font-size: 1.25rem;
-      font-weight: 600;
-      color: var(--primary-blue);
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: var(--primary);
       margin-bottom: 0.75rem;
+      line-height: 1.3;
     }
 
     .card p {
@@ -163,6 +234,7 @@
       font-size: 0.9rem;
       margin-bottom: 1rem;
       flex-grow: 1;
+      line-height: 1.6;
     }
 
     .card-footer {
@@ -170,23 +242,26 @@
       justify-content: space-between;
       align-items: center;
       margin-top: auto;
+      padding-top: 1rem;
+      border-top: 1px solid var(--gray-200);
     }
 
     .card-icon {
       width: 40px;
       height: 40px;
-      background: var(--light-blue);
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
       color: var(--white);
-      font-weight: bold;
+      font-weight: 700;
+      font-size: 1.1rem;
     }
 
     .card-link {
-      color: var(--secondary-blue);
-      font-weight: 500;
+      color: var(--secondary);
+      font-weight: 600;
       font-size: 0.9rem;
       text-decoration: none;
       display: flex;
@@ -196,10 +271,11 @@
     }
 
     .card-link:hover {
-      color: var(--primary-blue);
+      color: var(--primary);
+      gap: 10px;
     }
 
-    /* Modal */
+    /* ===== MODAL ===== */
     .modal {
       display: none;
       position: fixed;
@@ -208,26 +284,25 @@
       top: 0;
       width: 100%;
       height: 100%;
-      overflow: auto;
-      background-color: rgba(0,0,0,0.7);
+      background-color: rgba(0,0,0,0.8);
+      backdrop-filter: blur(5px);
       animation: fadeIn 0.3s;
     }
 
     .modal-content {
       background-color: var(--white);
       margin: 5% auto;
-      padding: 0;
       border-radius: var(--border-radius);
       width: 90%;
-      max-width: 800px;
+      max-width: 900px;
       position: relative;
       animation: slideIn 0.3s;
-      box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+      box-shadow: var(--shadow-lg);
       overflow: hidden;
     }
 
     .modal-header {
-      background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue));
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
       color: var(--white);
       padding: 2rem;
       position: relative;
@@ -235,8 +310,9 @@
 
     .modal-header h2 {
       font-size: 1.8rem;
-      font-weight: 600;
+      font-weight: 700;
       margin: 0;
+      letter-spacing: -0.5px;
     }
 
     .modal-body {
@@ -250,14 +326,14 @@
       width: 100%;
       height: 250px;
       object-fit: cover;
-      border-radius: 12px;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      border-radius: var(--border-radius-sm);
+      box-shadow: var(--shadow-sm);
     }
 
     .modal-info {
       display: flex;
       flex-direction: column;
-      gap: 1.5rem;
+      gap: 1.2rem;
     }
 
     .modal-description {
@@ -274,59 +350,48 @@
       display: flex;
       align-items: center;
       gap: 10px;
+      color: var(--text);
     }
 
     .modal-features li::before {
       content: "✓";
-      color: var(--secondary-blue);
+      color: var(--secondary);
       font-weight: bold;
+      font-size: 1.1rem;
     }
 
     .modal-actions {
       display: flex;
       gap: 1rem;
-      margin-top: auto;
-    }
-
-    .btn {
-      padding: 0.75rem 1.5rem;
-      border-radius: 50px;
-      font-weight: 500;
-      text-decoration: none;
-      transition: var(--transition);
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      border: none;
-      cursor: pointer;
-      font-family: 'Poppins', sans-serif;
+      margin-top: 0.5rem;
     }
 
     .btn-primary {
-      background: var(--secondary-blue);
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
       color: var(--white);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 24px;
+      border-radius: 50px;
+      text-decoration: none;
+      font-weight: 600;
+      transition: var(--transition);
+      border: none;
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
     }
 
     .btn-primary:hover {
-      background: var(--primary-blue);
-      transform: translateY(-2px);
-    }
-
-    .btn-secondary {
-      background: var(--light-gray);
-      color: var(--text-dark);
-    }
-
-    .btn-secondary:hover {
-      background: #e0e6ed;
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-md);
     }
 
     .close {
       position: absolute;
       top: 1.5rem;
       right: 1.5rem;
-      font-size: 1.75rem;
+      font-size: 1.5rem;
       font-weight: bold;
       color: var(--white);
       cursor: pointer;
@@ -346,148 +411,44 @@
       transform: rotate(90deg);
     }
 
-    /* Galería */
-    .gallery-section {
-      margin-top: 2rem;
-      border-top: 1px solid #eee;
-      padding-top: 1.5rem;
-    }
-
-    .gallery-title {
-      font-size: 1.2rem;
-      color: var(--primary-blue);
-      margin-bottom: 1rem;
-    }
-
-    .gallery-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 0.75rem;
-    }
-
-    .gallery-item {
-      border-radius: 8px;
-      overflow: hidden;
-      height: 100px;
-      cursor: pointer;
-      transition: var(--transition);
-    }
-
-    .gallery-item:hover {
-      transform: scale(1.05);
-    }
-
-    .gallery-item img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
-    /* Modal de galería */
-    .gallery-modal {
-      display: none;
-      position: fixed;
-      z-index: 2000;
-      left: 0;
-      top: 0;
-      width: 100%;
-      height: 100%;
-      background-color: rgba(0,0,0,0.9);
-      animation: fadeIn 0.3s;
-    }
-
-    .gallery-modal-content {
-      position: relative;
-      margin: auto;
-      width: 90%;
-      max-width: 1000px;
-      height: 90vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      animation: slideIn 0.3s;
-    }
-
-    .gallery-modal-image {
-      max-width: 100%;
-      max-height: 80vh;
-      object-fit: contain;
-      margin: 0 auto;
-    }
-
-    .gallery-modal-close {
-      position: absolute;
-      top: 20px;
-      right: 30px;
-      color: white;
-      font-size: 35px;
-      font-weight: bold;
-      cursor: pointer;
-      background: rgba(255,255,255,0.2);
-      width: 50px;
-      height: 50px;
-      border-radius: 50%;
-      display: flex;
+    /* ===== BADGE DE UBICACIÓN ===== */
+    .location-badge {
+      display: inline-flex;
       align-items: center;
-      justify-content: center;
-      transition: var(--transition);
+      gap: 8px;
+      background: var(--sky-light);
+      padding: 8px 16px;
+      border-radius: 40px;
+      font-size: 0.85rem;
+      color: var(--primary);
+      margin-top: 0.5rem;
     }
 
-    .gallery-modal-close:hover {
-      background: rgba(255,255,255,0.3);
+    .location-badge i {
+      color: var(--secondary);
     }
 
-    .gallery-modal-nav {
-      position: absolute;
-      top: 50%;
-      width: 100%;
-      display: flex;
-      justify-content: space-between;
-      padding: 0 20px;
-      transform: translateY(-50%);
-    }
-
-    .gallery-nav-btn {
-      background: rgba(255,255,255,0.2);
-      color: white;
-      border: none;
-      width: 50px;
-      height: 50px;
-      border-radius: 50%;
-      font-size: 24px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: var(--transition);
-    }
-
-    .gallery-nav-btn:hover {
-      background: rgba(255,255,255,0.3);
-    }
-
-    .gallery-caption {
-      text-align: center;
-      color: white;
-      padding: 10px;
-      font-size: 1.1rem;
-    }
-
-    /* Animaciones */
+    /* ===== ANIMACIONES ===== */
     @keyframes fadeIn {
-      from {opacity: 0;}
-      to {opacity: 1;}
+      from { opacity: 0; }
+      to { opacity: 1; }
     }
 
     @keyframes slideIn {
-      from {transform: translateY(-50px); opacity: 0;}
-      to {transform: translateY(0); opacity: 1;}
+      from {
+        transform: translateY(-50px);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
     }
 
-    /* Responsivo */
+    /* ===== RESPONSIVE ===== */
     @media (max-width: 768px) {
       .grid {
-        grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
         gap: 1.5rem;
         padding: 2rem 1rem;
       }
@@ -506,6 +467,10 @@
         padding: 1.5rem;
       }
       
+      .modal-header h2 {
+        font-size: 1.5rem;
+      }
+      
       .modal-body {
         padding: 1.5rem;
       }
@@ -514,8 +479,18 @@
         flex-direction: column;
       }
       
-      .gallery-grid {
-        grid-template-columns: repeat(2, 1fr);
+      .btn-primary {
+        justify-content: center;
+      }
+      
+      .header-buttons {
+        flex-direction: column;
+        align-items: center;
+      }
+      
+      .btn {
+        width: 200px;
+        justify-content: center;
       }
     }
 
@@ -528,54 +503,36 @@
         padding: 2rem 1rem;
       }
       
-      .gallery-grid {
-        grid-template-columns: 1fr;
+      .title {
+        font-size: 1.8rem;
       }
-    }
-
-    /* Mejoras de accesibilidad */
-    .sr-only {
-      position: absolute;
-      width: 1px;
-      height: 1px;
-      padding: 0;
-      margin: -1px;
-      overflow: hidden;
-      clip: rect(0, 0, 0, 0);
-      white-space: nowrap;
-      border: 0;
     }
   </style>
 </head>
 <body>
 
   <header class="header">
-    <h1 class="title">Explora las Facultades</h1>
+    <h1 class="title">🏛️ Explora las Facultades</h1>
     <div class="header-buttons">
-  <a href="index.html" class="btn btn-back">
-    <link rel="icon" href="https://raw.githubusercontent.com/LUISPLUAAAA/Facultades.html/main/favicon-32x32.png" type="image/png" />
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M19 12H5M12 19l-7-7 7-7" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-    </svg>
-    Volver al Inicio
-  </a>
-  <a href="https://admision.ug.edu.ec/" class="btn btn-blocks">
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M3 3h7v7H3zM14 3h7v7h-7zM3 14h7v7H3zM14 14h7v7h-7z" stroke="white" stroke-width="2"/>
-    </svg>
-    Ver por Bloques
-  </a>
-</div>
+      <a href="index.html" class="btn btn-back">
+        <i class="fas fa-arrow-left"></i>
+        Volver al Inicio
+      </a>
+      <a href="https://admision.ug.edu.ec/" class="btn btn-blocks">
+        <i class="fas fa-th-large"></i>
+        Ver por Bloques
+      </a>
+    </div>
     <p class="subtitle">Descubre las diferentes facultades de la Universidad de Guayaquil y sus programas académicos</p>
   </header>
 
   <main>
     <div class="grid" id="faculties-grid">
-      <!-- Las tarjetas se generarán dinámicamente con JavaScript -->
+      <!-- Las tarjetas se generan dinámicamente con JavaScript -->
     </div>
   </main>
 
-  <!-- Modal de facultad -->
+  <!-- Modal de facultad (SIN GALERÍA, SOLO MAPA) -->
   <div class="modal" id="modal" role="dialog" aria-labelledby="modal-title" aria-modal="true">
     <div class="modal-content">
       <button class="close" id="close" aria-label="Cerrar modal">&times;</button>
@@ -587,301 +544,207 @@
         <div class="modal-info">
           <p id="modal-description" class="modal-description">Descripción de la facultad.</p>
           <ul class="modal-features" id="modal-features">
-            <!-- Características se llenarán con JS -->
+            <!-- Características se llenan con JS -->
           </ul>
           <div class="modal-actions">
-            <a href="#" id="modal-map" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M12 2C8.13 2 5 5.13 5 9C5 14.25 12 22 12 22C12 22 19 14.25 19 9C19 5.13 15.87 2 12 2ZM12 11.5C10.62 11.5 9.5 10.38 9.5 9C9.5 7.62 10.62 6.5 12 6.5C13.38 6.5 14.5 7.62 14.5 9C14.5 10.38 13.38 11.5 12 11.5Z" fill="white"/>
-              </svg>
-              Ver en Mapa
+            <a href="#" id="modal-map" target="_blank" rel="noopener noreferrer" class="btn-primary">
+              <i class="fas fa-map-marker-alt"></i>
+              Ver Ubicación en Mapa
             </a>
-            <button id="modal-gallery" class="btn btn-secondary">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M21 19V5C21 3.9 20.1 3 19 3H5C3.9 3 3 3.9 3 5V19C3 20.1 3.9 21 5 21H19C20.1 21 21 20.1 21 19ZM8.5 13.5L11 16.51L14.5 12L19 18H5L8.5 13.5Z" fill="#333"/>
-              </svg>
-              Ver Galería
-            </button>
           </div>
-          
-          <!-- Sección de galería en miniatura -->
-          <div class="gallery-section">
-            <h3 class="gallery-title">Galería de Imágenes</h3>
-            <div class="gallery-grid" id="modal-gallery-grid">
-              <!-- Miniaturas de la galería se llenarán con JS -->
-            </div>
+          <div class="location-badge">
+            <i class="fas fa-location-dot"></i>
+            <span>📍 Campus Universitario - Ciudadela Universitaria</span>
           </div>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- Modal de galería completa -->
-  <div class="gallery-modal" id="gallery-modal">
-    <div class="gallery-modal-content">
-      <span class="gallery-modal-close" id="gallery-close">&times;</span>
-      <div class="gallery-modal-nav">
-        <button class="gallery-nav-btn" id="gallery-prev">&#10094;</button>
-        <button class="gallery-nav-btn" id="gallery-next">&#10095;</button>
-      </div>
-      <img class="gallery-modal-image" id="gallery-modal-image" src="" alt="">
-      <div class="gallery-caption" id="gallery-caption"></div>
-    </div>
-  </div>
-
   <script>
-    // Datos de las facultades con imágenes representativas
+    // Datos de las facultades
     const facultiesData = [
       {
         title: "Ciencias Médicas",
         img: "https://tse3.mm.bing.net/th/id/OIP.PMmMAGaxpTeYPu2XxswOJAHaDl?cb=12&rs=1&pid=ImgDetMain&o=7&rm=3",
         map: "https://maps.app.goo.gl/U7oD4SZK1G73M6T47",
-        description: "Se forman  profesionales de la salud con excelencia académica y humana, comprometidos con el bienestar de la sociedad.",
+        description: "Formamos profesionales de la salud con excelencia académica y humana, comprometidos con el bienestar de la sociedad. Contamos con laboratorios de última generación y convenios con los principales hospitales de la ciudad.",
         features: [
           "Enfermería",
           "Fonoaudiología",
           "Medicina",
-            "Terapia Ocupacional",
-            "Terapia respiratoria",
+          "Terapia Ocupacional",
+          "Terapia Respiratoria",
           "Obstetricia"
-        ],
-        gallery: [
-          "https://images.unsplash.com/photo-1551076805-e1869033e561?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-          "https://images.unsplash.com/photo-1559757148-5c350d0d3c56?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
         ]
       },
       {
         title: "Ciencias Químicas",
         img: "https://lh3.googleusercontent.com/YrQlsopXvU1cUWZ2JIm4LMnFiSRXvE1454RaBmOAjuLvzFoDPoh6LRx_sKZ02kAZaA=w408-h306-k-no",
         map: "https://maps.app.goo.gl/8UaNWNnQzdH2bSVK9",
-        description: "Se preparan científicos e investigadores en el campo químico y farmacéutico para impulsar la innovación.",
+        description: "Preparamos científicos e investigadores en el campo químico y farmacéutico para impulsar la innovación y el desarrollo tecnológico del país.",
         features: [
           "Bioquímica Farmacéutica"
-        ],
-        gallery: [
-          "https://images.unsplash.com/photo-1532187863485-5a96ce6b0913?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-          "https://images.unsplash.com/photo-1603126857599-f6e157fa2fe6?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-          "https://images.unsplash.com/photo-1581094794329-c8112a89af12?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
         ]
       },
-         {
+      {
         title: "Ciencias Agrarias",
         img: "https://lh3.googleusercontent.com/U2aEHCux8d4YcjidgrJdIa1vwZGAzYuYSfhuNZxOnLeWzjlhwAdmr-jE2nemyyk=w408-h408-k-no",
         map: "https://maps.app.goo.gl/g8hXb4A36jD2G8Yz7",
-        description: "Abarcan el estudio y la práctica de la agricultura, la ganadería y la gestión de recursos naturales, formando profesionales capacitados para contribuir al desarrollo sostenible del sector agrario.",
+        description: "Abarcamos el estudio y la práctica de la agricultura, la ganadería y la gestión de recursos naturales, formando profesionales capacitados para contribuir al desarrollo sostenible del sector agrario.",
         features: [
           "Agronomía",
           "Agropecuaria"
-        ],
-        gallery: [
-          "https://images.unsplash.com/photo-1606813908968-c932b3720ba1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-          "https://images.unsplash.com/photo-1588776814546-1ffcf47267a5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
         ]
       },
       {
         title: "Ciencias Naturales",
         img: "https://lh3.googleusercontent.com/gps-cs-s/AHVAweoradqqe-t_nzvxaKVG1oT3bKtpviF5h99LDyxhEp_B87scF6yafd0zKfvg7Qlh3lR4s6I6vNfq1N9N0wtHFDuhAye5gv2sbdBlCWRHQ5Snh23BslKAshpXxa7d5RiAKLZIMeJ7wA=w408-h306-k-no",
         map: "https://maps.app.goo.gl/pBRz9TL51gs5Sogs5",
-        description: " Aqui se estudia la biodiversidad y los recursos naturales para un desarrollo sostenible.",
+        description: "Estudiamos la biodiversidad y los recursos naturales para un desarrollo sostenible, con investigación de vanguardia en ecosistemas costeros y amazónicos.",
         features: [
           "Ingeniería Ambiental",
           "Geología",
           "Biología"
-        ],
-        gallery: [
-          "https://images.unsplash.com/photo-1418065460487-3e41a6c84dc5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-          "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-          "https://images.unsplash.com/photo-1501854140801-50d01698950b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
         ]
       },
       {
         title: "Ciencias Administrativas",
         img: "https://lh3.googleusercontent.com/gps-cs-s/AHVAweouUzRzCkbwCIf1kCAGzb9qVmnWyUDw_6ImAIwFFqmyXI08EnNi9yqMkgcMrDgHpVGdiPh5hvawA7gOCpzEo-QXs_9VdtXWg8tSw2eQ0Z2VFduZwsZnRMwWzWTeBwL_Imv_WqUV=w426-h240-k-no",
         map: "https://maps.app.goo.gl/eRi1H6941AHVs9K9A",
-        description: "Se forman líderes empresariales con visión estratégica y ética profesional para el desarrollo económico.",
+        description: "Formamos líderes empresariales con visión estratégica y ética profesional para el desarrollo económico del país, con enfoque en emprendimiento e innovación.",
         features: [
           "Mercadotecnia",
           "Negocios Internacionales",
           "Finanzas",
           "Contabilidad y Auditoría",
           "Comercio Exterior",
-           "Turismo",
-            "Gestión de la Información Gerencial",
+          "Turismo",
+          "Gestión de la Información Gerencial",
           "Administración de Empresas"
-        ],
-        gallery: [
-          "https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-          "https://images.unsplash.com/photo-1560472354-b33ff0c44a43?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
         ]
       },
       {
         title: "Ciencias Económicas",
         img: "https://lh3.googleusercontent.com/gps-cs-s/AHVAwepAdSET_RdGQHiw3VqZcoeY4UOre1PHMm8QbhxJPLWiLnA-oBK-i875BTt0mzLES7rPrZ5Yzzm1oO2h0QhE2VbP_KbI-h72iQr_5UffP0C8AgW572NZCl3h13ZRLswF5HzeW-mpVg=w408-h306-k-no",
         map: "https://maps.app.goo.gl/5T4MaCgV4jsRXYxT8",
-        description: " Se analiza  soluciones a los desafíos económicos actuales para un desarrollo sostenible.",
+        description: "Analizamos soluciones a los desafíos económicos actuales para un desarrollo sostenible, con énfasis en políticas públicas y economía internacional.",
         features: [
           "Economía",
           "Economía Internacional"
-        ],
-        gallery: [
-          "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-          "https://images.unsplash.com/photo-1554224155-6726b3ff858f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
         ]
       },
       {
         title: "Matemáticas y Físicas",
         img: "https://lh3.googleusercontent.com/gps-cs-s/AHVAweqM1CLGtBWhiR42-1Udu7ahTdNeOaGsDYQdRK1kCQvSoJLWoWNOl6ySr5neIHcaUO8c43aWlhsemGVSfQC0_PYHbaO4sA-x8GHGz-jQDW33UNDcg_JYX3GkZehgrailc7cyxafe=w408-h271-k-no",
         map: "https://maps.app.goo.gl/Up3pSqYuvuMMSYmp7",
-        description: "Desarrollan el pensamiento lógico y científico a través de las ciencias exactas para resolver problemas complejos.",
+        description: "Desarrollamos el pensamiento lógico y científico a través de las ciencias exactas para resolver problemas complejos en la era digital.",
         features: [
           "Software",
           "Ingeniería Civil",
           "Ciencia de Datos e Inteligencia Artificial",
           "Tecnologías de la Información"
-        ],
-        gallery: [
-          "https://images.unsplash.com/photo-1635070041078-e363dbe005cb?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-          "https://images.unsplash.com/photo-1509228468518-180dd4864904?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
         ]
       },
       {
         title: "Arquitectura y Urbanismo",
         img: "https://lh3.googleusercontent.com/gps-cs-s/AHVAwerNy4K2ARgvJpJGPsfvHCgTqTthe2W9KNu28j6hmpfKX01hWus7E50lKTknlonAP1jM72MkfKuaNjdDhBt3YvKu88_azUhxvOf7nBr9OxXfpC-cgkbK8iXwmjvy7t_LF09XUGiOQA=w408-h306-k-no",
         map: "https://maps.app.goo.gl/gHGeLsj8Mesv9rV17",
-        description: "Se crean espacios sostenibles que mejoran la calidad de vida urbana y respetan el medio ambiente.",
+        description: "Creamos espacios sostenibles que mejoran la calidad de vida urbana y respetan el medio ambiente, con enfoque en diseño bioclimático.",
         features: [
           "Diseño de Interiores",
           "Arquitectura"
-        ],
-        gallery: [
-          "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-          "https://images.unsplash.com/photo-1513584684374-8bab748fbf90?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-          "https://images.unsplash.com/photo-1487958449943-2429e8be8625?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
         ]
       },
       {
         title: "Filosofía, Letras y Educación",
         img: "https://lh3.googleusercontent.com/gps-cs-s/AHVAwerqo2oSEubj0JV2XOzhQ1vOdB1h6g2NP1HFgrIzbZxp70ybip5qC2eioJTEVexYBNqZgGNVbm7WRZjdCR5FZzw3PWzRxPBCgaJzMIvniOCvrcSXobHrPRT4cSuScWz12LbgmpK9=w408-h271-k-no",
         map: "https://maps.app.goo.gl/Xcdgj1GCrP7gZvzK6",
-        description: "Aqui se formam educadores y humanistas comprometidos con la sociedad y la transformación cultural.",
+        description: "Formamos educadores y humanistas comprometidos con la sociedad y la transformación cultural, con excelencia pedagógica.",
         features: [
           "Educación Básica",
-           "Educación Inicial",
-           "Pedagogía de la Informática",
-           "Pedagogía de los Idiomas Nacionales y Extranjeros",
-           "Pedagogía de la Lengua y Literatura",
-           "Pedagogía de la Química y Biología",
-           "Pedagogía de la Historia y Ciencias Sociales",
-           "Educación Básica",
-          "Pedagogía de las Artes y las Humanidades",
-          "Pedagogía de las Matemáticas y la Física"
-        ],
-        gallery: [
-          "https://images.unsplash.com/photo-1481627834876-b7833e8f5570?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-          "https://images.unsplash.com/photo-1456513080510-7bf3a84b82f8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
+          "Educación Inicial",
+          "Pedagogía de la Informática",
+          "Pedagogía de los Idiomas",
+          "Pedagogía de la Lengua y Literatura",
+          "Pedagogía de la Química y Biología",
+          "Pedagogía de la Historia",
+          "Pedagogía de las Artes",
+          "Pedagogía de las Matemáticas"
         ]
       },
       {
         title: "Jurisprudencia y Ciencias Sociales",
         img: "https://lh3.googleusercontent.com/gps-cs-s/AHVAwephfmkr1LoOyejkt_8sm2TalZ8rUJekn9kpRS6jwAQCuBu5qKMAhYP3nTtSm4I10eb1MnFk-QSn7NToblrSdyZ6sZ5EogMaTnzBKv-CPBf6DCl1yNEADaNstjUto-D6FWH85KLp=w408-h271-k-no",
         map: "https://maps.app.goo.gl/xiAEQTZ1LHVTgBWR9",
-        description: "profesionales del derecho con sólidos principios éticos y compromiso social.",
+        description: "Formamos profesionales del derecho con sólidos principios éticos y compromiso social, defensores de la justicia y los derechos humanos.",
         features: [
           "Derecho",
           "Ciencias Políticas",
           "Sociología"
-        ],
-        gallery: [
-          "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-          "https://images.unsplash.com/photo-1590086782957-93c06ef21604?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
         ]
       },
       {
         title: "Ingeniería Industrial",
         img: "https://lh3.googleusercontent.com/gps-cs-s/AHVAweo2IjIj-o-2oGVh1v0Zsi8e7Q9u1Fw6ljHxRnTdGrZ-dPoQ3a_pilXuj2G36L3Y82zacwkxbqHWXwF3rnKiSKGBREI3OnVfC6tBkZK5BF7I1loKspIGJD1SrsrN-rtf9vfTXYPOag=w408-h272-k-no",
         map: "https://maps.app.goo.gl/7de9Ae8y6KZUPbwT9",
-        description: "Se optimizan procesos productivos para el desarrollo industrial del país con enfoque sostenible.",
+        description: "Optimizamos procesos productivos para el desarrollo industrial del país con enfoque sostenible y mejora continua.",
         features: [
           "Ingeniería Industrial",
           "Telemática",
           "Sistemas de Información"
-        ],
-        gallery: [
-          "https://images.unsplash.com/photo-1581094794329-c8112a89af12?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-          "https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
         ]
       },
       {
         title: "Ingeniería Química",
         img: "https://lh3.googleusercontent.com/gps-cs-s/AHVAweo2QA9CVa2y06s6Q2n0-gnAqV4Fn_LxJjngRzJS2_p7WCntlTUYyEX20OaiLAqVhnoIFrZHR8lV2k-nhKwld-anPzMf0OTqKV8pi6CkNCtiEb3W1r0TbZh7RNiW_LrmneEOhkIK=w408-h306-k-no",
         map: "https://maps.app.goo.gl/Bxu8756dMZQgsoyE6",
-        description: "Se transformam materias primas en productos de valor para la sociedad mediante procesos eficientes.",
+        description: "Transformamos materias primas en productos de valor para la sociedad mediante procesos eficientes y sostenibles.",
         features: [
           "Alimentos",
           "Ingeniería de la Producción",
           "Ingeniería Química",
           "Gastronomía"
-        ],
-        gallery: [
-          "https://images.unsplash.com/photo-1581093458791-8a74ffe985a8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-          "https://images.unsplash.com/photo-1581092580497-e0d23cbdf1dc?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
         ]
       },
       {
         title: "Odontología",
         img: "https://lh4.googleusercontent.com/pJbNGjE3KKo067UDUC4HFQYjBpzVyQU9ulY9kDvt0NSJPkHimN4FCkCaz3fMqK-O=w408-h408-k-no",
         map: "https://maps.app.goo.gl/yakk8LY4mqVdmKGVA",
-        description: "Se cuida la salud bucal con técnicas avanzadas y atención humanizada para el bienestar integral.",
+        description: "Cuidamos la salud bucal con técnicas avanzadas y atención humanizada para el bienestar integral de nuestros pacientes.",
         features: [
           "Odontología"
-        ],
-        gallery: [
-          "https://images.unsplash.com/photo-1588776814546-1ffcf47267a5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-          "https://images.unsplash.com/photo-1606813908968-c932b3720ba1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
         ]
       },
       {
         title: "Comunicación Social",
         img: "https://lh3.googleusercontent.com/gps-cs-s/AHVAweoWu_nArG2ZhhVPmS5lhT2wuPA_cWOHu4QpdpaFhiV-AbILa1hq6BV5pCJwRotmuix4u9woeISOp77c1m-hzSOTPsuugESh_AHRNVZjEe3ZPRsMO3HIKLuEMcX-OhxZ7OC4JBSQKQ=w408-h272-k-no",
         map: "https://maps.app.goo.gl/mMnpXvgK44WShuic6",
-        description: "Forman comunicadores estratégicos para los medios y las organizaciones con responsabilidad social.",
+        description: "Formamos comunicadores estratégicos para los medios y las organizaciones con responsabilidad social y pensamiento crítico.",
         features: [
           "Comunicación",
           "Publicidad",
           "Diseño Gráfico"
-        ],
-        gallery: [
-          "https://images.unsplash.com/photo-1551836026-d5c8f2b5a5c5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-          "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
         ]
       },
       {
         title: "Educación Física y Deportes",
         img: "https://lh3.googleusercontent.com/gps-cs-s/AHVAwerpJ0qioV8UXic0ysUzDM8cmrCYuisEWTB6zAvx1BBh7y2kXuZMc9_yulQYkDhd-a9RSM-sMUBc2kJTjHLktJiYX8Yia3uMSeU-Hnr5SE5okMgApjpZal4U4XXsTtHMYmyQwrgE=w408-h271-k-no",
         map: "https://maps.app.goo.gl/WV32jUyuKKCDDMsx8",
-        description: "Promovee la salud y el bienestar a través de la actividad física, el deporte y la recreación.",
+        description: "Promovemos la salud y el bienestar a través de la actividad física, el deporte y la recreación, formando profesionales integrales.",
         features: [
           "Pedagogía de la Actividad Física y Deporte"
-        ],
-        gallery: [
-          "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-          "https://images.unsplash.com/photo-1536922246289-88c42f957773?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
         ]
       },
       {
         title: "Psicología",
         img: "https://lh3.googleusercontent.com/gps-cs-s/AHVAwepD11WcGlObfT1iSQ6TClfFRysrNez20GP31NU2_EMb4pj15RN9diCeqG1caTPrCShXwhXKpKorhbGlL0QYnvmreT5fsngM-f06y1-NnjHKqv6cfEXFCnkxL7nLXuPFBmg7-RNXyA=w408-h306-k-no",
         map: "https://maps.app.goo.gl/xDPtJpmQf3hi23dc7",
-        description: "Se estudia la conducta humana para mejorar la calidad de vida y promover el bienestar mental.",
+        description: "Estudiamos la conducta humana para mejorar la calidad de vida y promover el bienestar mental en la sociedad.",
         features: [
           "Psicología"
-        ],
-        gallery: [
-          "https://images.unsplash.com/photo-1559757175-0eb30cd8c063?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-          "https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80"
         ]
-      },
-     
+      }
     ];
 
     // Elementos DOM
@@ -891,49 +754,37 @@
     const modalDescription = document.getElementById('modal-description');
     const modalFeatures = document.getElementById('modal-features');
     const modalMap = document.getElementById('modal-map');
-    const modalGalleryBtn = document.getElementById('modal-gallery');
-    const modalGalleryGrid = document.getElementById('modal-gallery-grid');
     const closeBtn = document.getElementById('close');
     const facultiesGrid = document.getElementById('faculties-grid');
 
-    // Elementos de la galería
-    const galleryModal = document.getElementById('gallery-modal');
-    const galleryModalImage = document.getElementById('gallery-modal-image');
-    const galleryCaption = document.getElementById('gallery-caption');
-    const galleryClose = document.getElementById('gallery-close');
-    const galleryPrev = document.getElementById('gallery-prev');
-    const galleryNext = document.getElementById('gallery-next');
-
-    // Variables para controlar la galería
     let currentFaculty = null;
-    let currentGalleryIndex = 0;
 
-    // Generar tarjetas de facultades dinámicamente
+    // Generar tarjetas de facultades
     function renderFaculties() {
       facultiesGrid.innerHTML = '';
       
       facultiesData.forEach((faculty, index) => {
         const card = document.createElement('div');
         card.className = 'card';
-        card.tabIndex = 0;
         card.setAttribute('role', 'button');
         card.setAttribute('aria-label', `Ver información de ${faculty.title}`);
+        card.setAttribute('tabindex', '0');
         
         card.innerHTML = `
-          <img src="${faculty.img}" alt="${faculty.title}" class="card-image">
+          <img src="${faculty.img}" alt="${faculty.title}" class="card-image" loading="lazy">
           <div class="card-content">
             <h2>${faculty.title}</h2>
             <p>${faculty.description.substring(0, 100)}...</p>
             <div class="card-footer">
               <div class="card-icon">${index + 1}</div>
-              <a href="#" class="card-link">Ver más</a>
+              <a href="#" class="card-link">Ver más <i class="fas fa-arrow-right"></i></a>
             </div>
           </div>
         `;
         
         facultiesGrid.appendChild(card);
         
-        // Evento para abrir modal
+        // Eventos para abrir modal
         card.addEventListener('click', () => openModal(faculty));
         card.addEventListener('keydown', (e) => {
           if (e.key === 'Enter' || e.key === ' ') {
@@ -961,114 +812,40 @@
         modalFeatures.appendChild(li);
       });
       
-      // Limpiar y llenar galería en miniatura
-      modalGalleryGrid.innerHTML = '';
-      faculty.gallery.forEach((img, index) => {
-        const galleryItem = document.createElement('div');
-        galleryItem.className = 'gallery-item';
-        galleryItem.innerHTML = `<img src="${img}" alt="Imagen ${index + 1} de ${faculty.title}">`;
-        galleryItem.addEventListener('click', () => openGallery(faculty, index));
-        modalGalleryGrid.appendChild(galleryItem);
-      });
-      
       modal.style.display = 'block';
       document.body.style.overflow = 'hidden';
       
-      // Enfocar el botón de cerrar para accesibilidad
+      // Enfocar el botón de cerrar
       setTimeout(() => closeBtn.focus(), 100);
     }
 
-    // Abrir galería completa
-    function openGallery(faculty, index = 0) {
-      currentFaculty = faculty;
-      currentGalleryIndex = index;
-      updateGalleryImage();
-      galleryModal.style.display = 'block';
-      document.body.style.overflow = 'hidden';
-    }
-
-    // Actualizar imagen de la galería
-    function updateGalleryImage() {
-      if (!currentFaculty) return;
-      
-      galleryModalImage.src = currentFaculty.gallery[currentGalleryIndex];
-      galleryCaption.textContent = `${currentFaculty.title} - Imagen ${currentGalleryIndex + 1} de ${currentFaculty.gallery.length}`;
-    }
-
-    // Navegar en la galería
-    galleryPrev.addEventListener('click', () => {
-      if (!currentFaculty) return;
-      
-      currentGalleryIndex = (currentGalleryIndex - 1 + currentFaculty.gallery.length) % currentFaculty.gallery.length;
-      updateGalleryImage();
-    });
-
-    galleryNext.addEventListener('click', () => {
-      if (!currentFaculty) return;
-      
-      currentGalleryIndex = (currentGalleryIndex + 1) % currentFaculty.gallery.length;
-      updateGalleryImage();
-    });
-
-    // Cerrar modales
+    // Cerrar modal
     function closeModal() {
       modal.style.display = 'none';
-      document.body.style.overflow = 'auto';
-      
-      // Enfocar la tarjeta que abrió el modal
-      const focusedCard = document.querySelector('.card:focus');
-      if (focusedCard) focusedCard.focus();
-    }
-
-    function closeGalleryModal() {
-      galleryModal.style.display = 'none';
       document.body.style.overflow = 'auto';
     }
 
     // Event listeners
     closeBtn.addEventListener('click', closeModal);
-    galleryClose.addEventListener('click', closeGalleryModal);
-    modalGalleryBtn.addEventListener('click', () => {
-      if (currentFaculty) {
-        openGallery(currentFaculty, 0);
-      }
-    });
     
-    // Cerrar modales con tecla Escape
+    // Cerrar con tecla Escape
     document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') {
-        if (modal.style.display === 'block') {
-          closeModal();
-        }
-        if (galleryModal.style.display === 'block') {
-          closeGalleryModal();
-        }
+      if (e.key === 'Escape' && modal.style.display === 'block') {
+        closeModal();
       }
     });
     
-    // Cerrar modales al hacer clic fuera del contenido
+    // Cerrar al hacer clic fuera del contenido
     window.addEventListener('click', (e) => {
       if (e.target === modal) {
         closeModal();
       }
-      if (e.target === galleryModal) {
-        closeGalleryModal();
-      }
     });
 
-    // Inicializar la página
+    // Inicializar
     document.addEventListener('DOMContentLoaded', () => {
       renderFaculties();
     });
   </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
