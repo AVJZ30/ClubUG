@@ -10,7 +10,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
-    /* ===== VARIABLES - PALETA AZUL/CELESTE/BLANCO ===== */
+    /* ===== VARIABLES ===== */
     :root {
       --primary: #003366;
       --primary-dark: #002244;
@@ -275,7 +275,7 @@
       gap: 10px;
     }
 
-    /* ===== MODAL ===== */
+    /* ===== MODAL CON SCROLL ===== */
     .modal {
       display: none;
       position: fixed;
@@ -287,11 +287,12 @@
       background-color: rgba(0,0,0,0.8);
       backdrop-filter: blur(5px);
       animation: fadeIn 0.3s;
+      overflow-y: auto;
     }
 
     .modal-content {
       background-color: var(--white);
-      margin: 5% auto;
+      margin: 3% auto;
       border-radius: var(--border-radius);
       width: 90%;
       max-width: 900px;
@@ -299,13 +300,18 @@
       animation: slideIn 0.3s;
       box-shadow: var(--shadow-lg);
       overflow: hidden;
+      max-height: 90vh;
+      display: flex;
+      flex-direction: column;
     }
 
     .modal-header {
       background: linear-gradient(135deg, var(--primary), var(--secondary));
       color: var(--white);
       padding: 2rem;
-      position: relative;
+      position: sticky;
+      top: 0;
+      z-index: 10;
     }
 
     .modal-header h2 {
@@ -313,13 +319,13 @@
       font-weight: 700;
       margin: 0;
       letter-spacing: -0.5px;
+      padding-right: 2rem;
     }
 
     .modal-body {
       padding: 2rem;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 2rem;
+      overflow-y: auto;
+      flex: 1;
     }
 
     .modal-image {
@@ -328,21 +334,18 @@
       object-fit: cover;
       border-radius: var(--border-radius-sm);
       box-shadow: var(--shadow-sm);
-    }
-
-    .modal-info {
-      display: flex;
-      flex-direction: column;
-      gap: 1.2rem;
+      margin-bottom: 1.5rem;
     }
 
     .modal-description {
       color: var(--text-light);
       line-height: 1.7;
+      margin-bottom: 1.5rem;
     }
 
     .modal-features {
       list-style: none;
+      margin-bottom: 2rem;
     }
 
     .modal-features li {
@@ -361,9 +364,7 @@
     }
 
     .modal-actions {
-      display: flex;
-      gap: 1rem;
-      margin-top: 0.5rem;
+      margin-top: 1rem;
     }
 
     .btn-primary {
@@ -372,7 +373,7 @@
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      padding: 12px 24px;
+      padding: 14px 28px;
       border-radius: 50px;
       text-decoration: none;
       font-weight: 600;
@@ -380,6 +381,7 @@
       border: none;
       cursor: pointer;
       font-family: 'Inter', sans-serif;
+      font-size: 1rem;
     }
 
     .btn-primary:hover {
@@ -403,29 +405,12 @@
       align-items: center;
       justify-content: center;
       transition: var(--transition);
-      z-index: 10;
+      z-index: 20;
     }
 
     .close:hover {
       background: rgba(255,255,255,0.3);
       transform: rotate(90deg);
-    }
-
-    /* ===== BADGE DE UBICACIÓN ===== */
-    .location-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: var(--sky-light);
-      padding: 8px 16px;
-      border-radius: 40px;
-      font-size: 0.85rem;
-      color: var(--primary);
-      margin-top: 0.5rem;
-    }
-
-    .location-badge i {
-      color: var(--secondary);
     }
 
     /* ===== ANIMACIONES ===== */
@@ -453,14 +438,10 @@
         padding: 2rem 1rem;
       }
       
-      .modal-body {
-        grid-template-columns: 1fr;
-        gap: 1.5rem;
-      }
-      
       .modal-content {
-        margin: 10% auto;
+        margin: 5% auto;
         width: 95%;
+        max-height: 85vh;
       }
       
       .modal-header {
@@ -475,11 +456,12 @@
         padding: 1.5rem;
       }
       
-      .modal-actions {
-        flex-direction: column;
+      .modal-image {
+        height: 200px;
       }
       
       .btn-primary {
+        width: 100%;
         justify-content: center;
       }
       
@@ -505,6 +487,14 @@
       
       .title {
         font-size: 1.8rem;
+      }
+      
+      .modal-header h2 {
+        font-size: 1.3rem;
+      }
+      
+      .modal-body {
+        padding: 1rem;
       }
     }
   </style>
@@ -532,7 +522,7 @@
     </div>
   </main>
 
-  <!-- Modal de facultad (SIN GALERÍA, SOLO MAPA) -->
+  <!-- Modal de facultad (SOLO MAPA, CON SCROLL) -->
   <div class="modal" id="modal" role="dialog" aria-labelledby="modal-title" aria-modal="true">
     <div class="modal-content">
       <button class="close" id="close" aria-label="Cerrar modal">&times;</button>
@@ -541,21 +531,15 @@
       </div>
       <div class="modal-body">
         <img id="modal-img" src="" alt="Imagen de la facultad" class="modal-image">
-        <div class="modal-info">
-          <p id="modal-description" class="modal-description">Descripción de la facultad.</p>
-          <ul class="modal-features" id="modal-features">
-            <!-- Características se llenan con JS -->
-          </ul>
-          <div class="modal-actions">
-            <a href="#" id="modal-map" target="_blank" rel="noopener noreferrer" class="btn-primary">
-              <i class="fas fa-map-marker-alt"></i>
-              Ver Ubicación en Mapa
-            </a>
-          </div>
-          <div class="location-badge">
-            <i class="fas fa-location-dot"></i>
-            <span>📍 Campus Universitario - Ciudadela Universitaria</span>
-          </div>
+        <p id="modal-description" class="modal-description">Descripción de la facultad.</p>
+        <ul class="modal-features" id="modal-features">
+          <!-- Características se llenan con JS -->
+        </ul>
+        <div class="modal-actions">
+          <a href="#" id="modal-map" target="_blank" rel="noopener noreferrer" class="btn-primary">
+            <i class="fas fa-map-marker-alt"></i>
+            Ver Ubicación en Mapa
+          </a>
         </div>
       </div>
     </div>
@@ -568,7 +552,7 @@
         title: "Ciencias Médicas",
         img: "https://tse3.mm.bing.net/th/id/OIP.PMmMAGaxpTeYPu2XxswOJAHaDl?cb=12&rs=1&pid=ImgDetMain&o=7&rm=3",
         map: "https://maps.app.goo.gl/U7oD4SZK1G73M6T47",
-        description: "Formamos profesionales de la salud con excelencia académica y humana, comprometidos con el bienestar de la sociedad. Contamos con laboratorios de última generación y convenios con los principales hospitales de la ciudad.",
+        description: "Formamos profesionales de la salud con excelencia académica y humana, comprometidos con el bienestar de la sociedad. Contamos con laboratorios de última generación y convenios con los principales hospitales de la ciudad. Nuestros estudiantes realizan prácticas en los mejores centros de salud del país.",
         features: [
           "Enfermería",
           "Fonoaudiología",
@@ -582,7 +566,7 @@
         title: "Ciencias Químicas",
         img: "https://lh3.googleusercontent.com/YrQlsopXvU1cUWZ2JIm4LMnFiSRXvE1454RaBmOAjuLvzFoDPoh6LRx_sKZ02kAZaA=w408-h306-k-no",
         map: "https://maps.app.goo.gl/8UaNWNnQzdH2bSVK9",
-        description: "Preparamos científicos e investigadores en el campo químico y farmacéutico para impulsar la innovación y el desarrollo tecnológico del país.",
+        description: "Preparamos científicos e investigadores en el campo químico y farmacéutico para impulsar la innovación y el desarrollo tecnológico del país. Laboratorios equipados con tecnología de punta para la investigación.",
         features: [
           "Bioquímica Farmacéutica"
         ]
@@ -757,8 +741,6 @@
     const closeBtn = document.getElementById('close');
     const facultiesGrid = document.getElementById('faculties-grid');
 
-    let currentFaculty = null;
-
     // Generar tarjetas de facultades
     function renderFaculties() {
       facultiesGrid.innerHTML = '';
@@ -785,19 +767,29 @@
         facultiesGrid.appendChild(card);
         
         // Eventos para abrir modal
-        card.addEventListener('click', () => openModal(faculty));
+        card.addEventListener('click', (e) => {
+          e.preventDefault();
+          openModal(faculty);
+        });
         card.addEventListener('keydown', (e) => {
           if (e.key === 'Enter' || e.key === ' ') {
             e.preventDefault();
             openModal(faculty);
           }
         });
+        
+        // Prevenir que el enlace "Ver más" propague el evento
+        const cardLink = card.querySelector('.card-link');
+        cardLink.addEventListener('click', (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          openModal(faculty);
+        });
       });
     }
 
     // Abrir modal con información de la facultad
     function openModal(faculty) {
-      currentFaculty = faculty;
       modalTitle.textContent = faculty.title;
       modalImg.src = faculty.img;
       modalImg.alt = `Imagen de la facultad de ${faculty.title}`;
@@ -814,9 +806,6 @@
       
       modal.style.display = 'block';
       document.body.style.overflow = 'hidden';
-      
-      // Enfocar el botón de cerrar
-      setTimeout(() => closeBtn.focus(), 100);
     }
 
     // Cerrar modal
