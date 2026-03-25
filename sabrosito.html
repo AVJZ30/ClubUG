@@ -13,6 +13,7 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   
   <style>
+    /* [TODOS TUS ESTILOS EXISTENTES - MANTENLOS IGUALES] */
     * {
       margin: 0;
       padding: 0;
@@ -902,7 +903,7 @@
     <h2>La hamburguesa <span>que te salva</span> el semestre.</h2>
     <h3>El Sabrosito · Club UG</h3>
     <p class="hero-description">
-      El Sabrosito es un amigo confiable, el que te lleva comida cuando más lo necesitas. !Su hamburguesa es pura sabrosura¡
+      El Sabrosito es un amigo confiable, el que te lleva comida cuando más lo necesitas. ¡Su hamburguesa es pura sabrosura!
     </p>
     <div class="hero-quote">
       <p>¿Quién es el Sabrosito para el Club UG?</p>
@@ -1081,7 +1082,7 @@
 
 <script>
   // ================================
-  // CONFIGURACIÓN EXCLUSIVA CLUB UG
+  // CONFIGURACIÓN EXCLUSIVA CLUB UG - CORREGIDA
   // ================================
 
   const CLUB_SUPABASE_URL = 'https://ezartbcoxdxeslgeyvah.supabase.co';
@@ -1093,6 +1094,7 @@
   );
 
   const CLUB_TABLE_NAME = 'opiniones_sabrosito';
+  const CLUB_STORAGE_BUCKET = 'sabrocitos'; // ¡ESTE ES EL NOMBRE CORRECTO!
 
   const btnEnviarClub = document.getElementById('btnEnviarOpinion');
   const nombreInputClub = document.getElementById('nombreInput');
@@ -1100,6 +1102,35 @@
   const fotoInputClub = document.getElementById('fotoInput');
   const gridClub = document.getElementById('opinionesGrid');
   const ratingInputs = document.querySelectorAll('input[name="rating"]');
+
+  // FUNCIÓN PARA VERIFICAR CONEXIÓN
+  async function verificarConexion() {
+    try {
+      const { data, error } = await supabaseClubUG
+        .from(CLUB_TABLE_NAME)
+        .select('count', { count: 'exact', head: true });
+      
+      if (error) {
+        console.error('❌ Error de conexión:', error);
+        gridClub.innerHTML = `
+          <div class="loader-burger" style="background: #ffe0e0; padding: 2rem; border-radius: 16px;">
+            ❌ Error: ${error.message}<br>
+            <small>Verifica que la tabla "${CLUB_TABLE_NAME}" exista en Supabase</small>
+          </div>`;
+        return false;
+      }
+      
+      console.log('✅ Conexión exitosa a Supabase');
+      return true;
+    } catch (err) {
+      console.error('❌ Error fatal:', err);
+      gridClub.innerHTML = `
+        <div class="loader-burger" style="background: #ffe0e0;">
+          ❌ Error de conexión: ${err.message}
+        </div>`;
+      return false;
+    }
+  }
 
   async function subirFotoClub(file) {
     if (!file) return null;
@@ -1109,19 +1140,23 @@
       .toString(36)
       .substring(2)}.${fileExt}`;
 
+    console.log('📤 Subiendo foto a bucket:', CLUB_STORAGE_BUCKET, fileName);
+    
     const { error } = await supabaseClubUG.storage
-      .from('sabrocitos')
+      .from(CLUB_STORAGE_BUCKET)
       .upload(fileName, file);
 
     if (error) {
-      console.error('Error subiendo foto:', error);
+      console.error('❌ Error subiendo foto:', error);
+      alert(`Error al subir foto: ${error.message}. Verifica el bucket "${CLUB_STORAGE_BUCKET}" en Storage.`);
       return null;
     }
 
     const { data } = supabaseClubUG.storage
-      .from('sabrocitos')
+      .from(CLUB_STORAGE_BUCKET)
       .getPublicUrl(fileName);
 
+    console.log('✅ Foto subida:', data.publicUrl);
     return data.publicUrl;
   }
 
@@ -1131,10 +1166,10 @@
     const fotoFile = fotoInputClub.files[0];
     
     // Obtener calificación seleccionada
-    let rating = 1; // default
+    let rating = 5; // default a 5 (máxima calificación)
     ratingInputs.forEach(input => {
       if (input.checked) {
-        rating = input.value;
+        rating = parseInt(input.value);
       }
     });
 
@@ -1161,25 +1196,40 @@
       fotoUrl = await subirFotoClub(fotoFile);
     }
 
-    const { error } = await supabaseClubUG
+    console.log('📝 Insertando opinión:', { nombre, opinion, rating, fotoUrl });
+
+    const { data, error } = await supabaseClubUG
       .from(CLUB_TABLE_NAME)
       .insert([{ 
-        nombre, 
-        opinion, 
+        nombre: nombre, 
+        opinion: opinion, 
         foto_url: fotoUrl,
         rating: rating 
-      }]);
+      }])
+      .select();
 
     if (error) {
-      console.error('Error:', error);
-      alert('Error al publicar. Verifica la configuración.');
+      console.error('❌ Error al insertar:', error);
+      
+      let mensajeError = '';
+      if (error.code === '42P01') {
+        mensajeError = 'La tabla no existe. Crea la tabla "opiniones_sabrosito" en Supabase.';
+      } else if (error.code === '42501') {
+        mensajeError = 'Error de permisos. Ejecuta las políticas de seguridad en Supabase.';
+      } else {
+        mensajeError = error.message;
+      }
+      
+      alert(`Error al publicar: ${mensajeError}`);
     } else {
+      console.log('✅ Opinión publicada:', data);
       nombreInputClub.value = '';
       textoInputClub.value = '';
       fotoInputClub.value = '';
-      // Reset rating to default (5 hamburguesas)
+      // Reset rating a 5 hamburguesas
       document.getElementById('rating5').checked = true;
       cargarOpinionesClub();
+      alert('¡Opinión publicada con éxito! 🍔');
     }
 
     btnEnviarClub.disabled = false;
@@ -1194,14 +1244,13 @@
       .order('created_at', { ascending: false });
 
     if (error) {
-      gridClub.innerHTML =
-        '<div class="loader-burger">Error al cargar opiniones</div>';
+      console.error('❌ Error cargando:', error);
+      gridClub.innerHTML = `<div class="loader-burger">❌ Error al cargar: ${error.message}</div>`;
       return;
     }
 
     if (!data || data.length === 0) {
-      gridClub.innerHTML =
-        '<div class="loader-burger">No hay opiniones aún. ¡Sé el primero!</div>';
+      gridClub.innerHTML = '<div class="loader-burger">🍔 No hay opiniones aún. ¡Sé el primero en dejar la tuya!</div>';
       return;
     }
 
@@ -1229,7 +1278,7 @@
         <div class="opinion-texto">${op.opinion || ''}</div>
         ${
           op.foto_url
-            ? `<img src="${op.foto_url}" class="opinion-imagen">`
+            ? `<img src="${op.foto_url}" class="opinion-imagen" loading="lazy">`
             : ''
         }
       `;
@@ -1238,7 +1287,15 @@
     });
   }
 
-  cargarOpinionesClub();
+  // INICIAR
+  async function iniciar() {
+    const conectado = await verificarConexion();
+    if (conectado) {
+      await cargarOpinionesClub();
+    }
+  }
+  
+  iniciar();
 </script>
 
 </body>
