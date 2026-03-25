@@ -6,6 +6,8 @@
   <title>El Sabrosito · Club UG</title>
   
   <!-- Fonts & Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   
@@ -13,6 +15,7 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   
   <style>
+    /* ========== ESTILOS BASE ========== */
     * {
       margin: 0;
       padding: 0;
@@ -43,6 +46,7 @@
       --shadow-xl: 0 25px 40px -12px rgba(0, 0, 0, 0.25);
     }
 
+    /* Header */
     .site-header {
       background: var(--neutral-100);
       border-bottom: 1px solid var(--neutral-300);
@@ -119,6 +123,7 @@
       color: var(--primary);
     }
 
+    /* Botones flotantes */
     .back-to-home {
       position: fixed;
       bottom: 30px;
@@ -171,6 +176,7 @@
       background: var(--primary-dark);
     }
 
+    /* Hero Section */
     .hero {
       max-width: 1280px;
       margin: 3rem auto 4rem;
@@ -275,6 +281,7 @@
       border: 3px solid white;
     }
 
+    /* Historia */
     .historia-section {
       background: var(--neutral-100);
       padding: 5rem 2rem;
@@ -366,6 +373,7 @@
       font-style: normal;
     }
 
+    /* Visión y Misión */
     .vision-mision {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -428,6 +436,7 @@
       line-height: 1.7;
     }
 
+    /* Productos */
     .productos-section {
       max-width: 1280px;
       margin: 5rem auto;
@@ -528,6 +537,7 @@
       color: var(--neutral-700);
     }
 
+    /* Modal para fotos */
     .image-modal {
       display: none;
       position: fixed;
@@ -583,6 +593,7 @@
       to { transform: scale(1); opacity: 1; }
     }
 
+    /* ========== OPINIONES MEJORADAS ========== */
     .opiniones-section {
       background: linear-gradient(135deg, #fef7e9, #fff5e8);
       padding: 5rem 2rem;
@@ -608,6 +619,7 @@
       margin-bottom: 3rem;
     }
 
+    /* Formulario */
     .formulario-opinion {
       max-width: 650px;
       margin: 0 auto 4rem;
@@ -707,6 +719,7 @@
       box-shadow: var(--shadow-md);
     }
 
+    /* Grid de opiniones - Estilo mejorado */
     .opiniones-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
@@ -715,23 +728,38 @@
 
     .opinion-card {
       background: var(--neutral-100);
-      border-radius: 20px;
+      border-radius: 24px;
       overflow: hidden;
       box-shadow: var(--shadow-md);
       transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-      border: 1px solid rgba(0, 0, 0, 0.05);
+      border: 1px solid rgba(199, 59, 30, 0.2);
+      position: relative;
+    }
+
+    .opinion-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--primary), var(--accent), var(--primary));
+      border-radius: 24px 24px 0 0;
     }
 
     .opinion-card:hover {
       transform: translateY(-8px);
       box-shadow: var(--shadow-xl);
+      border-color: var(--primary);
     }
 
+    /* Header con nombre y avatar */
     .opinion-header {
       display: flex;
       align-items: center;
       gap: 12px;
       padding: 1.2rem 1.2rem 0.8rem;
+      border-bottom: 1px dashed var(--neutral-300);
     }
 
     .opinion-avatar {
@@ -756,19 +784,39 @@
       font-weight: 700;
       font-size: 1.1rem;
       color: var(--neutral-900);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* Mini hamburguesa en lugar de verificación */
+    .mini-burger {
+      font-size: 0.8rem;
+      display: inline-block;
+      animation: bounce 2s ease-in-out infinite;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-2px); }
     }
 
     .opinion-date {
       font-size: 0.7rem;
       color: var(--neutral-400);
+      margin-top: 2px;
     }
 
-    .opinion-rating {
-      padding: 0 1.2rem 0.8rem;
-      font-size: 1.1rem;
-      letter-spacing: 2px;
+    /* Texto de opinión */
+    .opinion-texto {
+      padding: 1rem 1.2rem;
+      font-size: 0.95rem;
+      color: var(--neutral-700);
+      line-height: 1.6;
+      background: var(--neutral-100);
     }
 
+    /* Foto - 1:1 con bordes decorativos */
     .opinion-foto-container {
       width: 100%;
       aspect-ratio: 1 / 1;
@@ -776,6 +824,8 @@
       overflow: hidden;
       cursor: pointer;
       position: relative;
+      border-top: 3px solid var(--accent);
+      border-bottom: 3px solid var(--accent);
     }
 
     .opinion-foto-container img {
@@ -813,33 +863,24 @@
       text-shadow: 0 2px 10px rgba(0,0,0,0.3);
     }
 
-    .opinion-texto {
-      padding: 1.2rem;
-      font-size: 0.95rem;
-      color: var(--neutral-700);
-      line-height: 1.6;
-      border-top: 1px solid var(--neutral-300);
-      background: var(--neutral-100);
+    /* Calificación en hamburguesas */
+    .opinion-rating {
+      padding: 0.8rem 1.2rem;
+      font-size: 1.2rem;
+      letter-spacing: 4px;
+      background: var(--neutral-200);
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
 
-    .opinion-share {
-      padding: 0.8rem 1.2rem 1rem;
-      border-top: 1px solid var(--neutral-300);
+    .opinion-rating span:first-child {
+      font-size: 0.8rem;
       color: var(--neutral-500);
-      cursor: pointer;
-      transition: color 0.2s;
-      display: inline-block;
-      width: auto;
-    }
-
-    .opinion-share:hover {
-      color: var(--primary);
-    }
-
-    .opinion-share i {
       margin-right: 8px;
     }
 
+    /* Footer */
     .footer {
       background: var(--neutral-900);
       color: var(--neutral-400);
@@ -853,6 +894,7 @@
       font-size: 0.95rem;
     }
 
+    /* Responsive */
     @media (max-width: 968px) {
       .hero {
         grid-template-columns: 1fr;
@@ -1049,8 +1091,8 @@
   </div>
 </section>
 
-<div id="imageModal" class="image-modal" onclick="closeModal()">
-  <span class="modal-close" onclick="closeModal()">&times;</span>
+<div id="imageModal" class="image-modal">
+  <span class="modal-close">&times;</span>
   <img id="modalImage" class="modal-image" src="" alt="Foto ampliada">
 </div>
 
@@ -1061,228 +1103,208 @@
 
 <script>
   // ================================
-  // SUPABASE - VERSIÓN SIMPLE Y FUNCIONAL
+  // SUPABASE - VERSIÓN FINAL CON MINI HAMBURGUESA
   // ================================
 
-  const SUPABASE_URL = 'https://ezartbcoxdxeslgeyvah.supabase.co';
-  const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImV6YXJ0YmNveGR4ZXNsZ2V5dmFoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIxNTQ4MzcsImV4cCI6MjA4NzczMDgzN30.WWfOLTt5wVyPV-fOCgLYnqSR7dLWf_pOmSXlnSnYHvo';
-
-  // Crear cliente de Supabase
-  const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-  
-  const TABLE_NAME = 'opiniones_sabrosito';
-  const STORAGE_BUCKET = 'sabrocitos';
-
-  // Elementos del DOM
-  const btnEnviar = document.getElementById('btnEnviarOpinion');
-  const nombreInput = document.getElementById('nombreInput');
-  const textoInput = document.getElementById('textoInput');
-  const fotoInput = document.getElementById('fotoInput');
-  const grid = document.getElementById('opinionesGrid');
-
-  // Formatear fecha
-  function formatDate(dateString) {
-    if (!dateString) return 'Recientemente';
-    const date = new Date(dateString);
-    const now = new Date();
-    const diff = now - date;
-    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+  (function() {
+    const SUPABASE_URL = 'https://ezartbcoxdxeslgeyvah.supabase.co';
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImV6YXJ0YmNveGR4ZXNsZ2V5dmFoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIxNTQ4MzcsImV4cCI6MjA4NzczMDgzN30.WWfOLTt5wVyPV-fOCgLYnqSR7dLWf_pOmSXlnSnYHvo';
     
-    if (days === 0) return 'Hoy';
-    if (days === 1) return 'Ayer';
-    if (days < 7) return `Hace ${days} días`;
-    return date.toLocaleDateString('es-ES', { day: 'numeric', month: 'short' });
-  }
+    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    const TABLE_NAME = 'opiniones_sabrosito';
+    const STORAGE_BUCKET = 'sabrocitos';
 
-  // Subir foto
-  async function subirFoto(file) {
-    if (!file) return null;
-    const fileExt = file.name.split('.').pop();
-    const fileName = `opiniones/${Date.now()}_${Math.random().toString(36).substring(2)}.${fileExt}`;
-    
-    const { error } = await supabase.storage.from(STORAGE_BUCKET).upload(fileName, file);
-    if (error) {
-      console.error('Error subiendo foto:', error);
-      return null;
-    }
-    const { data } = supabase.storage.from(STORAGE_BUCKET).getPublicUrl(fileName);
-    return data.publicUrl;
-  }
-
-  // Modal
-  function openModal(imgSrc) {
+    const btnEnviar = document.getElementById('btnEnviarOpinion');
+    const nombreInput = document.getElementById('nombreInput');
+    const textoInput = document.getElementById('textoInput');
+    const fotoInput = document.getElementById('fotoInput');
+    const grid = document.getElementById('opinionesGrid');
     const modal = document.getElementById('imageModal');
     const modalImg = document.getElementById('modalImage');
-    modal.classList.add('active');
-    modalImg.src = imgSrc;
-  }
+    const modalClose = document.querySelector('.modal-close');
 
-  function closeModal() {
-    const modal = document.getElementById('imageModal');
-    modal.classList.remove('active');
-  }
-
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') closeModal();
-  });
-
-  // Función para compartir
-  function shareOpinion(text, nombre) {
-    const shareText = `🍔 "${text}" - ${nombre} en El Sabrosito`;
-    if (navigator.share) {
-      navigator.share({
-        title: 'El Sabrosito - Opinión',
-        text: shareText,
-        url: window.location.href
-      }).catch(err => console.log('Error al compartir:', err));
-    } else {
-      navigator.clipboard.writeText(shareText);
-      alert('¡Opinión copiada al portapapeles! Compártela donde quieras 🍔');
+    function formatDate(dateString) {
+      if (!dateString) return 'Recientemente';
+      const date = new Date(dateString);
+      const now = new Date();
+      const diff = now - date;
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      
+      if (days === 0) return 'Hoy';
+      if (days === 1) return 'Ayer';
+      if (days < 7) return `Hace ${days} días`;
+      return date.toLocaleDateString('es-ES', { day: 'numeric', month: 'short' });
     }
-  }
 
-  // Publicar opinión
-  btnEnviar.addEventListener('click', async () => {
-    const nombre = nombreInput.value.trim();
-    const opinion = textoInput.value.trim();
-    const fotoFile = fotoInput.files[0];
-    
-    // Obtener rating
-    let rating = 5;
-    const radios = document.querySelectorAll('input[name="rating"]');
-    radios.forEach(input => {
-      if (input.checked) rating = parseInt(input.value);
+    async function subirFoto(file) {
+      if (!file) return null;
+      const fileExt = file.name.split('.').pop();
+      const fileName = `opiniones/${Date.now()}_${Math.random().toString(36).substring(2)}.${fileExt}`;
+      
+      const { error } = await supabase.storage.from(STORAGE_BUCKET).upload(fileName, file);
+      if (error) {
+        console.error('Error subiendo foto:', error);
+        return null;
+      }
+      const { data } = supabase.storage.from(STORAGE_BUCKET).getPublicUrl(fileName);
+      return data.publicUrl;
+    }
+
+    function openModal(imgSrc) {
+      modal.classList.add('active');
+      modalImg.src = imgSrc;
+    }
+
+    function closeModal() {
+      modal.classList.remove('active');
+    }
+
+    modalClose.onclick = closeModal;
+    modal.onclick = function(e) {
+      if (e.target === modal) closeModal();
+    };
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeModal();
     });
 
-    if (!nombre || !opinion) {
-      alert('Completa tu nombre y opinión');
-      return;
+    function escapeHtml(text) {
+      if (!text) return '';
+      const div = document.createElement('div');
+      div.textContent = text;
+      return div.innerHTML;
     }
 
-    btnEnviar.disabled = true;
-    btnEnviar.innerHTML = '<i class="fas fa-spinner fa-pulse"></i> Publicando...';
-
-    let fotoUrl = null;
-    if (fotoFile) {
-      if (fotoFile.size > 2 * 1024 * 1024) {
-        alert('La foto es muy grande, máximo 2MB');
-        btnEnviar.disabled = false;
-        btnEnviar.innerHTML = '<i class="fas fa-utensils"></i> Publicar Opinión';
-        return;
-      }
-      fotoUrl = await subirFoto(fotoFile);
-    }
-
-    const { error } = await supabase
-      .from(TABLE_NAME)
-      .insert([{ nombre, opinion, foto_url: fotoUrl, rating }]);
-
-    if (error) {
-      console.error('Error:', error);
-      alert('Error al publicar: ' + error.message);
-    } else {
-      nombreInput.value = '';
-      textoInput.value = '';
-      fotoInput.value = '';
-      document.getElementById('rating5').checked = true;
-      cargarOpiniones();
-      alert('¡Opinión publicada con éxito! 🍔');
-    }
-
-    btnEnviar.disabled = false;
-    btnEnviar.innerHTML = '<i class="fas fa-utensils"></i> Publicar Opinión';
-  });
-
-  // Cargar opiniones
-  async function cargarOpiniones() {
-    grid.innerHTML = '<div class="loader-burger"><i class="fas fa-spinner fa-pulse"></i> Cargando opiniones...</div>';
-
-    try {
-      const { data, error } = await supabase
-        .from(TABLE_NAME)
-        .select('*')
-        .order('created_at', { ascending: false });
-
-      if (error) {
-        console.error('Error:', error);
-        grid.innerHTML = `<div class="loader-burger">❌ Error: ${error.message}</div>`;
-        return;
-      }
-
-      if (!data || data.length === 0) {
-        grid.innerHTML = '<div class="loader-burger">🍔 No hay opiniones aún. ¡Sé el primero!</div>';
-        return;
-      }
-
-      grid.innerHTML = '';
-
-      data.forEach(op => {
-        const card = document.createElement('div');
-        card.className = 'opinion-card';
-
-        const inicial = op.nombre?.charAt(0).toUpperCase() || '?';
-        const rating = op.rating || 5;
+    if (btnEnviar) {
+      btnEnviar.addEventListener('click', async () => {
+        const nombre = nombreInput.value.trim();
+        const opinion = textoInput.value.trim();
+        const fotoFile = fotoInput.files[0];
         
-        let hamburguesasHtml = '';
-        for (let i = 0; i < rating; i++) hamburguesasHtml += '🍔';
+        let rating = 5;
+        const radios = document.querySelectorAll('input[name="rating"]');
+        radios.forEach(input => {
+          if (input.checked) rating = parseInt(input.value);
+        });
 
-        const dateFormatted = formatDate(op.created_at);
-
-        let fotoHtml = '';
-        if (op.foto_url) {
-          fotoHtml = `
-            <div class="opinion-foto-container" onclick="event.stopPropagation(); openModal('${op.foto_url}')">
-              <img src="${op.foto_url}" alt="Foto" loading="lazy">
-              <div class="foto-overlay">
-                <i class="fas fa-expand-alt"></i>
-              </div>
-            </div>
-          `;
+        if (!nombre || !opinion) {
+          alert('Completa tu nombre y opinión');
+          return;
         }
 
-        const nombreEscapado = (op.nombre || 'Anónimo').replace(/'/g, "\\'").replace(/"/g, '&quot;');
-        const opinionEscapado = (op.opinion || '').replace(/'/g, "\\'").replace(/"/g, '&quot;');
+        btnEnviar.disabled = true;
+        btnEnviar.innerHTML = '<i class="fas fa-spinner fa-pulse"></i> Publicando...';
 
-        card.innerHTML = `
-          <div class="opinion-header">
-            <div class="opinion-avatar">${inicial}</div>
-            <div class="opinion-info">
-              <div class="opinion-nombre">${escapeHtml(op.nombre)}</div>
-              <div class="opinion-date">${dateFormatted}</div>
-            </div>
-          </div>
-          <div class="opinion-rating">${hamburguesasHtml}</div>
-          ${fotoHtml}
-          <div class="opinion-texto">${escapeHtml(op.opinion)}</div>
-          <div class="opinion-share" onclick="shareOpinion('${escapeHtml(op.opinion).replace(/'/g, "\\'")}', '${escapeHtml(op.nombre).replace(/'/g, "\\'")}')">
-            <i class="fas fa-share-alt"></i> Compartir
-          </div>
-        `;
+        let fotoUrl = null;
+        if (fotoFile) {
+          if (fotoFile.size > 2 * 1024 * 1024) {
+            alert('La foto es muy grande, máximo 2MB');
+            btnEnviar.disabled = false;
+            btnEnviar.innerHTML = '<i class="fas fa-utensils"></i> Publicar Opinión';
+            return;
+          }
+          fotoUrl = await subirFoto(fotoFile);
+        }
 
-        grid.appendChild(card);
+        const { error } = await supabase
+          .from(TABLE_NAME)
+          .insert([{ nombre, opinion, foto_url: fotoUrl, rating }]);
+
+        if (error) {
+          console.error('Error:', error);
+          alert('Error al publicar: ' + error.message);
+        } else {
+          nombreInput.value = '';
+          textoInput.value = '';
+          fotoInput.value = '';
+          document.getElementById('rating5').checked = true;
+          cargarOpiniones();
+          alert('¡Opinión publicada con éxito! 🍔');
+        }
+
+        btnEnviar.disabled = false;
+        btnEnviar.innerHTML = '<i class="fas fa-utensils"></i> Publicar Opinión';
       });
-
-    } catch (err) {
-      console.error('Error general:', err);
-      grid.innerHTML = '<div class="loader-burger">❌ Error inesperado</div>';
     }
-  }
 
-  // Escapar HTML
-  function escapeHtml(text) {
-    if (!text) return '';
-    const div = document.createElement('div');
-    div.textContent = text;
-    return div.innerHTML;
-  }
+    async function cargarOpiniones() {
+      if (!grid) return;
+      grid.innerHTML = '<div class="loader-burger"><i class="fas fa-spinner fa-pulse"></i> Cargando opiniones...</div>';
 
-  // Exponer funciones globalmente
-  window.shareOpinion = shareOpinion;
-  window.openModal = openModal;
-  window.closeModal = closeModal;
+      try {
+        const { data, error } = await supabase
+          .from(TABLE_NAME)
+          .select('*')
+          .order('created_at', { ascending: false });
 
-  // Iniciar
-  cargarOpiniones();
+        if (error) {
+          console.error('Error:', error);
+          grid.innerHTML = `<div class="loader-burger">❌ Error: ${error.message}</div>`;
+          return;
+        }
+
+        if (!data || data.length === 0) {
+          grid.innerHTML = '<div class="loader-burger">🍔 No hay opiniones aún. ¡Sé el primero!</div>';
+          return;
+        }
+
+        grid.innerHTML = '';
+
+        data.forEach(op => {
+          const card = document.createElement('div');
+          card.className = 'opinion-card';
+
+          const inicial = op.nombre?.charAt(0).toUpperCase() || '?';
+          const rating = op.rating || 5;
+          
+          let hamburguesasHtml = '';
+          for (let i = 0; i < rating; i++) hamburguesasHtml += '🍔';
+
+          const dateFormatted = formatDate(op.created_at);
+
+          let fotoHtml = '';
+          if (op.foto_url) {
+            fotoHtml = `
+              <div class="opinion-foto-container" onclick="openModal('${op.foto_url}')">
+                <img src="${op.foto_url}" alt="Foto" loading="lazy">
+                <div class="foto-overlay">
+                  <i class="fas fa-expand-alt"></i>
+                </div>
+              </div>
+            `;
+          }
+
+          // ORDEN: Nombre -> Texto -> Foto -> Calificación
+          // Mini hamburguesa en lugar de verificación
+          card.innerHTML = `
+            <div class="opinion-header">
+              <div class="opinion-avatar">${inicial}</div>
+              <div class="opinion-info">
+                <div class="opinion-nombre">
+                  ${escapeHtml(op.nombre)}
+                  <span class="mini-burger">🍔</span>
+                </div>
+                <div class="opinion-date">${dateFormatted}</div>
+              </div>
+            </div>
+            <div class="opinion-texto">${escapeHtml(op.opinion)}</div>
+            ${fotoHtml}
+            <div class="opinion-rating">
+              <span>🍔 Calificación:</span> ${hamburguesasHtml}
+            </div>
+          `;
+
+          grid.appendChild(card);
+        });
+
+      } catch (err) {
+        console.error('Error general:', err);
+        grid.innerHTML = '<div class="loader-burger">❌ Error inesperado</div>';
+      }
+    }
+
+    window.openModal = openModal;
+    cargarOpiniones();
+  })();
 </script>
 
 </body>
