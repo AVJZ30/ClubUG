@@ -9,11 +9,10 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   
-  <!-- Supabase SDK - SOLO UNA VEZ -->
+  <!-- Supabase SDK -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   
   <style>
-    /* ========== ESTILOS BASE ========== */
     * {
       margin: 0;
       padding: 0;
@@ -44,7 +43,6 @@
       --shadow-xl: 0 25px 40px -12px rgba(0, 0, 0, 0.25);
     }
 
-    /* Header */
     .site-header {
       background: var(--neutral-100);
       border-bottom: 1px solid var(--neutral-300);
@@ -121,7 +119,6 @@
       color: var(--primary);
     }
 
-    /* Botones flotantes */
     .back-to-home {
       position: fixed;
       bottom: 30px;
@@ -174,7 +171,6 @@
       background: var(--primary-dark);
     }
 
-    /* Hero Section */
     .hero {
       max-width: 1280px;
       margin: 3rem auto 4rem;
@@ -279,7 +275,6 @@
       border: 3px solid white;
     }
 
-    /* Historia */
     .historia-section {
       background: var(--neutral-100);
       padding: 5rem 2rem;
@@ -371,7 +366,6 @@
       font-style: normal;
     }
 
-    /* Visión y Misión */
     .vision-mision {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -434,7 +428,6 @@
       line-height: 1.7;
     }
 
-    /* Productos */
     .productos-section {
       max-width: 1280px;
       margin: 5rem auto;
@@ -535,7 +528,6 @@
       color: var(--neutral-700);
     }
 
-    /* Modal para fotos */
     .image-modal {
       display: none;
       position: fixed;
@@ -591,7 +583,6 @@
       to { transform: scale(1); opacity: 1; }
     }
 
-    /* Opiniones section */
     .opiniones-section {
       background: linear-gradient(135deg, #fef7e9, #fff5e8);
       padding: 5rem 2rem;
@@ -617,7 +608,6 @@
       margin-bottom: 3rem;
     }
 
-    /* Formulario */
     .formulario-opinion {
       max-width: 650px;
       margin: 0 auto 4rem;
@@ -717,7 +707,6 @@
       box-shadow: var(--shadow-md);
     }
 
-    /* Grid de opiniones */
     .opiniones-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
@@ -738,7 +727,6 @@
       box-shadow: var(--shadow-xl);
     }
 
-    /* Header de la opinión */
     .opinion-header {
       display: flex;
       align-items: center;
@@ -775,14 +763,12 @@
       color: var(--neutral-400);
     }
 
-    /* Rating */
     .opinion-rating {
       padding: 0 1.2rem 0.8rem;
       font-size: 1.1rem;
       letter-spacing: 2px;
     }
 
-    /* Foto estilo Instagram 1:1 */
     .opinion-foto-container {
       width: 100%;
       aspect-ratio: 1 / 1;
@@ -827,7 +813,6 @@
       text-shadow: 0 2px 10px rgba(0,0,0,0.3);
     }
 
-    /* Texto de opinión */
     .opinion-texto {
       padding: 1.2rem;
       font-size: 0.95rem;
@@ -837,7 +822,6 @@
       background: var(--neutral-100);
     }
 
-    /* Solo compartir */
     .opinion-share {
       padding: 0.8rem 1.2rem 1rem;
       border-top: 1px solid var(--neutral-300);
@@ -856,7 +840,6 @@
       margin-right: 8px;
     }
 
-    /* Footer */
     .footer {
       background: var(--neutral-900);
       color: var(--neutral-400);
@@ -870,7 +853,6 @@
       font-size: 0.95rem;
     }
 
-    /* Responsive */
     @media (max-width: 968px) {
       .hero {
         grid-template-columns: 1fr;
@@ -906,7 +888,6 @@
 </head>
 <body>
 
-<!-- Header -->
 <header class="site-header">
   <div class="header-container">
     <div class="logo">
@@ -927,7 +908,6 @@
   </div>
 </header>
 
-<!-- Botones flotantes -->
 <a href="index.html" class="back-to-home">
   <i class="fas fa-arrow-left"></i>
   Volver al Inicio
@@ -936,7 +916,6 @@
   <i class="fas fa-hamburger"></i>
 </div>
 
-<!-- Hero Section -->
 <section class="hero" id="inicio">
   <div class="hero-content">
     <h2>La hamburguesa <span>que te salva</span> el semestre.</h2>
@@ -957,7 +936,6 @@
   </div>
 </section>
 
-<!-- Historia -->
 <section class="historia-section" id="historia">
   <div class="historia-container">
     <div class="historia-sub">NUESTRA HISTORIA</div>
@@ -979,7 +957,6 @@
   </div>
 </section>
 
-<!-- Visión y Misión -->
 <div class="vision-mision">
   <div class="card-vm">
     <h3><i class="fas fa-eye"></i> Visión</h3>
@@ -991,7 +968,6 @@
   </div>
 </div>
 
-<!-- Productos -->
 <section class="productos-section" id="productos">
   <h2>Nuestras Especialidades</h2>
   <p class="productos-sub">Hechas con ingredientes frescos y el sazón que tanto te gusta</p>
@@ -1025,13 +1001,11 @@
   </div>
 </section>
 
-<!-- Opiniones -->
 <section class="opiniones-section" id="opiniones">
   <div class="opiniones-container">
     <h2>Opiniones con Sabor 🍔</h2>
     <p class="opiniones-sub">Lo que dicen nuestros clientes sobre la experiencia Sabrosito</p>
 
-    <!-- Formulario -->
     <div class="formulario-opinion">
       <div class="input-group">
         <label><i class="fas fa-user"></i> Tu nombre</label>
@@ -1059,7 +1033,7 @@
         <textarea id="textoInput" placeholder="¿Qué tal estuvo tu experiencia? Cuéntanos..." rows="3"></textarea>
       </div>
       <div class="input-group">
-        <label><i class="fas fa-image"></i> Foto (opcional - formato cuadrado)</label>
+        <label><i class="fas fa-image"></i> Foto (opcional)</label>
         <input type="file" id="fotoInput" accept="image/*">
       </div>
       <button class="btn-primary" id="btnEnviarOpinion">
@@ -1067,7 +1041,6 @@
       </button>
     </div>
 
-    <!-- Grid de opiniones -->
     <div class="opiniones-grid" id="opinionesGrid">
       <div class="loader-burger">
         <i class="fas fa-spinner fa-pulse"></i> Cargando opiniones sabrosas...
@@ -1076,13 +1049,11 @@
   </div>
 </section>
 
-<!-- Modal para fotos -->
 <div id="imageModal" class="image-modal" onclick="closeModal()">
   <span class="modal-close" onclick="closeModal()">&times;</span>
   <img id="modalImage" class="modal-image" src="" alt="Foto ampliada">
 </div>
 
-<!-- Footer -->
 <footer class="footer">
   <p>© 2026 El Sabrosito · Club UG · La hamburguesa que te salva el semestre · Hecho con ❤️ para la comunidad universitaria</p>
   <p style="margin-top: 1rem; font-size: 0.8rem;">🍔 Clásica $1.50 | 🥓 Especial $2.00</p>
@@ -1090,27 +1061,24 @@
 
 <script>
   // ================================
-  // CONFIGURACIÓN SUPABASE - VERSIÓN SEGURA (SIN REDECLARACIÓN)
+  // SUPABASE - VERSIÓN SIMPLE Y FUNCIONAL
   // ================================
 
   const SUPABASE_URL = 'https://ezartbcoxdxeslgeyvah.supabase.co';
   const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImV6YXJ0YmNveGR4ZXNsZ2V5dmFoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIxNTQ4MzcsImV4cCI6MjA4NzczMDgzN30.WWfOLTt5wVyPV-fOCgLYnqSR7dLWf_pOmSXlnSnYHvo';
 
-  // 🟢 OPCIÓN 3: Evita redeclaración
-  if (!window.supabaseClient) {
-    window.supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-  }
-
-  const supabase = window.supabaseClient;
+  // Crear cliente de Supabase
+  const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+  
   const TABLE_NAME = 'opiniones_sabrosito';
   const STORAGE_BUCKET = 'sabrocitos';
 
+  // Elementos del DOM
   const btnEnviar = document.getElementById('btnEnviarOpinion');
   const nombreInput = document.getElementById('nombreInput');
   const textoInput = document.getElementById('textoInput');
   const fotoInput = document.getElementById('fotoInput');
   const grid = document.getElementById('opinionesGrid');
-  const ratingInputs = document.querySelectorAll('input[name="rating"]');
 
   // Formatear fecha
   function formatDate(dateString) {
@@ -1179,8 +1147,10 @@
     const opinion = textoInput.value.trim();
     const fotoFile = fotoInput.files[0];
     
+    // Obtener rating
     let rating = 5;
-    ratingInputs.forEach(input => {
+    const radios = document.querySelectorAll('input[name="rating"]');
+    radios.forEach(input => {
       if (input.checked) rating = parseInt(input.value);
     });
 
@@ -1203,10 +1173,9 @@
       fotoUrl = await subirFoto(fotoFile);
     }
 
-    const { data, error } = await supabase
+    const { error } = await supabase
       .from(TABLE_NAME)
-      .insert([{ nombre, opinion, foto_url: fotoUrl, rating }])
-      .select();
+      .insert([{ nombre, opinion, foto_url: fotoUrl, rating }]);
 
     if (error) {
       console.error('Error:', error);
@@ -1226,7 +1195,7 @@
 
   // Cargar opiniones
   async function cargarOpiniones() {
-    grid.innerHTML = '<div class="loader-burger"><i class="fas fa-spinner fa-pulse"></i> Cargando opiniones sabrosas...</div>';
+    grid.innerHTML = '<div class="loader-burger"><i class="fas fa-spinner fa-pulse"></i> Cargando opiniones...</div>';
 
     try {
       const { data, error } = await supabase
@@ -1235,13 +1204,13 @@
         .order('created_at', { ascending: false });
 
       if (error) {
-        console.error('Error real:', error);
-        grid.innerHTML = `<div class="loader-burger">❌ ${error.message}</div>`;
+        console.error('Error:', error);
+        grid.innerHTML = `<div class="loader-burger">❌ Error: ${error.message}</div>`;
         return;
       }
 
       if (!data || data.length === 0) {
-        grid.innerHTML = '<div class="loader-burger">🍔 No hay opiniones aún. ¡Sé el primero en dejar la tuya!</div>';
+        grid.innerHTML = '<div class="loader-burger">🍔 No hay opiniones aún. ¡Sé el primero!</div>';
         return;
       }
 
@@ -1253,7 +1222,7 @@
 
         const inicial = op.nombre?.charAt(0).toUpperCase() || '?';
         const rating = op.rating || 5;
-
+        
         let hamburguesasHtml = '';
         for (let i = 0; i < rating; i++) hamburguesasHtml += '🍔';
 
@@ -1263,13 +1232,16 @@
         if (op.foto_url) {
           fotoHtml = `
             <div class="opinion-foto-container" onclick="event.stopPropagation(); openModal('${op.foto_url}')">
-              <img src="${op.foto_url}" alt="Foto de opinión" loading="lazy">
+              <img src="${op.foto_url}" alt="Foto" loading="lazy">
               <div class="foto-overlay">
                 <i class="fas fa-expand-alt"></i>
               </div>
             </div>
           `;
         }
+
+        const nombreEscapado = (op.nombre || 'Anónimo').replace(/'/g, "\\'").replace(/"/g, '&quot;');
+        const opinionEscapado = (op.opinion || '').replace(/'/g, "\\'").replace(/"/g, '&quot;');
 
         card.innerHTML = `
           <div class="opinion-header">
@@ -1282,7 +1254,7 @@
           <div class="opinion-rating">${hamburguesasHtml}</div>
           ${fotoHtml}
           <div class="opinion-texto">${escapeHtml(op.opinion)}</div>
-          <div class="opinion-share" onclick="shareOpinion('${escapeHtml(op.opinion)}', '${escapeHtml(op.nombre)}')">
+          <div class="opinion-share" onclick="shareOpinion('${escapeHtml(op.opinion).replace(/'/g, "\\'")}', '${escapeHtml(op.nombre).replace(/'/g, "\\'")}')">
             <i class="fas fa-share-alt"></i> Compartir
           </div>
         `;
@@ -1292,11 +1264,11 @@
 
     } catch (err) {
       console.error('Error general:', err);
-      grid.innerHTML = '<div class="loader-burger">❌ Error inesperado al cargar opiniones</div>';
+      grid.innerHTML = '<div class="loader-burger">❌ Error inesperado</div>';
     }
   }
 
-  // Función para escapar HTML
+  // Escapar HTML
   function escapeHtml(text) {
     if (!text) return '';
     const div = document.createElement('div');
@@ -1307,6 +1279,7 @@
   // Exponer funciones globalmente
   window.shareOpinion = shareOpinion;
   window.openModal = openModal;
+  window.closeModal = closeModal;
 
   // Iniciar
   cargarOpiniones();
