@@ -9,7 +9,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   
-  <!-- Supabase SDK -->
+  <!-- Supabase SDK - SOLO UNA VEZ -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   
   <style>
@@ -1022,7 +1022,6 @@
         </div>
       </div>
     </div>
-  
   </div>
 </section>
 
@@ -1086,18 +1085,23 @@
 <!-- Footer -->
 <footer class="footer">
   <p>© 2026 El Sabrosito · Club UG · La hamburguesa que te salva el semestre · Hecho con ❤️ para la comunidad universitaria</p>
-  <p style="margin-top: 1rem; font-size: 0.8rem;">🍔 Clásica $1.50 | 🥓 Especial $2.00 | 🐔 Pollo $2.00 | 🥩 Carne $2.00</p>
+  <p style="margin-top: 1rem; font-size: 0.8rem;">🍔 Clásica $1.50 | 🥓 Especial $2.00</p>
 </footer>
 
 <script>
   // ================================
-  // CONFIGURACIÓN SUPABASE
+  // CONFIGURACIÓN SUPABASE - VERSIÓN SEGURA (SIN REDECLARACIÓN)
   // ================================
 
   const SUPABASE_URL = 'https://ezartbcoxdxeslgeyvah.supabase.co';
   const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImV6YXJ0YmNveGR4ZXNsZ2V5dmFoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIxNTQ4MzcsImV4cCI6MjA4NzczMDgzN30.WWfOLTt5wVyPV-fOCgLYnqSR7dLWf_pOmSXlnSnYHvo';
 
+  // 🟢 OPCIÓN 3: Evita redeclaración
+  if (!window.supabaseClient) {
+    window.supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+  }
 
+  const supabase = window.supabaseClient;
   const TABLE_NAME = 'opiniones_sabrosito';
   const STORAGE_BUCKET = 'sabrocitos';
 
@@ -1164,7 +1168,6 @@
         url: window.location.href
       }).catch(err => console.log('Error al compartir:', err));
     } else {
-      // Fallback para navegadores que no soportan Web Share API
       navigator.clipboard.writeText(shareText);
       alert('¡Opinión copiada al portapapeles! Compártela donde quieras 🍔');
     }
@@ -1207,7 +1210,7 @@
 
     if (error) {
       console.error('Error:', error);
-      alert('Error al publicar. Verifica la configuración.');
+      alert('Error al publicar: ' + error.message);
     } else {
       nombreInput.value = '';
       textoInput.value = '';
@@ -1222,71 +1225,78 @@
   });
 
   // Cargar opiniones
-async function cargarOpiniones() {
-  grid.innerHTML = '<div class="loader-burger">🍔 Cargando opiniones sabrosas...</div>';
+  async function cargarOpiniones() {
+    grid.innerHTML = '<div class="loader-burger"><i class="fas fa-spinner fa-pulse"></i> Cargando opiniones sabrosas...</div>';
 
-  try {
-    const { data, error } = await supabase
-      .from(TABLE_NAME)
-      .select('*')
-      .order('created_at', { ascending: false });
+    try {
+      const { data, error } = await supabase
+        .from(TABLE_NAME)
+        .select('*')
+        .order('created_at', { ascending: false });
 
-    if (error) {
-      console.error('Error real:', error);
-      grid.innerHTML = `<div class="loader-burger">❌ ${error.message}</div>`;
-      return;
-    }
-
-    if (!data || data.length === 0) {
-      grid.innerHTML = '<div class="loader-burger">🍔 No hay opiniones aún</div>';
-      return;
-    }
-
-    grid.innerHTML = '';
-
-    data.forEach(op => {
-      const card = document.createElement('div');
-      card.className = 'opinion-card';
-
-      const inicial = op.nombre?.charAt(0).toUpperCase() || '?';
-      const rating = op.rating || 5;
-
-      let hamburguesasHtml = '';
-      for (let i = 0; i < rating; i++) hamburguesasHtml += '🍔';
-
-      const dateFormatted = formatDate(op.created_at);
-
-      let fotoHtml = '';
-      if (op.foto_url) {
-        fotoHtml = `
-          <div class="opinion-foto-container" onclick="event.stopPropagation(); openModal('${op.foto_url}')">
-            <img src="${op.foto_url}" alt="Foto" loading="lazy">
-          </div>
-        `;
+      if (error) {
+        console.error('Error real:', error);
+        grid.innerHTML = `<div class="loader-burger">❌ ${error.message}</div>`;
+        return;
       }
 
-      card.innerHTML = `
-        <div class="opinion-header">
-          <div class="opinion-avatar">${inicial}</div>
-          <div class="opinion-info">
-            <div class="opinion-nombre">${escapeHtml(op.nombre)}</div>
-            <div class="opinion-date">${dateFormatted}</div>
+      if (!data || data.length === 0) {
+        grid.innerHTML = '<div class="loader-burger">🍔 No hay opiniones aún. ¡Sé el primero en dejar la tuya!</div>';
+        return;
+      }
+
+      grid.innerHTML = '';
+
+      data.forEach(op => {
+        const card = document.createElement('div');
+        card.className = 'opinion-card';
+
+        const inicial = op.nombre?.charAt(0).toUpperCase() || '?';
+        const rating = op.rating || 5;
+
+        let hamburguesasHtml = '';
+        for (let i = 0; i < rating; i++) hamburguesasHtml += '🍔';
+
+        const dateFormatted = formatDate(op.created_at);
+
+        let fotoHtml = '';
+        if (op.foto_url) {
+          fotoHtml = `
+            <div class="opinion-foto-container" onclick="event.stopPropagation(); openModal('${op.foto_url}')">
+              <img src="${op.foto_url}" alt="Foto de opinión" loading="lazy">
+              <div class="foto-overlay">
+                <i class="fas fa-expand-alt"></i>
+              </div>
+            </div>
+          `;
+        }
+
+        card.innerHTML = `
+          <div class="opinion-header">
+            <div class="opinion-avatar">${inicial}</div>
+            <div class="opinion-info">
+              <div class="opinion-nombre">${escapeHtml(op.nombre)}</div>
+              <div class="opinion-date">${dateFormatted}</div>
+            </div>
           </div>
-        </div>
-        <div class="opinion-rating">${hamburguesasHtml}</div>
-        ${fotoHtml}
-        <div class="opinion-texto">${escapeHtml(op.opinion)}</div>
-      `;
+          <div class="opinion-rating">${hamburguesasHtml}</div>
+          ${fotoHtml}
+          <div class="opinion-texto">${escapeHtml(op.opinion)}</div>
+          <div class="opinion-share" onclick="shareOpinion('${escapeHtml(op.opinion)}', '${escapeHtml(op.nombre)}')">
+            <i class="fas fa-share-alt"></i> Compartir
+          </div>
+        `;
 
-      grid.appendChild(card);
-    });
+        grid.appendChild(card);
+      });
 
-  } catch (err) {
-    console.error('Error general:', err);
-    grid.innerHTML = '<div class="loader-burger">❌ Error inesperado</div>';
+    } catch (err) {
+      console.error('Error general:', err);
+      grid.innerHTML = '<div class="loader-burger">❌ Error inesperado al cargar opiniones</div>';
+    }
   }
-}
-  // Función para escapar HTML y evitar inyección
+
+  // Función para escapar HTML
   function escapeHtml(text) {
     if (!text) return '';
     const div = document.createElement('div');
@@ -1294,8 +1304,9 @@ async function cargarOpiniones() {
     return div.innerHTML;
   }
 
-  // Exponer shareOpinion globalmente
+  // Exponer funciones globalmente
   window.shareOpinion = shareOpinion;
+  window.openModal = openModal;
 
   // Iniciar
   cargarOpiniones();
